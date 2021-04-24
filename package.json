@@ -45,8 +45,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.13.14",
+    "@types/reactstrap": "^8.7.2",
     "auto-changelog": "~2.2.1",
-    "react-scripts": "^4.0.3"
+    "react-scripts": "^4.0.3",
+    "react-select": "^4.3.0"
   },
   "scripts": {
     "start": "react-scripts start",

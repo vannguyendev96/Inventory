@@ -38,9 +38,21 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'));
 const Users = React.lazy(() => import('./views/users/Users'));
 const User = React.lazy(() => import('./views/users/User'));
 
+
+//
+const PhieuNhapKho = React.lazy(() => import('./features/user/phieunhapkho'));
+const PhieuXuatKho = React.lazy(() => import('./features/user/phieuxuatkho'));
+const PhieuKiemKe = React.lazy(() => import('./features/user/phieukiemke'));
+
+const KhoHang = React.lazy(() => import('./features/admin/khohang'));
+const Report = React.lazy(() => import('./features/admin/lichsuthongke'));
+const Quanlytaixe = React.lazy(() => import('./features/admin/quanlitaixe'));
+const Quanlyuser = React.lazy(() => import('./features/admin/quanliuser'));
+
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
-  { path: '/dashboard', name: 'Dashboard', component: Dashboard },
+  { path: '/dashboard', name: 'Dashboard', component: PhieuNhapKho },
   { path: '/theme', name: 'Theme', component: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', component: Colors },
   { path: '/theme/typography', name: 'Typography', component: Typography },
@@ -78,7 +90,17 @@ const routes = [
   { path: '/notifications/toaster', name: 'Toaster', component: Toaster },
   { path: '/widgets', name: 'Widgets', component: Widgets },
   { path: '/users', exact: true,  name: 'Users', component: Users },
-  { path: '/users/:id', exact: true, name: 'User Details', component: User }
+  { path: '/users/:id', exact: true, name: 'User Details', component: User },
+
+
+  { path: '/phieu-nhap-kho', exact: true,  name: 'Phiếu nhập kho', component: PhieuNhapKho },
+  { path: '/phieu-xuat-kho', exact: true,  name: 'Phiếu xuất kho', component: PhieuXuatKho },
+  { path: '/phieu-kiem-ke', exact: true,  name: 'Phiếu kiểm kê', component: PhieuKiemKe },
+
+  { path: '/kho-hang', exact: true,  name: 'Quản lý kho hàng', component: KhoHang },
+  { path: '/lichsu-thongke', exact: true,  name: 'Lịch sử thống kê', component: Report },
+  { path: '/quanly-taixe', exact: true,  name: 'Quản lý tài xế', component: Quanlytaixe },
+  { path: '/quanly-user', exact: true,  name: 'Quản lý user', component: Quanlyuser },
 ];
 
 export default routes;

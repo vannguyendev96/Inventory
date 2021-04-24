@@ -1,5 +1,7 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from "react";
+
+import { useHistory } from "react-router-dom";
+
 import {
   CButton,
   CCard,
@@ -17,6 +19,23 @@ import {
 import CIcon from '@coreui/icons-react'
 
 const Login = () => {
+  let history = useHistory();
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleClickLogin = () => {
+    //history.push("/phieu-nhap-kho");
+    if(username === 'user'){
+      localStorage.setItem("role", "user");
+      history.push("/phieu-nhap-kho");
+    }
+    else if(username === 'admin'){
+      localStorage.setItem("role", "admin");
+      history.push("/kho-hang");
+    }
+  }
+ 
   return (
     <div className="c-app c-default-layout flex-row align-items-center">
       <CContainer>
@@ -26,15 +45,15 @@ const Login = () => {
               <CCard className="p-4">
                 <CCardBody>
                   <CForm>
-                    <h1>Login</h1>
-                    <p className="text-muted">Sign In to your account</p>
+                    <h1>Đăng nhập</h1>
+                    <p className="text-muted">Đăng nhập vào tài khoản của bạn</p>
                     <CInputGroup className="mb-3">
                       <CInputGroupPrepend>
                         <CInputGroupText>
                           <CIcon name="cil-user" />
                         </CInputGroupText>
                       </CInputGroupPrepend>
-                      <CInput type="text" placeholder="Username" autoComplete="username" />
+                      <CInput type="text" placeholder="Username" autoComplete="username" onChange={(e) => setUsername(e.target.value)}/>
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupPrepend>
@@ -42,15 +61,13 @@ const Login = () => {
                           <CIcon name="cil-lock-locked" />
                         </CInputGroupText>
                       </CInputGroupPrepend>
-                      <CInput type="password" placeholder="Password" autoComplete="current-password" />
+                      <CInput type="password" placeholder="Password" autoComplete="current-password" onChange={(e) => setPassword(e.target.value)}/>
                     </CInputGroup>
                     <CRow>
                       <CCol xs="6">
-                        <CButton color="primary" className="px-4">Login</CButton>
+                        <CButton color="primary" className="px-4" onClick={handleClickLogin}>Login</CButton>
                       </CCol>
-                      <CCol xs="6" className="text-right">
-                        <CButton color="link" className="px-0">Forgot password?</CButton>
-                      </CCol>
+                      
                     </CRow>
                   </CForm>
                 </CCardBody>
@@ -58,12 +75,9 @@ const Login = () => {
               <CCard className="text-white bg-primary py-5 d-md-down-none" style={{ width: '44%' }}>
                 <CCardBody className="text-center">
                   <div>
-                    <h2>Sign up</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua.</p>
-                    <Link to="/register">
-                      <CButton color="primary" className="mt-3" active tabIndex={-1}>Register Now!</CButton>
-                    </Link>
+                    <h2>HCMUT</h2>
+                    <p>Hệ thống quản lí kho</p>
+                    
                   </div>
                 </CCardBody>
               </CCard>
