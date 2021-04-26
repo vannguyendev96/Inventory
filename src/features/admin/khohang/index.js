@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   CCard,
   CCardBody,
@@ -17,9 +17,17 @@ import {
   Button,
   FormText,
 } from 'reactstrap';
+import { useSelector } from 'react-redux';
 
 
 function CreateKhoHang() {
+
+  const token = useSelector(state => state.login.token);
+
+  useEffect(() => {
+    console.log(token)
+  })
+
   return (
     <>
       <CRow>
@@ -27,7 +35,7 @@ function CreateKhoHang() {
           <CCard>
             <CCardHeader>
               Thông tin kho hàng
-          </CCardHeader>
+            </CCardHeader>
             <CCardBody>
               <Form action="" className="form-horizontal">
                 <FormGroup row>

@@ -21,7 +21,8 @@ import navigationAdmin from './_navAdmin';
 const TheSidebar = () => {
   const role = localStorage.getItem("role");
   const dispatch = useDispatch()
-  const show = useSelector(state => state.sidebarShow)
+  const show = useSelector(state => state.changeState.sidebarShow);
+  
 
   return (
     <CSidebar

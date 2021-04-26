@@ -9,7 +9,6 @@ import {
 
 import {
   Col,
-  Form,
   FormGroup,
   Input,
   Label,
@@ -17,108 +16,114 @@ import {
   Button,
   FormText,
 } from 'reactstrap';
-
+import { Formik, Form, FastField } from 'formik';
+import InputField from 'src/custom-fields/InputField';
+import * as Yup from 'yup';
 
 function QuanLiUser() {
+
+  const initialValues = {
+    tenuser: '',
+    email: '',
+    chucvu: '',
+    sdt: '',
+    username: '',
+    password: ''
+  };
+
+  const validationSchema = Yup.object().shape({
+    tenuser: Yup.string().required('Vui lòng nhập tên user'),
+    email: Yup.string().required('Vui lòng nhập email'),
+    chucvu: Yup.string().required('Vui lòng nhập chức vụ'),
+    sdt: Yup.number().required('Vui lòng nhập số điện thoại'),
+    username: Yup.string().required('Vui lòng nhập tên đăng nhập'),
+    password: Yup.string().required('Vui lòng nhập tên mật khẩu')
+  })
+
+
   return (
-    <>
-      <CRow>
-        <CCol sm="12" xl="12">
-          <CCard>
-            <CCardHeader>
-              Thông tin user
-          </CCardHeader>
-            <CCardBody>
-              <Form action="" className="form-horizontal">
-                <FormGroup row>
-                  <Col md="3">
-                    <Label htmlFor="hf-password">Tên user</Label>
-                  </Col>
-                  <Col xs="12" md="9">
-                    <Input
-                      type="text"
-                      id="tentx"
-                      name="tentx"
-                      placeholder="Tên user..."
-                    />
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Col md="3">
-                    <Label htmlFor="hf-password">Email</Label>
-                  </Col>
-                  <Col xs="12" md="9">
-                    <Input
-                      type="text"
-                      id="email"
-                      name="email"
-                      placeholder="Email..."
-                    />
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Col md="3">
-                    <Label htmlFor="hf-password">Chức vụ</Label>
-                  </Col>
-                  <Col xs="12" md="9">
-                    <Input
-                      type="text"
-                      id="chucvu"
-                      name="chucvu"
-                      placeholder="Chức vụ..."
-                    />
-                  </Col>
-                </FormGroup>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={values => console.log("Submit: ", values)}
+    >
+      {formikProps => {
+        const { values, errors, touched } = formikProps;
 
-                <FormGroup row>
-                  <Col md="3">
-                    <Label htmlFor="hf-password">Số điện thoại</Label>
-                  </Col>
-                  <Col xs="12" md="9">
-                    <Input
-                      type="number"
-                      id="sdt"
-                      name="sdt"
-                      placeholder="Số điện thoại..."
-                    />
-                  </Col>
-                </FormGroup>
+        return (
+          <>
+            <CRow>
+              <CCol sm="12" xl="12">
+                <CCard>
+                  <CCardHeader>
+                    Thông tin user
+                  </CCardHeader>
+                  <CCardBody>
+                    <Form action="" className="form-horizontal">
+                      <FastField
+                        name="tenuser"
+                        component={InputField}
 
-                <FormGroup row>
-                  <Col md="3">
-                    <Label htmlFor="hf-password">Thông tin đăng nhập</Label>
-                  </Col>
-                  <Col xs="12" md="4">
-                    <Input
-                      type="text"
-                      id="tendn"
-                      name="tendn"
-                      placeholder="Tên đăng nhập..."
-                    />
-                  </Col>
+                        label="Tên user"
+                        placeholder="Tên user..."
+                      />
+                     
 
-                  <Col xs="12" md="4">
-                    <Input
-                      type="text"
-                      id="mk"
-                      name="mk"
-                      placeholder="Mật khẩu..."
-                    />
-                  </Col>
-                </FormGroup>
+                      <FastField
+                        name="email"
+                        component={InputField}
 
-                
+                        label="Email"
+                        placeholder="Email..."
+                      />
 
-                <CardFooter>
-                  <Button type="submit" size="sm" color="primary" ><i className="fa fa-dot-circle-o"></i>Tạo tài khoản thủ kho</Button>
-                </CardFooter>
-              </Form>
-            </CCardBody>
-          </CCard>
-        </CCol>
-      </CRow>
+                      <FastField
+                        name="chucvu"
+                        component={InputField}
 
-    </>
+                        label="Chức vụ"
+                        placeholder="Chức vụ..."
+                      />
+
+                      <FastField
+                        name="sdt"
+                        component={InputField}
+
+                        label="Số điện thoại"
+                        placeholder="Số điện thoại..."
+                        type="number"
+                      />
+
+                      <FastField
+                        name="username"
+                        component={InputField}
+
+                        label="Thông tin đăng nhập"
+                        placeholder="Tên đăng nhập..."
+                      />
+
+                      <FastField
+                        name="password"
+                        component={InputField}
+
+                        label=""
+                        placeholder="Mật khẩu..."
+                      />
+
+                      <CardFooter>
+                        <Button type="submit" size="sm" color="primary" ><i className="fa fa-dot-circle-o"></i>Tạo tài khoản thủ kho</Button>
+                      </CardFooter>
+                    </Form>
+                  </CCardBody>
+                </CCard>
+              </CCol>
+            </CRow>
+
+          </>
+        )
+      }}
+
+    </Formik>
   );
 }
 
