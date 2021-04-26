@@ -26,13 +26,18 @@ const _navAdmin =  [
   {
     _tag: 'CSidebarNavDropdown',
     name: 'Lịch sử thống kê',
-    route: '/lichsu-thongke',
+    route: '/thongke-xuatkho',
     icon: 'cil-cursor',
     _children: [
       {
         _tag: 'CSidebarNavItem',
-        name: 'Thống kê',
-        to: '/lichsu-thongke',
+        name: 'Thống kê xuất kho',    
+        to: '/thongke-xuatkho',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Thống kê nhập kho',
+        to: '/thongke-nhapkho',
       }
     ],
   },

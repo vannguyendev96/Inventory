@@ -25,7 +25,7 @@ const optionsAddress = [
     { value: 'khoc', label: 'Địa chỉ c' },
 ];
 
-function CreatePNK() {
+function CreatePXK() {
 
     const [kienhang, setKienhang] = useState({
         formValues: {
@@ -190,4 +190,4 @@ function CreatePNK() {
     );
 }
 
-export default CreatePNK;
+export default CreatePXK;

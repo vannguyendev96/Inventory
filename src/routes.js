@@ -45,7 +45,8 @@ const PhieuXuatKho = React.lazy(() => import('./features/user/phieuxuatkho'));
 const PhieuKiemKe = React.lazy(() => import('./features/user/phieukiemke'));
 
 const KhoHang = React.lazy(() => import('./features/admin/khohang'));
-const Report = React.lazy(() => import('./features/admin/lichsuthongke'));
+const Report = React.lazy(() => import('./features/admin/lichsuthongke/thongkexuatkho'));
+const ReportNhapKho = React.lazy(() => import('./features/admin/lichsuthongke/thongkenhapkho'));
 const Quanlytaixe = React.lazy(() => import('./features/admin/quanlitaixe'));
 const Quanlyuser = React.lazy(() => import('./features/admin/quanliuser'));
 
@@ -61,7 +62,8 @@ const routes = [
   { path: '/phieu-kiem-ke', exact: true,  name: 'Phiếu kiểm kê', component: PhieuKiemKe },
 
   { path: '/kho-hang', exact: true,  name: 'Quản lý kho hàng', component: KhoHang },
-  { path: '/lichsu-thongke', exact: true,  name: 'Lịch sử thống kê', component: Report },
+  { path: '/thongke-xuatkho', exact: true,  name: 'Thống kê xuất kho', component: Report },
+  { path: '/thongke-nhapkho', exact: true,  name: 'Thống kê nhập kho', component: ReportNhapKho },
   { path: '/quanly-taixe', exact: true,  name: 'Quản lý tài xế', component: Quanlytaixe },
   { path: '/quanly-user', exact: true,  name: 'Quản lý user', component: Quanlyuser },
 ];

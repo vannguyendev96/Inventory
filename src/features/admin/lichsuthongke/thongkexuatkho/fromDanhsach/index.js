@@ -4,22 +4,9 @@ import {
     Table, CardFooter, Button
 } from 'reactstrap';
 
-ListCreatePNK.propTypes = {
-    onSubmit: PropTypes.func
-};
 
-ListCreatePNK.defaultProps = {
-    onSubmit: null
-}
+function ListReportXuatKho() {
 
-
-function ListCreatePNK(props) {
-
-    const { onSubmit } = props;
-
-    const handleSubmit = () => {
-        onSubmit();
-    }
 
     return (
         <>
@@ -39,11 +26,9 @@ function ListCreatePNK(props) {
                     </tr>
                 </tbody>
             </Table>
-            <CardFooter>
-                <Button type="submit" size="sm" color="primary" onClick={handleSubmit}><i className="fa fa-dot-circle-o"></i>Tạo phiếu nhập kho</Button>
-            </CardFooter>
+            
         </>
     );
 }
 
-export default ListCreatePNK
+export default ListReportXuatKho

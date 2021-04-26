@@ -3,11 +3,11 @@ import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 import './scss/style.scss';
 import PrivateRoute from './views/privateroute';
 
-const loading = (
-  <div className="pt-3 text-center">
-    <div className="sk-spinner sk-spinner-pulse"></div>
-  </div>
-)
+import FullPageLoader from './views/fullpageloading';
+
+const loading = () => <FullPageLoader/>;
+
+
 
 // Containers
 const TheLayout = React.lazy(() => import('./containers/TheLayout'));
@@ -23,7 +23,7 @@ class App extends Component {
   render() {
     return (
       <HashRouter>
-          <React.Suspense fallback={loading}>
+          <React.Suspense fallback={loading()}>
             <Switch>
               <Route exact path="/login" name="Login Page" render={props => <Login {...props}/>} />
               <Route exact path="/register" name="Register Page" render={props => <Register {...props}/>} />

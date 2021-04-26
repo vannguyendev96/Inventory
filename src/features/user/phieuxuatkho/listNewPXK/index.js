@@ -4,16 +4,15 @@ import {
     Table, CardFooter, Button
 } from 'reactstrap';
 
-ListCreatePNK.propTypes = {
+ListCreatePXK.propTypes = {
     onSubmit: PropTypes.func
 };
 
-ListCreatePNK.defaultProps = {
+ListCreatePXK.defaultProps = {
     onSubmit: null
 }
 
-
-function ListCreatePNK(props) {
+function ListCreatePXK(props) {
 
     const { onSubmit } = props;
 
@@ -46,4 +45,4 @@ function ListCreatePNK(props) {
     );
 }
 
-export default ListCreatePNK
+export default ListCreatePXK
