@@ -22,7 +22,7 @@ import { Alert } from 'reactstrap';
 import { login } from '../../../redux/actions/login';
 import { useDispatch, useSelector } from "react-redux";
 
-import { getCookie, setCookie } from '../../../utlis/cookies';
+import { setCookie } from '../../../utlis/cookies';
 
 const Login = () => {
   let history = useHistory();
@@ -50,7 +50,6 @@ const Login = () => {
       const action = login(user);
 
       dispatch(action);
-      setCookie('token', token, 1);
       
     }
   }
@@ -60,6 +59,7 @@ const Login = () => {
     }
     else if(token !== null && token !== 'error' && token !== undefined){
       localStorage.setItem("role", roll);
+      
       if(roll === "admin"){
         history.push("/kho-hang");
       }
@@ -69,6 +69,12 @@ const Login = () => {
     }
    
   }, [token]);
+
+  const handleEnter = (e) =>{
+    if (e.key === 'Enter') {
+      handleClickLogin();
+    }
+  }
 
   return (
 
@@ -96,7 +102,7 @@ const Login = () => {
                           <CIcon name="cil-lock-locked" />
                         </CInputGroupText>
                       </CInputGroupPrepend>
-                      <CInput type="password" placeholder="Password" autoComplete="current-password" onChange={(e) => setPassword(e.target.value)} />
+                      <CInput type="password" placeholder="Password" autoComplete="current-password" onKeyDown={handleEnter} onChange={(e) => setPassword(e.target.value)} />
                     </CInputGroup>
 
                     {showErrorLogin !== "" &&

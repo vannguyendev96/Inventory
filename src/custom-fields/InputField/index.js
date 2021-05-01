@@ -46,6 +46,7 @@ function InputField(props) {
                     type={type}
                     disabled={disabled}
                     placeholder={placeholder}
+                    min="0"
 
                     invalid={showError}
                 />

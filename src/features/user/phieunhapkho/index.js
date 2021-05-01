@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   CCard,
   CCardBody,
@@ -11,18 +11,25 @@ import {
 import CreatePNK from './formPNK';
 import ListCreatePNK from './listNewPNK';
 import FullPageLoader from '../../../views/fullpageloading';
+import { useHistory } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
 function PhieuNhapKho() {
-
+  let history = useHistory();
   const [loading, setLoading] = useState(false);
+
+  const roll = useSelector(state => state.login.roll);
 
   const handleSubmitNewPNK = () =>{
     setLoading(true);
   }
 
-  if(loading){
-    return <FullPageLoader />
-  }
+  useEffect(() => {
+    if(localStorage.getItem("role") === "admin"){
+      history.push("/kho-hang");
+    } 
+  }, []);
+  
   return (
     <>
       <CRow>

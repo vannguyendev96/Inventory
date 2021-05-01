@@ -1,16 +1,13 @@
 import React, { useState } from "react";
-
+import Select from "react-select";
 import {
-    Col,
+    Button, CardFooter, Col,
     Form,
     FormGroup,
     Input,
-    Label,
-    CardFooter,
-    Button,
-    FormText,
+    Label
 } from 'reactstrap';
-import Select from "react-select";
+
 
 
 const optionsKho = [

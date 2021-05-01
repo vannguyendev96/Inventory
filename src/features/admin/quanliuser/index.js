@@ -1,24 +1,22 @@
-import React, { useState } from 'react';
 import {
   CCard,
   CCardBody,
   CCardHeader,
   CCol,
-  CRow,
+  CRow
 } from '@coreui/react';
-
+import { FastField, Form, Formik } from 'formik';
+import React from 'react';
+import { toast, ToastContainer } from 'react-toastify';
 import {
-  Col,
-  FormGroup,
-  Input,
-  Label,
-  CardFooter,
-  Button,
-  FormText,
+  Button, CardFooter
 } from 'reactstrap';
-import { Formik, Form, FastField } from 'formik';
+import userApi from 'src/api/userlogin';
 import InputField from 'src/custom-fields/InputField';
 import * as Yup from 'yup';
+
+
+
 
 function QuanLiUser() {
 
@@ -40,15 +38,24 @@ function QuanLiUser() {
     password: Yup.string().required('Vui lòng nhập tên mật khẩu')
   })
 
+  const handleSubmitForm = async (values) => {
+    //call service register
+    await userApi.register(values)
+      .then(response => {
+        toast.success("Tạo tài khoản user thành công");
+      })
+      .catch(error => toast.error("error from server ", error))
+    
+  }
+
 
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={values => console.log("Submit: ", values)}
+      onSubmit={values => handleSubmitForm(values)}
     >
       {formikProps => {
-        const { values, errors, touched } = formikProps;
 
         return (
           <>
@@ -67,7 +74,7 @@ function QuanLiUser() {
                         label="Tên user"
                         placeholder="Tên user..."
                       />
-                     
+
 
                       <FastField
                         name="email"
@@ -118,11 +125,10 @@ function QuanLiUser() {
                 </CCard>
               </CCol>
             </CRow>
-
+            <ToastContainer />
           </>
         )
       }}
-
     </Formik>
   );
 }

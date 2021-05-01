@@ -12,6 +12,8 @@ import { icons } from './assets/icons'
 import { Provider } from 'react-redux'
 import store from './store'
 
+import 'react-toastify/dist/ReactToastify.css';
+
 React.icons = icons
 
 ReactDOM.render(

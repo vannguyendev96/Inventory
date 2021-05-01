@@ -1,153 +1,229 @@
-import React, { useState } from 'react';
 import {
   CCard,
   CCardBody,
   CCardHeader,
   CCol,
-  CRow,
+  CRow
 } from '@coreui/react';
-
+import { FastField, Field, Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
 import {
-  Col,
-  Form,
-  FormGroup,
-  Input,
-  Label,
-  CardFooter,
-  Button,
-  FormText,
+  Button, CardFooter
 } from 'reactstrap';
+import InputField from 'src/custom-fields/InputField';
+import SelectField from 'src/custom-fields/SelectField';
+import FullPageLoader from 'src/views/fullpageloading';
+import { addressData } from '../../../constant/tinh-thanh-viet-nam';
+import * as Yup from 'yup';
+import driverApi from 'src/api/driverAPI';
+import { toast, ToastContainer } from 'react-toastify';
+
+
+
+
+function getProvine() {
+  const dataProvice = [];
+  addressData.forEach(element => {
+    dataProvice.push({
+      value: element.name,
+      label: element.name
+    })
+  });
+  return dataProvice;
+}
 
 
 function QuanLiTaiXe() {
+
+  const initialValues = {
+    tentx: '',
+    provine: null,
+    district: null,
+    cmnd: '',
+    trangthai: '',
+    sdt: '',
+    namsinh: '',
+    phuong: null
+  };
+
+  const validationSchema = Yup.object().shape({
+    provine: Yup.string().required('Vui lòng chọn tên tỉnh, thành phố').nullable(),
+    district: Yup.string().required('Vui lòng chọn tên quận, huyện').nullable(),
+    phuong: Yup.string().required('Vui lòng chọn tên phường, xã').nullable(),
+    tentx: Yup.string().required('Vui lòng nhập tên tài xế'),
+    cmnd: Yup.string().required('Vui lòng nhập chứng minh nhân dân'),
+    trangthai: Yup.string().required('Vui lòng nhập trạng thái'),
+    namsinh: Yup.string().required('Vui lòng nhập số điện thoại'),
+    sdt: Yup.string().required('Vui lòng nhập tên năm sinh'),
+  })
+
+
+  const dataProvice = getProvine();
+  const [province, setProvince] = useState({
+    dataProvice
+  });
+
+  const [wards, setWards] = useState([]);
+  const [district, setDistrict] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedProvine, setSelectedProvine] = useState('');
+
+
+  function onchangeDataProvice(value) {
+
+    setSelectedProvine(value);
+    let districtList = []
+    const district = addressData.find(option => option.name === value).districts;
+    district.forEach(element => {
+      districtList.push({
+        value: element.name,
+        label: element.name
+      })
+    });
+    setDistrict(districtList);
+
+  }
+
+  function onchangeDataDistrict(value) {
+    let wardsList = []
+    const district = addressData.find(option => option.name === selectedProvine).districts;
+    const wards = district.find(option => option.name === value).wards;
+    wards.forEach(element => {
+      wardsList.push({
+        value: element.name,
+        label: `${element.prefix} ${element.name}`
+      })
+    });
+    setWards(wardsList);
+  }
+
+  const handleSubmitForm = async (values,resetForm) => {
+    await driverApi.createInfoDriver(values)
+      .then(response => {
+        if(response.message === "create info driver success"){
+          toast.success("Tạo thông tin tài xế thành công");
+          resetForm({})
+        }
+        else{
+          toast.success("Tạo thông tin tài xế thất bại");
+        }
+      })
+      .catch(error => {
+        if(error.response.status === 403){
+          toast.error("Tài xế đã được tạo trước đó")
+        }
+        else{
+          toast.error("Tạo thông tin tài xế thất bại")
+        }
+      })
+  }
+
+  if (isLoading) {
+    return (
+      <FullPageLoader />
+    )
+  }
   return (
-    <>
-      <CRow>
-        <CCol sm="12" xl="12">
-          <CCard>
-            <CCardHeader>
-              Thông tin tài xế
-          </CCardHeader>
-            <CCardBody>
-              <Form action="" className="form-horizontal">
-                <FormGroup row>
-                  <Col md="3">
-                    <Label htmlFor="hf-password">Tên tài xế</Label>
-                  </Col>
-                  <Col xs="12" md="9">
-                    <Input
-                      type="text"
-                      id="tentx"
-                      name="tentx"
-                      placeholder="Tên tài xế..."
-                    />
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Col md="3">
-                    <Label htmlFor="hf-password">Chứng minh nhân dân</Label>
-                  </Col>
-                  <Col xs="12" md="9">
-                    <Input
-                      type="text"
-                      id="cmnd"
-                      name="cmnd"
-                      placeholder="Chứng minh nhân dân..."
-                    />
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Col md="3">
-                    <Label htmlFor="hf-password">Trạng thái</Label>
-                  </Col>
-                  <Col xs="12" md="9">
-                    <Input
-                      type="text"
-                      id="trangthai"
-                      name="trangthai"
-                      placeholder="Trạng thái..."
-                    />
-                  </Col>
-                </FormGroup>
+    <Formik
+      enableReinitialize
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={(values, { resetForm }) => handleSubmitForm(values,resetForm)}
 
-                <FormGroup row>
-                  <Col md="3">
-                    <Label htmlFor="hf-password">Số điện thoại</Label>
-                  </Col>
-                  <Col xs="12" md="9">
-                    <Input
-                      type="number"
-                      id="sdt"
-                      name="sdt"
-                      placeholder="Số điện thoại..."
-                    />
-                  </Col>
-                </FormGroup>
+    >
+      {formikProps => {
+        return (
+          <>
+            <CRow>
+              <CCol sm="12" xl="12">
+                <CCard>
+                  <CCardHeader>
+                    Thông tin tài xế
+                  </CCardHeader>
+                  <CCardBody>
+                    <Form action="" className="form-horizontal">
+                      <FastField
+                        name="tentx"
+                        component={InputField}
 
-                <FormGroup row>
-                  <Col md="3">
-                    <Label htmlFor="hf-password">Năm sinh</Label>
-                  </Col>
-                  <Col xs="12" md="9">
-                    <Input
-                      type="date"
-                      id="dateNS"
-                      name="dateNS"
-                      placeholder="Năm sinh..."
-                    />
-                  </Col>
-                </FormGroup>
+                        label="Tên tài xế"
+                        placeholder="Tên tài xế..."
+                      />
 
-                <FormGroup row>
-                  <Col md="3">
-                    <Label htmlFor="hf-password">Thị trấn, thành phố</Label>
-                  </Col>
-                  <Col xs="12" md="9">
-                    <Input
-                      type="text"
-                      id="thanhpho"
-                      name="thanhpho"
-                      placeholder="Thị trấn, thành phố..."
-                    />
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Col md="3">
-                    <Label htmlFor="hf-password">Quận, huyện</Label>
-                  </Col>
-                  <Col xs="12" md="9">
-                    <Input
-                      type="text"
-                      id="huyen"
-                      name="huyen"
-                      placeholder="Quận, huyện..."
-                    />
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Col md="3">
-                    <Label htmlFor="hf-password">Phường, xã</Label>
-                  </Col>
-                  <Col xs="12" md="9">
-                    <Input
-                      type="text"
-                      id="phuong"
-                      name="phuong"
-                      placeholder="Phường, xã..."
-                    />
-                  </Col>
-                </FormGroup>
+                      <FastField
+                        name="cmnd"
+                        component={InputField}
 
-                <CardFooter>
-                  <Button type="submit" size="sm" color="primary" ><i className="fa fa-dot-circle-o"></i>Tạo thông tin tài xế</Button>
-                </CardFooter>
-              </Form>
-            </CCardBody>
-          </CCard>
-        </CCol>
-      </CRow>
+                        label="Chứng minh nhân dân"
+                        placeholder="Chứng minh nhân dân..."
+                      />
 
-    </>
+                      <FastField
+                        name="trangthai"
+                        component={InputField}
+
+                        label="Trạng thái"
+                        placeholder="Trạng thái..."
+                      />
+
+                      <FastField
+                        name="sdt"
+                        component={InputField}
+
+                        label="Số điện thoại"
+                        placeholder="Số điện thoại..."
+                      />
+
+                      <FastField
+                        name="namsinh"
+                        component={InputField}
+
+                        label="Năm sinh"
+                        placeholder="Năm sinh..."
+                        type="date"
+                      />
+
+                      <FastField
+                        name="provine"
+                        component={SelectField}
+
+                        label="Thị trấn, thành phố"
+                        placeholder="Thị trấn, thành phố..."
+                        options={province.dataProvice}
+                        onchangeData={onchangeDataProvice}
+                      />
+
+                      <Field
+                        name="district"
+                        component={SelectField}
+
+                        label="Quận, huyện"
+                        placeholder="Quận, huyện..."
+                        options={district}
+                        onchangeDataDistrict={onchangeDataDistrict}
+                      />
+
+                      <Field
+                        name="phuong"
+                        component={SelectField}
+
+                        label="Phường, xã"
+                        placeholder="Phường, xã..."
+                        options={wards}
+                      />
+                      <CardFooter>
+                        <Button type="submit" size="sm" color="primary" ><i className="fa fa-dot-circle-o"></i>Tạo thông tin tài xế</Button>
+                      </CardFooter>
+                    </Form>
+                  </CCardBody>
+                </CCard>
+              </CCol>
+            </CRow>
+            <ToastContainer />
+          </>
+        )
+      }}
+    </Formik>
   );
 }
 
