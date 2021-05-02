@@ -17,6 +17,7 @@ import { addressData } from '../../../constant/tinh-thanh-viet-nam';
 import * as Yup from 'yup';
 import driverApi from 'src/api/driverAPI';
 import { toast, ToastContainer } from 'react-toastify';
+import DanhsachTaixe from './danhsachtaixe';
 
 
 
@@ -219,6 +220,20 @@ function QuanLiTaiXe() {
                 </CCard>
               </CCol>
             </CRow>
+
+            <CRow>
+              <CCol sm="12" xl="12">
+                <CCard>
+                  <CCardHeader>
+                    Danh sách tài xế
+                  </CCardHeader>
+                  <CCardBody>
+                    <DanhsachTaixe/>
+                  </CCardBody>
+                </CCard>
+              </CCol>
+            </CRow>
+
             <ToastContainer />
           </>
         )

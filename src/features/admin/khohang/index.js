@@ -18,6 +18,7 @@ import {
   FormText,
 } from 'reactstrap';
 import { useSelector } from 'react-redux';
+import DanhsachKhoHang from './danhsachkhohang';
 
 
 function CreateKhoHang() {
@@ -127,6 +128,18 @@ function CreateKhoHang() {
         </CCol>
       </CRow>
 
+      <CRow>
+        <CCol sm="12" xl="12">
+          <CCard>
+            <CCardHeader>
+              Danh sách kho hàng
+            </CCardHeader>
+            <CCardBody>
+              <DanhsachKhoHang/>
+            </CCardBody>
+          </CCard>
+        </CCol>
+      </CRow>
     </>
   );
 }

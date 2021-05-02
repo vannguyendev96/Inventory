@@ -14,6 +14,7 @@ import {
 import userApi from 'src/api/userlogin';
 import InputField from 'src/custom-fields/InputField';
 import * as Yup from 'yup';
+import DanhsachThukho from './Danhsachthukho';
 
 
 
@@ -45,7 +46,7 @@ function QuanLiUser() {
         toast.success("Tạo tài khoản user thành công");
       })
       .catch(error => toast.error("error from server ", error))
-    
+
   }
 
 
@@ -63,7 +64,7 @@ function QuanLiUser() {
               <CCol sm="12" xl="12">
                 <CCard>
                   <CCardHeader>
-                    Thông tin user
+                    Thông tin thủ kho
                   </CCardHeader>
                   <CCardBody>
                     <Form action="" className="form-horizontal">
@@ -71,8 +72,8 @@ function QuanLiUser() {
                         name="tenuser"
                         component={InputField}
 
-                        label="Tên user"
-                        placeholder="Tên user..."
+                        label="Tên thủ kho"
+                        placeholder="Tên thủ kho..."
                       />
 
 
@@ -125,6 +126,21 @@ function QuanLiUser() {
                 </CCard>
               </CCol>
             </CRow>
+
+            <CRow>
+              <CCol sm="12" xl="12">
+                <CCard>
+                  <CCardHeader>
+                    Danh sách thủ kho
+                  </CCardHeader>
+                  <CCardBody>
+                    <DanhsachThukho/>
+                  </CCardBody>
+                </CCard>
+              </CCol>
+            </CRow>
+
+
             <ToastContainer />
           </>
         )

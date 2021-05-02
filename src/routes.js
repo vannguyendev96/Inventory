@@ -65,7 +65,7 @@ const routes = [
   { path: '/thongke-xuatkho', exact: true,  name: 'Thống kê xuất kho', component: Report },
   { path: '/thongke-nhapkho', exact: true,  name: 'Thống kê nhập kho', component: ReportNhapKho },
   { path: '/quanly-taixe', exact: true,  name: 'Quản lý tài xế', component: Quanlytaixe },
-  { path: '/quanly-user', exact: true,  name: 'Quản lý user', component: Quanlyuser },
+  { path: '/quanly-user', exact: true,  name: 'Quản lý thủ kho', component: Quanlyuser },
 ];
 
 export default routes;

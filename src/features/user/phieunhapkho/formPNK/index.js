@@ -22,6 +22,10 @@ const optionsAddress = [
     { value: 'khoc', label: 'Địa chỉ c' },
 ];
 
+const optionsloaikienhang = [
+    { value: 'devo', label: 'Hàng dễ vỡ' }
+];
+
 function CreatePNK() {
 
     const [kienhang, setKienhang] = useState({
@@ -41,7 +45,7 @@ function CreatePNK() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+
     }
 
     return (
@@ -91,7 +95,7 @@ function CreatePNK() {
 
             <FormGroup row>
                 <Col md="3">
-                    <Label htmlFor="hf-password">Kho chứa hàng</Label>
+                    <Label htmlFor="hf-password">Loại kiện hàng</Label>
                 </Col>
                 <Col xs="12" md="9">
                     <Select
@@ -99,6 +103,19 @@ function CreatePNK() {
                         options={optionsKho}
                         classNamePrefix="select"
                         onChange={handleOnChangeKhoHang}
+                    />
+                </Col>
+            </FormGroup>
+
+            <FormGroup row>
+                <Col md="3">
+                    <Label htmlFor="hf-password">Kho chứa hàng</Label>
+                </Col>
+                <Col xs="12" md="9">
+                    <Select
+                        defaultValue={optionsloaikienhang.filter(option => option.label === 'Hàng dễ vỡ')}
+                        options={optionsloaikienhang}
+                        classNamePrefix="select"
                     />
                 </Col>
             </FormGroup>

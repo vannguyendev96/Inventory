@@ -58,13 +58,13 @@ const _navAdmin =  [
 
   {
     _tag: 'CSidebarNavDropdown',
-    name: 'Quản lý user',
+    name: 'Quản lý thủ kho',
     route: '/quanly-user',
     icon: 'cil-star',
     _children: [
       {
         _tag: 'CSidebarNavItem',
-        name: 'Tạo thông tin user',
+        name: 'Tạo thông tin thủ kho',
         to: '/quanly-user'
       },
     ],
