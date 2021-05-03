@@ -38,7 +38,7 @@ function QuanLiUser() {
   const validationSchema = Yup.object().shape({
     tenuser: Yup.string().required('Vui lòng nhập tên user'),
     email: Yup.string().required('Vui lòng nhập email'),
-    
+
     kholamviec: Yup.string().required('Vui lòng nhập Kho làm việc'),
     sdt: Yup.number().required('Vui lòng nhập số điện thoại'),
     username: Yup.string().required('Vui lòng nhập tên đăng nhập'),
@@ -46,7 +46,7 @@ function QuanLiUser() {
   })
 
   const handleSubmitForm = async (values) => {
-    
+
     //call service register
     await userApi.register(values)
       .then(response => {
@@ -85,6 +85,27 @@ function QuanLiUser() {
       .catch(error => {
         toast.error(error.response.data.message);
       })
+  }
+
+  const handleUpdateThuKho = async (username, tenTK, emailTK, chucvuTK, sdtTK, kholamviecTK) => {
+    console.log(username);
+    const user = {
+      username: username,
+      chucvu: chucvuTK,
+      tenuser: tenTK,
+      email: emailTK,
+      sdt: sdtTK,
+      kholamviec: kholamviecTK
+    }
+    await userApi.updateeuser(user)
+      .then(response => {
+        toast.success("Chỉnh sữa tài khoản thành công");
+        fetchDataThuKho();
+      })
+      .catch(error => {
+        toast.error(error.response.data.message);
+      })
+
   }
 
   // if(isLoading){
@@ -186,7 +207,7 @@ function QuanLiUser() {
                     Danh sách thủ kho
                   </CCardHeader>
                   <CCardBody>
-                    <DanhsachThukho data={dataThuKho} deleteThukho={handleDeleteThuKho} />
+                    <DanhsachThukho data={dataThuKho} deleteThukho={handleDeleteThuKho} updateThukho={handleUpdateThuKho} />
                   </CCardBody>
                 </CCard>
               </CCol>

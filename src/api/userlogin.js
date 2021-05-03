@@ -32,6 +32,15 @@ const userApi = {
     return axiosClient.post(url,raw);
   },
 
+  updateeuser: (user) => {
+    const url = '/users/update-user';
+    let raw = JSON.stringify({
+      "email": user.username, "roll": user.chucvu, "name": user.tenuser,
+      "emailUser": user.email, "sdt": "0" + user.sdt.toString(), "kholamviec": user.kholamviec
+    });
+    return axiosClient.post(url,raw);
+  },
+
 }
 
 export default userApi;

@@ -15,21 +15,22 @@ import ChinhsuaThukho from '../popupeditthukho';
 
 DanhsachThukho.propTypes = {
     data: PropTypes.array,
-    deleteThukho: PropTypes.func
+    deleteThukho: PropTypes.func,
+    updateThukho: PropTypes.func
 };
 
 DanhsachThukho.defaultProps = {
     data: null,
-    deleteThukho: null
+    deleteThukho: null,
+    updateThukho: null
 }
 
 function DanhsachThukho(props) {
     const [primary, setPrimary] = useState(false);
-    const [update, setUpdate] = useState(false);
     const [deleteTK, setDeleteTK] = useState(false);
     const [email, setEmail] = useState(false);
 
-    const { data, deleteThukho} = props;
+    const { data, deleteThukho, updateThukho} = props;
 
     const dataThuKho = data !== null ? data : [];
 
@@ -43,6 +44,12 @@ function DanhsachThukho(props) {
     function openPopUpDeleteUser(email){
         setDeleteTK(!deleteTK);
         setEmail(email);
+    }
+
+    function handleUpdateTK(username,tenTK,emailTK,chucvuTK,sdtTK,kholamviecTK){
+        if(updateThukho){
+            updateThukho(username,tenTK,emailTK,chucvuTK,sdtTK,kholamviecTK);
+        }
     }
 
     return (
@@ -94,27 +101,7 @@ function DanhsachThukho(props) {
                                             </CModal>
                                         </td>
                                         <td>
-                                            <Button type="submit" size="sm" color="success" onClick={() => setUpdate(!update)}>Sữa</Button>
-                                            <CModal
-                                                show={update}
-                                                onClose={() => setUpdate(!update)}
-                                                color="primary"
-                                            >
-                                                <CModalHeader closeButton>
-                                                    <CModalTitle>Chỉnh sữa thông tin thủ kho</CModalTitle>
-                                                </CModalHeader>
-                                                <CModalBody>
-                                                    <ChinhsuaThukho tenthukho={name} email={emailUser} chucvu={roll} sdt={sdt} kholamviec={kholamviec}/>
-                                                </CModalBody>
-                                                <CModalFooter>
-                                                    <CButton color="primary" onClick={() => setUpdate(!update)}>
-                                                        Chỉnh sữa
-                                                    </CButton>
-                                                    <CButton color="secondary" onClick={() => setUpdate(!update)}>
-                                                        Close
-                                                    </CButton>
-                                                </CModalFooter>
-                                            </CModal>
+                                            <ChinhsuaThukho editTK={handleUpdateTK} username={email} tenthukho={name} email={emailUser} chucvu={roll} sdt={sdt} kholamviec={kholamviec}/>
                                         </td>
                                         <td>
                                             <Button type="submit" size="sm" color="danger" onClick={() => openPopUpDeleteUser(email)}>Xóa</Button>
