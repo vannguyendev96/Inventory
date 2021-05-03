@@ -6,13 +6,14 @@ import {
   CRow
 } from '@coreui/react';
 import { FastField, Form, Formik } from 'formik';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import {
   Button, CardFooter
 } from 'reactstrap';
 import userApi from 'src/api/userlogin';
 import InputField from 'src/custom-fields/InputField';
+import FullPageLoader from 'src/views/fullpageloading';
 import * as Yup from 'yup';
 import DanhsachThukho from './Danhsachthukho';
 
@@ -21,11 +22,15 @@ import DanhsachThukho from './Danhsachthukho';
 
 function QuanLiUser() {
 
+  const [dataThuKho, setDataThuKho] = useState([]);
+  const [isLoading, setIsLoading] = useState([]);
+
   const initialValues = {
     tenuser: '',
     email: '',
-    chucvu: '',
+    chucvu: 'Thủ kho',
     sdt: '',
+    kholamviec: '',
     username: '',
     password: ''
   };
@@ -33,22 +38,60 @@ function QuanLiUser() {
   const validationSchema = Yup.object().shape({
     tenuser: Yup.string().required('Vui lòng nhập tên user'),
     email: Yup.string().required('Vui lòng nhập email'),
-    chucvu: Yup.string().required('Vui lòng nhập chức vụ'),
+    
+    kholamviec: Yup.string().required('Vui lòng nhập Kho làm việc'),
     sdt: Yup.number().required('Vui lòng nhập số điện thoại'),
     username: Yup.string().required('Vui lòng nhập tên đăng nhập'),
     password: Yup.string().required('Vui lòng nhập tên mật khẩu')
   })
 
   const handleSubmitForm = async (values) => {
+    
     //call service register
     await userApi.register(values)
       .then(response => {
         toast.success("Tạo tài khoản user thành công");
+        fetchDataThuKho();
       })
-      .catch(error => toast.error("error from server ", error))
+      .catch(error => toast.error("Tạo tài khoản không thành công"))
 
   }
 
+  const fetchDataThuKho = async () => {
+    try {
+      setIsLoading(true);
+      await userApi.getall()
+        .then(response => {
+          setDataThuKho(response.data);
+        })
+        .catch(error => console.log(error))
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error)
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchDataThuKho();
+  }, [])
+
+  const handleDeleteThuKho = async (email) => {
+    await userApi.deleteuser(email)
+      .then(response => {
+        toast.success("Xóa tài khoản thành công");
+        fetchDataThuKho();
+      })
+      .catch(error => {
+        toast.error(error.response.data.message);
+      })
+  }
+
+  // if(isLoading){
+  //   return(
+  //     <FullPageLoader/>
+  //   )
+  // }
 
   return (
     <Formik
@@ -90,7 +133,16 @@ function QuanLiUser() {
                         component={InputField}
 
                         label="Chức vụ"
-                        placeholder="Chức vụ..."
+                        placeholder="Thủ kho"
+                        isreadonly={true}
+                      />
+
+                      <FastField
+                        name="kholamviec"
+                        component={InputField}
+
+                        label="Kho làm việc"
+                        placeholder="Kho làm việc..."
                       />
 
                       <FastField
@@ -134,7 +186,7 @@ function QuanLiUser() {
                     Danh sách thủ kho
                   </CCardHeader>
                   <CCardBody>
-                    <DanhsachThukho/>
+                    <DanhsachThukho data={dataThuKho} deleteThukho={handleDeleteThuKho} />
                   </CCardBody>
                 </CCard>
               </CCol>

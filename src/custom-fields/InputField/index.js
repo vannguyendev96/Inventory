@@ -12,7 +12,7 @@ InputField.propTypes = {
     label: PropTypes.string,
     placeholder: PropTypes.string,
     disabled: PropTypes.bool,
-
+    isreadonly: PropTypes.bool,
 };
 
 InputField.defaultProps = {
@@ -20,12 +20,13 @@ InputField.defaultProps = {
     label: '',
     placeholder: '',
     disabled: false,
+    isreadonly: false,
 }
 
 function InputField(props) {
     const {
         field, form,
-        type, label, placeholder, disabled,
+        type, label, placeholder, disabled, isreadonly
     } = props;
     const { name } = field;
 
@@ -45,6 +46,7 @@ function InputField(props) {
 
                     type={type}
                     disabled={disabled}
+                    readOnly={isreadonly}
                     placeholder={placeholder}
                     min="0"
 
