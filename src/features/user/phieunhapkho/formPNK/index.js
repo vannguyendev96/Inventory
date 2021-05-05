@@ -43,10 +43,6 @@ function CreatePNK() {
         setKienhang({ formValues });
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-    }
 
     return (
         <Form action="" className="form-horizontal">
@@ -102,7 +98,7 @@ function CreatePNK() {
                         defaultValue={optionsKho.filter(option => option.label === 'Kho A')}
                         options={optionsKho}
                         classNamePrefix="select"
-                        onChange={handleOnChangeKhoHang}
+                        
                     />
                 </Col>
             </FormGroup>
@@ -130,8 +126,7 @@ function CreatePNK() {
                         id="diachi-khohang"
                         name="diachi-khohang"
                         placeholder="Địa chỉ kho hàng..."
-                        value={kienhang.formValues.diachi_khohang}
-                        onChange={() => console.log('')}
+                       
                     />
                 </Col>
             </FormGroup>
@@ -140,7 +135,7 @@ function CreatePNK() {
                 <Col md="3">
                     <Label htmlFor="hf-password">Thông tin người nhận</Label>
                 </Col>
-                <Col xs="12" md="2">
+                <Col xs="12" md="9">
                     <Input
                         type="text"
                         id="tennguoinhan"
@@ -148,20 +143,33 @@ function CreatePNK() {
                         placeholder="Tên người nhận..."
                     />
                 </Col>
-                <Col xs="12" md="2">
+            </FormGroup>
+
+            <FormGroup row>
+                <Col md="3">
+                    <Label htmlFor="hf-password"></Label>
+                </Col>
+                <Col xs="12" md="9">
                     <Input
                         type="text"
-                        id="sdt"
-                        name="sdt"
-                        placeholder="Số điện thoại..."
+                        id="sdtnguoinhan"
+                        name="sdtnguoinhan"
+                        placeholder="Số điện thoại người nhận..."
+                       
                     />
                 </Col>
-                <Col xs="12" md="5">
+            </FormGroup>
+
+            <FormGroup row>
+                <Col md="3">
+                    <Label htmlFor="hf-password"></Label>
+                </Col>
+                <Col xs="12" md="9">
                     <Input
                         type="text"
                         id="diachinguoinhan"
                         name="diachinguoinhan"
-                        placeholder="Địa chỉ..."
+                        placeholder="Địa chỉ người nhận..."
                     />
                 </Col>
             </FormGroup>
@@ -170,7 +178,7 @@ function CreatePNK() {
                 <Col md="3">
                     <Label htmlFor="hf-password">Thông tin người gửi</Label>
                 </Col>
-                <Col xs="12" md="2">
+                <Col xs="12" md="9">
                     <Input
                         type="text"
                         id="tennguoigui"
@@ -178,26 +186,38 @@ function CreatePNK() {
                         placeholder="Tên người gửi..."
                     />
                 </Col>
-                <Col xs="12" md="2">
+            </FormGroup>
+
+            <FormGroup row>
+                <Col md="3">
+                    <Label htmlFor="hf-password"></Label>
+                </Col>
+                <Col xs="12" md="9">
                     <Input
                         type="text"
                         id="sdtnguoigui"
                         name="sdtnguoigui"
-                        placeholder="Số điện thoại..."
+                        placeholder="Số điện thoại người gửi..."
                     />
                 </Col>
-                <Col xs="12" md="5">
+            </FormGroup>
+
+            <FormGroup row>
+                <Col md="3">
+                    <Label htmlFor="hf-password"></Label>
+                </Col>
+                <Col xs="12" md="9">
                     <Input
                         type="text"
                         id="diachinguoigui"
                         name="diachinguoigui"
-                        placeholder="Địa chỉ..."
+                        placeholder="Địa chỉ người gửi..."
                     />
                 </Col>
             </FormGroup>
 
             <CardFooter>
-                <Button type="submit" size="sm" color="primary" onClick={handleSubmit}><i className="fa fa-dot-circle-o"></i>Thêm kiện hàng</Button>
+                <Button type="submit" size="sm" color="primary" ><i className="fa fa-dot-circle-o"></i>Thêm kiện hàng</Button>
             </CardFooter>
 
         </Form >

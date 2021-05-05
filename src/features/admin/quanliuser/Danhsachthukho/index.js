@@ -28,7 +28,13 @@ DanhsachThukho.defaultProps = {
 function DanhsachThukho(props) {
     const [primary, setPrimary] = useState(false);
     const [deleteTK, setDeleteTK] = useState(false);
+
     const [email, setEmail] = useState(false);
+
+    const [tenthukhoDetail, setTenthukhoDetail] = useState('');
+    const [emailUserDetail, setEmailUserDetail] = useState('');
+    const [chucvuDetail, setChucvuDetail] = useState('');
+    const [sdtDetail, setSdtDetail] = useState('');
 
     const { data, deleteThukho, updateThukho} = props;
 
@@ -50,6 +56,15 @@ function DanhsachThukho(props) {
         if(updateThukho){
             updateThukho(username,tenTK,emailTK,chucvuTK,sdtTK,kholamviecTK);
         }
+    }
+
+    function openPopUpDetailUser(name,emailUser,roll,sdt){
+        setPrimary(!primary);
+
+        setTenthukhoDetail(name);
+        setEmailUserDetail(emailUser);
+        setChucvuDetail(roll);
+        setSdtDetail(sdt);
     }
 
     return (
@@ -75,12 +90,12 @@ function DanhsachThukho(props) {
                                     <tr
                                         key={_id}
                                     >
-                                        <td>1</td>
+                                        <td>{index+1}</td>
                                         <td>{name}</td>
                                         <td>{sdt}</td>
                                         <td>{kholamviec}</td>
                                         <td>
-                                            <Button type="submit" size="sm" color="primary" onClick={() => setPrimary(!primary)} >Xem</Button>
+                                            <Button type="submit" size="sm" color="primary" onClick={() => openPopUpDetailUser(name,emailUser,roll,sdt)} >Xem</Button>
                                             <CModal
                                                 show={primary}
                                                 onClose={() => setPrimary(!primary)}
@@ -90,7 +105,7 @@ function DanhsachThukho(props) {
                                                     <CModalTitle>Chi tiết thủ kho</CModalTitle>
                                                 </CModalHeader>
                                                 <CModalBody>
-                                                    <ChitietThukho tenthukho={name} email={emailUser} chucvu={roll} sdt={sdt}/>
+                                                    <ChitietThukho tenthukho={tenthukhoDetail} email={emailUserDetail} chucvu={chucvuDetail} sdt={sdtDetail}/>
                                                 </CModalBody>
                                                 <CModalFooter>
 

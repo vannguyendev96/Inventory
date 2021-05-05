@@ -68,7 +68,7 @@ function QuanLiTaiXe() {
   const [district, setDistrict] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedProvine, setSelectedProvine] = useState('');
-
+  const [dataDriver, setDataDriver] = useState([]);
 
   function onchangeDataProvice(value) {
 
@@ -103,6 +103,7 @@ function QuanLiTaiXe() {
       .then(response => {
         if(response.message === "create info driver success"){
           toast.success("Tạo thông tin tài xế thành công");
+          fetchDataDriver();
           resetForm({})
         }
         else{
@@ -119,18 +120,61 @@ function QuanLiTaiXe() {
       })
   }
 
-  if (isLoading) {
-    return (
-      <FullPageLoader />
-    )
+  const fetchDataDriver = async () => {
+    try {
+      await driverApi.getall()
+        .then(response => {
+          setDataDriver(response.data);
+        })
+        .catch(error => console.log(error))
+    } catch (error) {
+      console.log(error)
+    }
   }
+
+  useEffect(() => {
+    fetchDataDriver();
+  }, [])
+
+  const handleUpdateDriver = async (cmnd,tenTX,sdtTX,trangthaiTX,namsinhTX,provineTX,districtTX,phuongTX) => {
+    const driver = {
+      cmnd: cmnd,
+      tentx: tenTX,
+      sdt: sdtTX,
+      trangthai: trangthaiTX,
+      namsinh: namsinhTX,
+      provine: provineTX,
+      district: districtTX,
+      phuong: phuongTX
+    }
+    await driverApi.updateDriver(driver)
+      .then(response => {
+        toast.success("Chỉnh sữa tài xế thành công");
+        fetchDataDriver();
+      })
+      .catch(error => {
+        toast.error(error.response.data.message);
+      })
+  }
+
+  const handleDeleteTX = async (cmnd) => {
+    await driverApi.deleteDriver(cmnd)
+      .then(response => {
+        toast.success("Xóa tài xế thành công");
+        fetchDataDriver();
+      })
+      .catch(error => {
+        toast.error(error.response.data.message);
+      })
+  }
+
+
   return (
     <Formik
       enableReinitialize
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={(values, { resetForm }) => handleSubmitForm(values,resetForm)}
-
     >
       {formikProps => {
         return (
@@ -228,7 +272,7 @@ function QuanLiTaiXe() {
                     Danh sách tài xế
                   </CCardHeader>
                   <CCardBody>
-                    <DanhsachTaixe/>
+                    <DanhsachTaixe data={dataDriver} deleteDriver={handleDeleteTX} updateDriver={handleUpdateDriver}/>
                   </CCardBody>
                 </CCard>
               </CCol>
