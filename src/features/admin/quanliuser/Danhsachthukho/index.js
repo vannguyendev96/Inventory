@@ -35,6 +35,7 @@ function DanhsachThukho(props) {
     const [emailUserDetail, setEmailUserDetail] = useState('');
     const [chucvuDetail, setChucvuDetail] = useState('');
     const [sdtDetail, setSdtDetail] = useState('');
+    const [emailDetail, setEmailDetail] = useState('');
 
     const { data, deleteThukho, updateThukho} = props;
 
@@ -58,13 +59,14 @@ function DanhsachThukho(props) {
         }
     }
 
-    function openPopUpDetailUser(name,emailUser,roll,sdt){
+    function openPopUpDetailUser(name,emailUser,roll,sdt,email){
         setPrimary(!primary);
 
         setTenthukhoDetail(name);
         setEmailUserDetail(emailUser);
         setChucvuDetail(roll);
         setSdtDetail(sdt);
+        setEmailDetail(email);
     }
 
     return (
@@ -95,7 +97,7 @@ function DanhsachThukho(props) {
                                         <td>{sdt}</td>
                                         <td>{kholamviec}</td>
                                         <td>
-                                            <Button type="submit" size="sm" color="primary" onClick={() => openPopUpDetailUser(name,emailUser,roll,sdt)} >Xem</Button>
+                                            <Button type="submit" size="sm" color="primary" onClick={() => openPopUpDetailUser(name,emailUser,roll,sdt,email)} >Xem</Button>
                                             <CModal
                                                 show={primary}
                                                 onClose={() => setPrimary(!primary)}
@@ -105,7 +107,7 @@ function DanhsachThukho(props) {
                                                     <CModalTitle>Chi tiết thủ kho</CModalTitle>
                                                 </CModalHeader>
                                                 <CModalBody>
-                                                    <ChitietThukho tenthukho={tenthukhoDetail} email={emailUserDetail} chucvu={chucvuDetail} sdt={sdtDetail}/>
+                                                    <ChitietThukho tenthukho={tenthukhoDetail} email={emailUserDetail} chucvu={chucvuDetail} sdt={sdtDetail} username={emailDetail}/>
                                                 </CModalBody>
                                                 <CModalFooter>
 

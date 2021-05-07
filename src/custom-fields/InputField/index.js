@@ -1,7 +1,7 @@
 import { ErrorMessage } from 'formik';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormGroup, Input, Label, Col, FormFeedback } from 'reactstrap';
+import { Col, FormFeedback, FormGroup, Input, Label } from 'reactstrap';
 
 
 InputField.propTypes = {

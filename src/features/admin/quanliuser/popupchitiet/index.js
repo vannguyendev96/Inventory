@@ -12,19 +12,21 @@ ChitietThukho.propTypes = {
     tenthukho: PropTypes.string,
     email: PropTypes.string,
     chucvu: PropTypes.string,
-    sdt: PropTypes.string
+    sdt: PropTypes.string,
+    username: PropTypes.string
 };
 
 ChitietThukho.defaultProps = {
     tenthukho: '',
     email: '',
     chucvu: '',
-    sdt: ''
+    sdt: '',
+    username: ''
 }
 
 function ChitietThukho(props) {
 
-    const { tenthukho, email, chucvu, sdt} = props;
+    const { tenthukho, email, chucvu, sdt, username} = props;
     
     return (
         <Form action="" className="form-horizontal">
@@ -83,6 +85,21 @@ function ChitietThukho(props) {
                         id="sdt"
                         name="sdt"
                         value= {sdt}
+                        readOnly={true}
+                    />
+                </Col>
+            </FormGroup>
+
+            <FormGroup row>
+                <Col md="3">
+                    <Label htmlFor="hf-password">Tên đăng nhập</Label>
+                </Col>
+                <Col xs="12" md="9">
+                    <Input
+                        type="text"
+                        id="tendangnhap"
+                        name="tendangnhap"
+                        value= {username}
                         readOnly={true}
                     />
                 </Col>

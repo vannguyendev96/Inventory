@@ -12,18 +12,48 @@ import {
   Button, CardFooter
 } from 'reactstrap';
 import userApi from 'src/api/userlogin';
+import warehouseApi from 'src/api/warehouseAPI';
 import InputField from 'src/custom-fields/InputField';
+import SelectField from 'src/custom-fields/SelectField';
 import FullPageLoader from 'src/views/fullpageloading';
 import * as Yup from 'yup';
 import DanhsachThukho from './Danhsachthukho';
 
 
+// async function getListWarehouse() {
+//   let listWarehouse = [];
+//   try {
+//     await warehouseApi.getall()
+//       .then(response => {
+//         const list = response.data;
+//         list.forEach(element => {
+//           listWarehouse.push({
+//               value: element.tenkhohang,
+//               label: element.tenkhohang
+//           })
+//       });
+//       })
+//       .catch(error => console.log(error))
+//   } catch (error) {
+//     console.log(error)
+//   }
+//   return listWarehouse;
+// }
 
+const options = [
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' }
+]
 
 function QuanLiUser() {
 
   const [dataThuKho, setDataThuKho] = useState([]);
-  const [isLoading, setIsLoading] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  //const warehouseList = getListWarehouse();
+
+  const [dataWareHouse, setDataWareHouse] = useState([]);
 
   const initialValues = {
     tenuser: '',
@@ -72,8 +102,35 @@ function QuanLiUser() {
     }
   }
 
+  const getListWarehouse = async () => {
+    setIsLoading(true);
+    let listWarehouse = [];
+    try {
+      await warehouseApi.getall()
+        .then(response => {
+          const list = response.data;
+          list.forEach(element => {
+            listWarehouse.push({
+              value: element.tenkhohang,
+              label: element.tenkhohang
+            })
+          });
+          setDataWareHouse(listWarehouse);
+          setIsLoading(false);
+        })
+        .catch(error => {
+          console.log(error);
+          setIsLoading(false);
+        })
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  }
+
   useEffect(() => {
     fetchDataThuKho();
+    getListWarehouse();
   }, [])
 
   const handleDeleteThuKho = async (email) => {
@@ -131,70 +188,75 @@ function QuanLiUser() {
                     Thông tin thủ kho
                   </CCardHeader>
                   <CCardBody>
-                    <Form action="" className="form-horizontal">
-                      <FastField
-                        name="tenuser"
-                        component={InputField}
+                    {isLoading ? <FullPageLoader /> :
+                      <Form action="" className="form-horizontal">
+                        <FastField
+                          name="tenuser"
+                          component={InputField}
 
-                        label="Tên thủ kho"
-                        placeholder="Tên thủ kho..."
-                      />
+                          label="Tên thủ kho"
+                          placeholder="Tên thủ kho..."
+                        />
 
 
-                      <FastField
-                        name="email"
-                        component={InputField}
+                        <FastField
+                          name="email"
+                          component={InputField}
 
-                        label="Email"
-                        placeholder="Email..."
-                      />
+                          label="Email"
+                          placeholder="Email..."
+                        />
 
-                      <FastField
-                        name="chucvu"
-                        component={InputField}
+                        <FastField
+                          name="chucvu"
+                          component={InputField}
 
-                        label="Chức vụ"
-                        placeholder="Thủ kho"
-                        isreadonly={true}
-                      />
+                          label="Chức vụ"
+                          placeholder="Thủ kho"
+                          isreadonly={true}
+                        />
 
-                      <FastField
-                        name="kholamviec"
-                        component={InputField}
 
-                        label="Kho làm việc"
-                        placeholder="Kho làm việc..."
-                      />
+                        <FastField
+                          name="kholamviec"
+                          component={SelectField}
 
-                      <FastField
-                        name="sdt"
-                        component={InputField}
+                          label="Kho làm việc"
+                          placeholder="Kho làm việc..."
+                          options={dataWareHouse}
 
-                        label="Số điện thoại"
-                        placeholder="Số điện thoại..."
-                        type="number"
-                      />
+                        />
 
-                      <FastField
-                        name="username"
-                        component={InputField}
+                        <FastField
+                          name="sdt"
+                          component={InputField}
 
-                        label="Thông tin đăng nhập"
-                        placeholder="Tên đăng nhập..."
-                      />
+                          label="Số điện thoại"
+                          placeholder="Số điện thoại..."
+                          type="number"
+                        />
 
-                      <FastField
-                        name="password"
-                        component={InputField}
+                        <FastField
+                          name="username"
+                          component={InputField}
 
-                        label=""
-                        placeholder="Mật khẩu..."
-                      />
+                          label="Thông tin đăng nhập"
+                          placeholder="Tên đăng nhập..."
+                        />
 
-                      <CardFooter>
-                        <Button type="submit" size="sm" color="primary" ><i className="fa fa-dot-circle-o"></i>Tạo tài khoản thủ kho</Button>
-                      </CardFooter>
-                    </Form>
+                        <FastField
+                          name="password"
+                          component={InputField}
+
+                          label=""
+                          placeholder="Mật khẩu..."
+                        />
+
+                        <CardFooter>
+                          <Button type="submit" size="sm" color="primary" ><i className="fa fa-dot-circle-o"></i>Tạo tài khoản thủ kho</Button>
+                        </CardFooter>
+                      </Form>
+                    }
                   </CCardBody>
                 </CCard>
               </CCol>

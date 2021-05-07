@@ -19,6 +19,9 @@ import {
     CModalTitle
 } from '@coreui/react';
 
+import Select from 'react-select';
+import { addressData } from '../../../../constant/tinh-thanh-viet-nam';
+
 ChinhsuaTX.propTypes = {
     cmnd: PropTypes.string,
     tentx: PropTypes.string,
@@ -43,6 +46,42 @@ ChinhsuaTX.defaultProps = {
     editTK: null
 }
 
+function getProvine() {
+    const dataProvice = [];
+    addressData.forEach(element => {
+        dataProvice.push({
+            value: element.name,
+            label: element.name
+        })
+    });
+    return dataProvice;
+}
+
+function getDistrictsData(value) {
+    let districtList = []
+    const districtListData = addressData.find(option => (option.name).toLowerCase() === value.toLowerCase()).districts;
+    districtListData.forEach(element => {
+        districtList.push({
+            value: element.name,
+            label: element.name
+        })
+    });
+    return districtList;
+}
+
+function getWardData(provineData, districtData) {
+    let wardsList = []
+    const districtDataList = addressData.find(option => (option.name).toLowerCase() === provineData.toLowerCase()).districts;
+    const wards = districtDataList.find(option => (option.name).toLowerCase() === districtData.toLowerCase()).wards;
+    wards.forEach(element => {
+        wardsList.push({
+            value: element.name,
+            label: `${element.prefix} ${element.name}`
+        })
+    });
+    return wardsList;
+}
+
 function ChinhsuaTX(props) {
 
     const { cmnd, tentx, sdt, trangthai, namsinh, provine, district, editTK, phuong } = props;
@@ -60,11 +99,35 @@ function ChinhsuaTX(props) {
     const today = new Date(namsinh);
     const namsinhDate = today.toISOString().substr(0, 10);
 
-    function handleUpdateTK(){
+    function handleUpdateTK() {
         setUpdate(!update);
-        if(editTK){
-            editTK(cmnd,tenTX,sdtTX,trangthaiTX,namsinhTX,provineTX,districtTX,phuongTX);
+        if (editTK) {
+            editTK(cmnd, tenTX, sdtTX, trangthaiTX, namsinhTX, provineTX, districtTX, phuongTX);
         }
+    }
+
+    //address
+    const dataWard = getWardData(provine, district);
+    const [wards, setWards] = useState(dataWard);
+
+    const dataDistricts = getDistrictsData(provine);
+    const [districtData, setDistrictData] = useState(dataDistricts);
+
+    const dataProvice = getProvine();
+    const [province, setProvince] = useState({
+        dataProvice
+    });
+
+    function handleOnchangeProvine(target) {
+        setprovineTX(target.value);
+        const listDataDistrict = getDistrictsData(target.value);
+        setDistrictData(listDataDistrict)
+    }
+
+    function handleOnchangeDistrict(target) {
+        setdistrictTX(target.value)
+        const listDataWard = getWardData(provineTX, target.value);
+        setWards(listDataWard)
     }
 
     return (
@@ -145,12 +208,10 @@ function ChinhsuaTX(props) {
                                 <Label htmlFor="hf-password">Thị trấn, thành phố</Label>
                             </Col>
                             <Col xs="12" md="9">
-                                <Input
-                                    type="text"
-                                    id="provine"
-                                    name="provine"
-                                    defaultValue={provine}
-                                    onChange={(e) => setprovineTX(e.target.value)}
+                                <Select
+                                    defaultValue={(province.dataProvice).filter(option => (option.label).toLowerCase() === provine)}
+                                    onChange={handleOnchangeProvine}
+                                    options={province.dataProvice}
                                 />
                             </Col>
                         </FormGroup>
@@ -160,12 +221,10 @@ function ChinhsuaTX(props) {
                                 <Label htmlFor="hf-password">Quận, huyện</Label>
                             </Col>
                             <Col xs="12" md="9">
-                                <Input
-                                    type="text"
-                                    id="district"
-                                    name="district"
-                                    defaultValue={district}
-                                    onChange={(e) => setdistrictTX(e.target.value)}
+                                <Select
+                                    defaultValue={(districtData).filter(option => (option.label).toLowerCase() === district)}
+                                    onChange={handleOnchangeDistrict}
+                                    options={districtData}
                                 />
                             </Col>
                         </FormGroup>
@@ -175,17 +234,16 @@ function ChinhsuaTX(props) {
                                 <Label htmlFor="hf-password">Phường, xã</Label>
                             </Col>
                             <Col xs="12" md="9">
-                                <Input
-                                    type="text"
-                                    id="phuong"
-                                    name="phuong"
-                                    defaultValue={phuong}
-                                    onChange={(e) => setphuongTX(e.target.value)}
+                                
+                                <Select
+                                    defaultValue={wards.filter(option => (option.value).toLowerCase() === phuong)}
+                                    onChange={(target) => setphuongTX(target.value)}
+                                    options={wards}
                                 />
                             </Col>
                         </FormGroup>
 
-                        
+
                     </Form >
                 </CModalBody>
 

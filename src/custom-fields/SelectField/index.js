@@ -2,9 +2,8 @@ import { ErrorMessage } from 'formik';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Select from 'react-select';
-import { FormGroup, Label, Col, FormFeedback } from 'reactstrap';
+import { Col, FormFeedback, FormGroup, Label } from 'reactstrap';
 
-import { addressData } from '../../constant/tinh-thanh-viet-nam';
 
 SelectField.propTypes = {
     field: PropTypes.object.isRequired,
