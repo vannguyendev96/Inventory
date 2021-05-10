@@ -41,7 +41,11 @@ import React from 'react';
 
 //
 const PhieuNhapKho = React.lazy(() => import('./features/user/phieunhapkho'));
+const PhieuNhapKhoDanhSach = React.lazy(() => import('./features/user/phieunhapkho-danhsach'));
+
 const PhieuXuatKho = React.lazy(() => import('./features/user/phieuxuatkho'));
+const PhieuXuatKhoDanhSach = React.lazy(() => import('./features/user/phieuxuatkho-danhsach'));
+
 const PhieuKiemKe = React.lazy(() => import('./features/user/phieukiemke'));
 
 const KhoHang = React.lazy(() => import('./features/admin/khohang'));
@@ -51,6 +55,8 @@ const Quanlytaixe = React.lazy(() => import('./features/admin/quanlitaixe'));
 const Quanlyuser = React.lazy(() => import('./features/admin/quanliuser'));
 
 
+
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', component: PhieuNhapKho },
@@ -58,7 +64,9 @@ const routes = [
 
 
   { path: '/phieu-nhap-kho', exact: true,  name: 'Phiếu nhập kho', component: PhieuNhapKho },
+  { path: '/phieu-nhap-kho-danhsach', exact: true,  name: 'Danh sách phiếu nhập kho', component: PhieuNhapKhoDanhSach },
   { path: '/phieu-xuat-kho', exact: true,  name: 'Phiếu xuất kho', component: PhieuXuatKho },
+  { path: '/phieu-xuat-kho-danhsach', exact: true,  name: 'Danh sách phiếu xuất kho', component: PhieuXuatKhoDanhSach },
   { path: '/phieu-kiem-ke', exact: true,  name: 'Phiếu kiểm kê', component: PhieuKiemKe },
 
   { path: '/kho-hang', exact: true,  name: 'Quản lý kho hàng', component: KhoHang },

@@ -19,9 +19,6 @@ import driverApi from 'src/api/driverAPI';
 import { toast, ToastContainer } from 'react-toastify';
 import DanhsachTaixe from './danhsachtaixe';
 
-
-
-
 function getProvine() {
   const dataProvice = [];
   addressData.forEach(element => {
@@ -47,6 +44,8 @@ function QuanLiTaiXe() {
     phuong: null
   };
 
+  const phoneRegExp = /((09|03|07|08|05)+([0-9]{8})\b)/g
+
   const validationSchema = Yup.object().shape({
     provine: Yup.string().required('Vui lòng chọn tên tỉnh, thành phố').nullable(),
     district: Yup.string().required('Vui lòng chọn tên quận, huyện').nullable(),
@@ -55,7 +54,7 @@ function QuanLiTaiXe() {
     cmnd: Yup.string().required('Vui lòng nhập chứng minh nhân dân'),
     trangthai: Yup.string().required('Vui lòng nhập trạng thái'),
     namsinh: Yup.string().required('Vui lòng nhập số điện thoại'),
-    sdt: Yup.string().required('Vui lòng nhập tên năm sinh'),
+    sdt: Yup.string().matches(phoneRegExp, 'Số điện thoại của bạn không đúng định dạng'),
   })
 
 

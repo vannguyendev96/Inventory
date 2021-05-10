@@ -34,6 +34,14 @@ const warehouseApi = {
         });
         return axiosClient.post(url, raw);
     },
+
+    getbyidWarehouse: (tenkhohang) => {
+        const url = '/warehouses/getbyid-warehouse';
+        let raw = JSON.stringify({
+            "tenkhohang": tenkhohang
+        });
+        return axiosClient.post(url, raw);
+    },
 }
 
 export default warehouseApi;

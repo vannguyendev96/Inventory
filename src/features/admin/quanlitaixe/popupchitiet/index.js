@@ -15,7 +15,8 @@ ChitietTaiXe.propTypes = {
     namsinh: PropTypes.string,
     provine: PropTypes.string,
     district: PropTypes.string,
-    phuong: PropTypes.string
+    phuong: PropTypes.string,
+    cmnd: PropTypes.string
 };
 
 ChitietTaiXe.defaultProps = {
@@ -25,13 +26,16 @@ ChitietTaiXe.defaultProps = {
     namsinh: '',
     provine: '',
     district: '',
-    phuong: ''
+    phuong: '',
+    cmnd: ''
 }
 
 function ChitietTaiXe(props) {
 
-    const { tentx, sdt, trangthai, namsinh, provine, district, phuong } = props;
+    const { tentx, sdt, trangthai, namsinh, provine, district, phuong, cmnd } = props;
     const address = `${provine} ${district} ${phuong}`;
+    
+
     return (
         <Form action="" className="form-horizontal">
             <FormGroup row>
@@ -43,7 +47,22 @@ function ChitietTaiXe(props) {
                         type="text"
                         id="tentx"
                         name="tentx"
-                        value= {tentx}
+                        value={tentx}
+                        readOnly={true}
+                    />
+                </Col>
+            </FormGroup>
+
+            <FormGroup row>
+                <Col md="3">
+                    <Label htmlFor="hf-password">Chứng minh nhân dân</Label>
+                </Col>
+                <Col xs="12" md="9">
+                    <Input
+                        type="text"
+                        id="cmnd"
+                        name="cmnd"
+                        value={cmnd}
                         readOnly={true}
                     />
                 </Col>
@@ -58,7 +77,7 @@ function ChitietTaiXe(props) {
                         type="text"
                         id="trangthai"
                         name="trangthai"
-                        value= {trangthai}
+                        value={trangthai}
                         readOnly={true}
                     />
                 </Col>
@@ -73,7 +92,7 @@ function ChitietTaiXe(props) {
                         type="text"
                         id="sdt"
                         name="sdt"
-                        value= {sdt}
+                        value={sdt}
                         readOnly={true}
                     />
                 </Col>
@@ -89,7 +108,7 @@ function ChitietTaiXe(props) {
                         type="text"
                         id="provine"
                         name="provine"
-                        value= {address}
+                        value={address}
                         readOnly={true}
                     />
                 </Col>

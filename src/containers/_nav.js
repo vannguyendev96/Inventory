@@ -22,6 +22,11 @@ const _nav =  [
         _tag: 'CSidebarNavItem',
         name: 'Tạo phiếu nhập kho',
         to: '/phieu-nhap-kho',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Danh sách phiếu nhập kho',
+        to: '/phieu-nhap-kho-danhsach',
       }
     ],
   },
@@ -35,6 +40,11 @@ const _nav =  [
         _tag: 'CSidebarNavItem',
         name: 'Tạo phiếu xuất kho',
         to: '/phieu-xuat-kho',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Danh sách phiếu xuất kho',
+        to: '/phieu-xuat-kho-danhsach',
       }
     ],
   },

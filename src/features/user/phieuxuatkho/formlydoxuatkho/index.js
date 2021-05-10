@@ -1,19 +1,35 @@
-import React, { useState } from "react";
+import React from "react";
 
 import {
     Col,
     Form,
     FormGroup,
     Input,
-    Label,
-    CardFooter,
-    Button,
-    FormText,
+    Label
 } from 'reactstrap';
 
-function Lydoxuatkho() {
+import PropTypes from 'prop-types';
+
+Lydoxuatkho.propTypes = {
+    onChangeData: PropTypes.func,
+};
+
+Lydoxuatkho.defaultProps = {
+    onChangeData: null
+}
+
+
+function Lydoxuatkho(props) {
+    const { onChangeData } = props;
+
+    function handleOnchangeData(e){
+        if(onChangeData){
+            onChangeData(e.target.value);
+        }
+    }
+
     return (
-<Form action="" className="form-horizontal">
+        <Form action="" className="form-horizontal">
             <FormGroup row>
                 <Col md="3">
                     <Label htmlFor="hf-password">Lý do</Label>
@@ -24,12 +40,12 @@ function Lydoxuatkho() {
                         id="lydo"
                         name="lydo"
                         placeholder="Lý do xuất kho..."
-
+                        onChange={handleOnchangeData}
                     />
                 </Col>
             </FormGroup>
 
-            
+
         </Form >
     );
 }

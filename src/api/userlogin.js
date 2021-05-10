@@ -24,6 +24,14 @@ const userApi = {
     return axiosClient.get(url);
   },
 
+  getbyuser: (email) => {
+    const url = '/users/getby-user';
+    let raw = JSON.stringify({
+      "email": email
+    });
+    return axiosClient.post(url,raw);
+  },
+
   deleteuser: (email) => {
     const url = '/users/delete-user';
     let raw = JSON.stringify({

@@ -20,32 +20,6 @@ import * as Yup from 'yup';
 import DanhsachThukho from './Danhsachthukho';
 
 
-// async function getListWarehouse() {
-//   let listWarehouse = [];
-//   try {
-//     await warehouseApi.getall()
-//       .then(response => {
-//         const list = response.data;
-//         list.forEach(element => {
-//           listWarehouse.push({
-//               value: element.tenkhohang,
-//               label: element.tenkhohang
-//           })
-//       });
-//       })
-//       .catch(error => console.log(error))
-//   } catch (error) {
-//     console.log(error)
-//   }
-//   return listWarehouse;
-// }
-
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' }
-]
-
 function QuanLiUser() {
 
   const [dataThuKho, setDataThuKho] = useState([]);
@@ -65,12 +39,13 @@ function QuanLiUser() {
     password: ''
   };
 
+  const phoneRegExp = /((09|03|07|08|05)+([0-9]{8})\b)/g
+
   const validationSchema = Yup.object().shape({
     tenuser: Yup.string().required('Vui lòng nhập tên user'),
-    email: Yup.string().required('Vui lòng nhập email'),
-
+    email: Yup.string().email('email không hợp lệ').required('Vui lòng nhập email'),
     kholamviec: Yup.string().required('Vui lòng nhập Kho làm việc'),
-    sdt: Yup.number().required('Vui lòng nhập số điện thoại'),
+    sdt: Yup.string().matches(phoneRegExp, 'Số điện thoại của bạn không đúng định dạng'),
     username: Yup.string().required('Vui lòng nhập tên đăng nhập'),
     password: Yup.string().required('Vui lòng nhập tên mật khẩu')
   })
@@ -165,12 +140,6 @@ function QuanLiUser() {
 
   }
 
-  // if(isLoading){
-  //   return(
-  //     <FullPageLoader/>
-  //   )
-  // }
-
   return (
     <Formik
       initialValues={initialValues}
@@ -233,7 +202,7 @@ function QuanLiUser() {
 
                           label="Số điện thoại"
                           placeholder="Số điện thoại..."
-                          type="number"
+                        
                         />
 
                         <FastField

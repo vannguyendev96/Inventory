@@ -60,7 +60,8 @@ const Login = () => {
     }
     else if(token !== null && token !== 'error' && token !== undefined){
       localStorage.setItem("role", roll);
-      
+      localStorage.setItem("username", username);
+
       if(roll === "admin"){
         history.push("/kho-hang");
       }

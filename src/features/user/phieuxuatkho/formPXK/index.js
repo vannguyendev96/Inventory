@@ -1,192 +1,242 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
 import {
-    Col,
-    Form,
-    FormGroup,
-    Input,
-    Label,
-    CardFooter,
-    Button,
-    FormText,
+    Button, CardFooter
 } from 'reactstrap';
-import Select from "react-select";
+import { FastField, Form, Formik, Field } from 'formik';
+import InputField from "src/custom-fields/InputField";
+import SelectField from "src/custom-fields/SelectField";
+import FullPageLoader from "src/views/fullpageloading";
+import warehouseApi from "src/api/warehouseAPI";
+import PropTypes from 'prop-types';
+import * as Yup from 'yup';
+import userApi from "src/api/userlogin";
+
+CreatePXK.propTypes = {
+    onSubmit: PropTypes.func,
+};
+
+CreatePXK.defaultProps = {
+    onSubmit: null
+}
 
 
-const optionsKho = [
-    { value: 'khoa', label: 'Kho A' },
-    { value: 'khob', label: 'Kho B' },
-    { value: 'khoc', label: 'Kho c' },
+const optionsloaikienhang = [
+    { value: 'Hàng dễ vỡ', label: 'Hàng dễ vỡ' }
 ];
 
-const optionsAddress = [
-    { value: 'khoa', label: 'Địa chỉ A' },
-    { value: 'khob', label: 'Địa chỉ B' },
-    { value: 'khoc', label: 'Địa chỉ c' },
-];
+function CreatePXK(props) {
 
-function CreatePXK() {
+    const { onSubmit } = props;
 
-    const [kienhang, setKienhang] = useState({
-        formValues: {
-            khohang: "",
-            diachi_khohang: "",
+    const initialValues = {
+        tenkienhang: '',
+        soluongkienhang: '',
+        trangthaikienhang: '',
+        loaikienhang: null,
+        khochuahang: null,
+        diachikhohang: '',
+        tennguoinhan: '',
+        sdtnguoinhan: '',
+        diachinguoinhan: '',
+        tennguoigui: '',
+        sdtnguoigui: '',
+        diachinguoigui: '',
+    };
+
+    const [dataWareHouse, setDataWareHouse] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [dataAddress, setDataAddress] = useState('');
+
+    const [dataTenNguoiGui, setDataTenNguoiNhan] = useState('');
+    const [dataSDTNguoiGui, setDataSDTNguoiNhan] = useState('');
+
+    const getListWarehouse = async () => {
+        setIsLoading(true);
+        let listWarehouse = [];
+        try {
+            await warehouseApi.getall()
+                .then(response => {
+                    const list = response.data;
+                    list.forEach(element => {
+                        listWarehouse.push({
+                            value: element.tenkhohang,
+                            label: element.tenkhohang
+                        })
+                    });
+                    setDataWareHouse(listWarehouse);
+                    setIsLoading(false);
+                })
+                .catch(error => {
+                    console.log(error);
+                    setIsLoading(false);
+                })
+        } catch (error) {
+            console.log(error);
+            setIsLoading(false);
         }
-    });
-
-    const handleOnChangeKhoHang = (target) => {
-        const { formValues } = kienhang;
-        formValues["khohang"] = target.value;
-        const optionDC = optionsAddress.find(option => option.value === target.value);
-        formValues["diachi_khohang"] = optionDC.label;
-        setKienhang({ formValues });
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        
+    const handleSubmitForm = async (values, resetForm) => {
+        if (onSubmit) {
+            onSubmit(values, dataAddress, dataTenNguoiGui, dataSDTNguoiGui, resetForm)
+        }
     }
+
+    const handOnchangKhoChua = async (value) => {
+        await warehouseApi.getbyidWarehouse(value)
+            .then(response => {
+                const address = `phường(xã) ${response.data.phuong} quận(huyện) ${response.data.district} tỉnh(thành phố) ${response.data.provine}`;
+                setDataAddress(address)
+            })
+            .catch(error => {
+                console.log(error);
+            })
+
+        const email = localStorage.getItem("username");
+        await userApi.getbyuser(email)
+            .then(response => {
+                setDataTenNguoiNhan(response.data.name);
+                setDataSDTNguoiNhan(response.data.sdt);
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
+    const validationSchema = Yup.object().shape({
+        tenkienhang: Yup.string().required('Vui lòng nhập tên kiện hàng'),
+        soluongkienhang: Yup.string().required('Vui lòng nhập Số lượng kiện hàng'),
+        trangthaikienhang: Yup.string().required('Vui lòng nhập Trạng thái kiện hàng'),
+        loaikienhang: Yup.string().required('Vui lòng chọn Loại kiện hàng').nullable(),
+        khochuahang: Yup.string().required('Vui lòng chọn Kho chứa hàng').nullable(),
+        tennguoinhan: Yup.string().required('Vui lòng nhập tên người nhận'),
+        sdtnguoinhan: Yup.string().required('Vui lòng nhập sdt người nhận'),
+        diachinguoinhan: Yup.string().required('Vui lòng nhập địa chỉ người nhận'),
+        //tennguoigui: Yup.string().required('Vui lòng nhập tên người gửi'),
+        //sdtnguoigui: Yup.string().required('Vui lòng nhập sdt người gửi'),
+        diachinguoigui: Yup.string().required('Vui lòng nhập địa chỉ người gửi'),
+    })
+
+    useEffect(() => {
+        getListWarehouse();
+    }, [])
 
     return (
-        <Form action="" className="form-horizontal">
-            <FormGroup row>
-                <Col md="3">
-                    <Label htmlFor="hf-password">Tên kiện hàng</Label>
-                </Col>
-                <Col xs="12" md="9">
-                    <Input
-                        type="text"
-                        id="tenkienhang"
-                        name="tenkienhang"
-                        placeholder="Tên kiện hàng..."
+        <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={(values, { resetForm }) => handleSubmitForm(values, resetForm)}
+        >
+            {formikProps => {
+                return (
+                    <>
+                        {isLoading ? <FullPageLoader /> :
+                            <Form action="" className="form-horizontal">
+                                <FastField
+                                    name="tenkienhang"
+                                    component={InputField}
 
-                    />
-                </Col>
-            </FormGroup>
+                                    label="Tên kiện hàng"
+                                    placeholder="Tên kiện hàng..."
+                                />
+                                <FastField
+                                    name="soluongkienhang"
+                                    component={InputField}
 
-            <FormGroup row>
-                <Col md="3">
-                    <Label htmlFor="hf-password">Số lượng kiện hàng</Label>
-                </Col>
-                <Col xs="12" md="9">
-                    <Input
-                        type="text"
-                        id="soluongkienhang"
-                        name="soluongkienhang"
-                        placeholder="Số lượng kiện hàng..."
-                    />
-                </Col>
-            </FormGroup>
+                                    label="Số lượng kiện hàng"
+                                    placeholder="Số lượng kiện hàng..."
+                                    type="number"
+                                />
+                                <FastField
+                                    name="trangthaikienhang"
+                                    component={InputField}
 
-            <FormGroup row>
-                <Col md="3">
-                    <Label htmlFor="hf-password">Trạng thái kiện hàng</Label>
-                </Col>
-                <Col xs="12" md="9">
-                    <Input
-                        type="text"
-                        id="trangthaikienhang"
-                        name="trangthaikienhang"
-                        placeholder="Trạng thái kiện hàng..."
-                    />
-                </Col>
-            </FormGroup>
+                                    label="Trạng thái kiện hàng"
+                                    placeholder="Trạng thái kiện hàng..."
+                                />
+                                <FastField
+                                    name="loaikienhang"
+                                    component={SelectField}
 
-            <FormGroup row>
-                <Col md="3">
-                    <Label htmlFor="hf-password">Kho chứa hàng</Label>
-                </Col>
-                <Col xs="12" md="9">
-                    <Select
-                        defaultValue={optionsKho.filter(option => option.label === 'Kho A')}
-                        options={optionsKho}
-                        classNamePrefix="select"
-                        onChange={handleOnChangeKhoHang}
-                    />
-                </Col>
-            </FormGroup>
+                                    label="Loại kiện hàng"
+                                    placeholder="Loại kiện hàng..."
+                                    options={optionsloaikienhang}
+                                />
+                                <Field
+                                    name="khochuahang"
+                                    component={SelectField}
 
-            <FormGroup row>
-                <Col md="3">
-                    <Label htmlFor="hf-password">Địa chỉ</Label>
-                </Col>
-                <Col xs="12" md="9">
-                    <Input
-                        type="text"
-                        id="diachi-khohang"
-                        name="diachi-khohang"
-                        placeholder="Địa chỉ kho hàng..."
-                        value={kienhang.formValues.diachi_khohang}
-                        onChange={() => console.log('')}
-                    />
-                </Col>
-            </FormGroup>
+                                    label="Kho chứa hàng"
+                                    placeholder="Kho chứa hàng..."
+                                    onchangeData={handOnchangKhoChua}
+                                    options={dataWareHouse}
+                                />
+                                <Field
+                                    name="diachikhohang"
+                                    component={InputField}
 
-            <FormGroup row>
-                <Col md="3">
-                    <Label htmlFor="hf-password">Thông tin người nhận</Label>
-                </Col>
-                <Col xs="12" md="2">
-                    <Input
-                        type="text"
-                        id="tennguoinhan"
-                        name="tennguoinhan"
-                        placeholder="Tên người nhận..."
-                    />
-                </Col>
-                <Col xs="12" md="2">
-                    <Input
-                        type="text"
-                        id="sdt"
-                        name="sdt"
-                        placeholder="Số điện thoại..."
-                    />
-                </Col>
-                <Col xs="12" md="5">
-                    <Input
-                        type="text"
-                        id="diachinguoinhan"
-                        name="diachinguoinhan"
-                        placeholder="Địa chỉ..."
-                    />
-                </Col>
-            </FormGroup>
+                                    label="Địa chỉ kho hàng"
+                                    valueData={dataAddress}
+                                    placeholder="Địa chỉ kho hàng..."
+                                    isreadonly={true}
+                                />
+                                <FastField
+                                    name="tennguoinhan"
+                                    component={InputField}
 
-            <FormGroup row>
-                <Col md="3">
-                    <Label htmlFor="hf-password">Thông tin người gửi</Label>
-                </Col>
-                <Col xs="12" md="2">
-                    <Input
-                        type="text"
-                        id="tennguoigui"
-                        name="tennguoigui"
-                        placeholder="Tên người gửi..."
-                    />
-                </Col>
-                <Col xs="12" md="2">
-                    <Input
-                        type="text"
-                        id="sdtnguoigui"
-                        name="sdtnguoigui"
-                        placeholder="Số điện thoại..."
-                    />
-                </Col>
-                <Col xs="12" md="5">
-                    <Input
-                        type="text"
-                        id="diachinguoigui"
-                        name="diachinguoigui"
-                        placeholder="Địa chỉ..."
-                    />
-                </Col>
-            </FormGroup>
+                                    label="Thông tin người nhận"
+                                   
+                                    placeholder="Tên người nhận..."
+                                />
+                                <FastField
+                                    name="sdtnguoinhan"
+                                    component={InputField}
 
-            <CardFooter>
-                <Button type="submit" size="sm" color="primary" onClick={handleSubmit}><i className="fa fa-dot-circle-o"></i>Thêm kiện hàng</Button>
-            </CardFooter>
+                                    placeholder="Số điện thoại người nhận..."
+                                    type="number"
+                                    
+                                />
+                                <FastField
+                                    name="diachinguoinhan"
+                                    component={InputField}
 
-        </Form >
+                                    placeholder="Địa chỉ người nhận..."
+                                />
+
+                                <Field
+                                    name="tennguoigui"
+                                    component={InputField}
+
+                                    label="Thông tin người gửi"
+                                    placeholder="Tên người gửi..."
+                                    valueData={dataTenNguoiGui}
+                                    isreadonly={true}
+                                />
+                                <Field
+                                    name="sdtnguoigui"
+                                    component={InputField}
+
+                                    placeholder="Số điện thoại người gửi..."
+                                    type="number"
+                                    isreadonly={true}
+                                    valueData={dataSDTNguoiGui}
+                                />
+                                <FastField
+                                    name="diachinguoigui"
+                                    component={InputField}
+
+                                    placeholder="Địa chỉ người gửi..."
+                                />
+
+                                <CardFooter>
+                                    <Button type="submit" size="sm" color="primary" ><i className="fa fa-dot-circle-o"></i>Thêm kiện hàng</Button>
+                                </CardFooter>
+                            </Form >
+                        }
+                    </>
+                )
+            }}
+        </Formik>
     );
 }
 

@@ -44,8 +44,9 @@ function DanhsachTaixe(props) {
     const [provineDetail, setProvineDetail] = useState('');
     const [districtDetail, setDistrictDetail] = useState('');
     const [phuongDetail, setPhuongDetail] = useState('');
+    const [cmndDetail, setCMNDDetail] = useState('');
 
-    function openPopUpDetailTX(tentx, trangthai, sdt, namsinh, provine, district, phuong) {
+    function openPopUpDetailTX(tentx, trangthai, sdt, namsinh, provine, district, phuong, cmnd) {
         setDetail(!detail);
 
         setTentxDetail(tentx);
@@ -55,6 +56,7 @@ function DanhsachTaixe(props) {
         setProvineDetail(provine);
         setDistrictDetail(district);
         setPhuongDetail(phuong);
+        setCMNDDetail(cmnd);
     }
 
     function handleUpdateTK(cmnd, tenTX, sdtTX, trangthaiTX, namsinhTX, provineTX, districtTX, phuongTX) {
@@ -85,6 +87,7 @@ function DanhsachTaixe(props) {
                         <th>Tên tài xế</th>
                         <th>SĐT</th>
                         <th>Trạng thái</th>
+                        <th>Năm sinh</th>
                         <th>Xem thông tin chi tiết tài xế</th>
                         <th>Cập nhật thông tin tài xế</th>
                         <th>Xóa tài xế</th>
@@ -103,8 +106,9 @@ function DanhsachTaixe(props) {
                                     <td>{tentx}</td>
                                     <td>{sdt}</td>
                                     <td>{trangthai}</td>
+                                    <td>{(new Date(namsinh)).toISOString().substr(0, 10)}</td>
                                     <td>
-                                        <Button type="submit" size="sm" color="primary" onClick={() => openPopUpDetailTX(tentx, trangthai, sdt, namsinh, provine, district, phuong)} >Xem</Button>
+                                        <Button type="submit" size="sm" color="primary" onClick={() => openPopUpDetailTX(tentx, trangthai, sdt, namsinh, provine, district, phuong,cmnd)} >Xem</Button>
                                         <CModal
                                             show={detail}
                                             onClose={() => setDetail(!detail)}
@@ -114,7 +118,7 @@ function DanhsachTaixe(props) {
                                                 <CModalTitle>Chi tiết tài xế</CModalTitle>
                                             </CModalHeader>
                                             <CModalBody>
-                                                <ChitietTaiXe tentx={tentxDetail} sdt={sdtDetail} trangthai={trangthaiDetail} namsinh={namsinhDetail}
+                                                <ChitietTaiXe cmnd={cmndDetail} tentx={tentxDetail} sdt={sdtDetail} trangthai={trangthaiDetail} namsinh={namsinhDetail}
                                                     provine={provineDetail} district={districtDetail} phuong={phuongDetail} />
                                             </CModalBody>
                                             <CModalFooter>

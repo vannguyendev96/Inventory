@@ -1,27 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-    Table, CardFooter, Button
+    Table
 } from 'reactstrap';
 
-ListCreatePXK.propTypes = {
-    onSubmit: PropTypes.func,
+DanhSachKienHangPXK.propTypes = {
     data: PropTypes.array,
 };
 
-ListCreatePXK.defaultProps = {
-    onSubmit: null,
+DanhSachKienHangPXK.defaultProps = {
     data: null,
 }
 
-function ListCreatePXK(props) {
 
-    const { onSubmit, data } = props;
+function DanhSachKienHangPXK(props) {
+
+    const { data } = props;
     const dataKienHang = data !== null ? data : [];
-
-    const handleSubmit = () => {
-        onSubmit();
-    }
 
     return (
         <>
@@ -29,25 +24,24 @@ function ListCreatePXK(props) {
                 <thead>
                     <tr>
                         <th>STT</th>
-                        <th>Tên</th>
+                        <th>Tên kiện hàng</th>
                         <th>Số lượng</th>
                         <th>Trạng thái</th>
-                        <th>Loại</th>
-                        <th>Kho chứa hàng</th>
+                        <th>Loại kiện</th>
+                        <th>Kho chứa</th>
                         <th>Địa chỉ kho hàng</th>
                         <th>Thông tin người nhận</th>
                         <th>Thông tin người gửi</th>
-
                         
                     </tr>
                 </thead>
                 <tbody>
                     {
                         dataKienHang.map((dataList, index) => {
-                            const { tenkienhang, soluongkienhang, trangthai, 
-                                loaikienhang, khochuakienhang, diachikhochua, 
+                            const { malohang, nguoitaolohang, tenkienhang,soluongkienhang, 
+                                trangthai, loaikienhang, khochuakienhang, diachikhochua,
                                 tennguoinhan, sdtnguoinhan, diachinguoinhan,
-                                tennguoigui, sdtnguoigui, diachinguoigui } = dataList //destructuring
+                                tennguoigui, sdtnguoigui, diachinguoigui} = dataList //destructuring
                             return (
                                 <tr
                                     key={index}
@@ -61,18 +55,15 @@ function ListCreatePXK(props) {
                                     <td>{diachikhochua}</td>
                                     <td>{`Tên: ${tennguoinhan}, SDT: ${sdtnguoinhan}, Địa chỉ: ${diachinguoinhan}`}</td>
                                     <td>{`Tên: ${tennguoigui}, SDT: ${sdtnguoigui}, Địa chỉ: ${diachinguoigui}`}</td>
-                                    
                                 </tr>
                             )
                         })
                     }
                 </tbody>
             </Table>
-            <CardFooter>
-                <Button type="submit" size="sm" color="primary" onClick={handleSubmit}><i className="fa fa-dot-circle-o"></i>Tạo phiếu nhập kho</Button>
-            </CardFooter>
+            
         </>
     );
 }
 
-export default ListCreatePXK
+export default DanhSachKienHangPXK;

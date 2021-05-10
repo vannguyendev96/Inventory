@@ -1,17 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+  CCol,
+  CNav,
+  CNavItem,
+  CNavLink,
+  CRow,
+  CTabContent,
+  CTabPane,
   CCard,
   CCardBody,
+  CTabs,
   CCardHeader,
-  CCol,
-  CRow,
 } from '@coreui/react'
 
 import SearchReport from './formSearch';
-import ListReportXuatKho from './fromDanhsach';
-
+import DanhSachLoHangPXKAdmin from './fromDanhsach/pxkHearder';
+import pxkAPI from 'src/api/pxkAPI';
 
 function Report() {
+  const [active, setActive] = useState(0);
+  const [dataListPXK, setDataListPXK] = useState([]);
+
+  const fetchDataPXK = async () => {
+    try {
+      await pxkAPI.getbyuser('')
+        .then(response => {
+          setDataListPXK(response.data);
+        })
+        .catch(error => console.log(error))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    fetchDataPXK();
+  }, [])
+
   return (
     <>
       <CRow>
@@ -29,13 +54,38 @@ function Report() {
 
 
       <CRow>
-        <CCol sm="12" xl="12">
+        <CCol xs="12" md="12" className="mb-4">
           <CCard>
             <CCardHeader>
               Danh sách xuất kho
             </CCardHeader>
             <CCardBody>
-              <ListReportXuatKho />
+              <CTabs activeTab={active} onActiveTabChange={idx => setActive(idx)}>
+                <CNav variant="tabs">
+                  <CNavItem>
+                    <CNavLink>
+                      Danh sách lô hàng
+                      {active === 0 && ''}
+                    </CNavLink>
+                  </CNavItem>
+                  <CNavItem>
+                    <CNavLink>
+                      Chi tiết lô hàng
+                      {active === 1 && ''}
+                    </CNavLink>
+                  </CNavItem>
+
+                </CNav>
+                <CTabContent>
+                  <CTabPane>
+                    <DanhSachLoHangPXKAdmin data={dataListPXK} />
+                  </CTabPane>
+                  <CTabPane>
+
+                  </CTabPane>
+
+                </CTabContent>
+              </CTabs>
             </CCardBody>
           </CCard>
         </CCol>

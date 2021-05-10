@@ -1,17 +1,87 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+  CCol,
+  CNav,
+  CNavItem,
+  CNavLink,
+  CRow,
+  CTabContent,
+  CTabPane,
   CCard,
   CCardBody,
+  CTabs,
   CCardHeader,
-  CCol,
-  CRow,
 } from '@coreui/react'
 
 import SearchReportNhapKho from './formSearch';
-import ListReportNhapKho from './formDanhsach';
+import pnkApi from 'src/api/pnkAPI';
+import DanhSachLoHangPNKAdmin from './formDanhsach/pnkHeader';
+import DanhSachKienHangAdmin from './formDanhsach/pnkDetail';
 
 
 function ReportNhapKho() {
+
+  const [active, setActive] = useState(0);
+  const [dataListPNK, setDataListPNK] = useState([]);
+  const [dataPNKDetail, setDataPNKDetail] = useState([]);
+
+  const fetchDataPNK = async () => {
+    try {
+      await pnkApi.getbyuser('')
+        .then(response => {
+          setDataListPNK(response.data);
+        })
+        .catch(error => console.log(error))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleRowClick = async (malohang) => {
+    try {
+      await pnkApi.getbymalohang(malohang)
+        .then(response => {
+          setDataPNKDetail(response.data);
+        })
+        .catch(error => console.log(error))
+    } catch (error) {
+      console.log(error)
+    }
+    setActive(1);
+  }
+
+  const searchDate = async (queryString, fromDate, toDate) => {
+    const dataQuery = {
+      date_from: fromDate,
+      date_to: toDate
+    };
+    await pnkApi.search(queryString, dataQuery)
+      .then(response => {
+        setDataListPNK(response.data);
+      })
+      .catch(error => console.log(error))
+  }
+
+  const searchMaLoHang = async (queryString, malohang) => {
+    await pnkApi.search(queryString, malohang)
+      .then(response => {
+        setDataListPNK(response.data);
+      })
+      .catch(error => console.log(error))
+  }
+
+  const searchNguoitao = async (queryString, nguoitaolohang) => {
+    await pnkApi.search(queryString, nguoitaolohang)
+      .then(response => {
+        setDataListPNK(response.data);
+      })
+      .catch(error => console.log(error))
+  }
+
+  useEffect(() => {
+    fetchDataPNK();
+  }, [])
+
   return (
     <>
       <CRow>
@@ -21,7 +91,8 @@ function ReportNhapKho() {
               Thông tin tìm kiếm
             </CCardHeader>
             <CCardBody>
-              <SearchReportNhapKho />
+              <SearchReportNhapKho handleSearch={searchDate} handleOnChangeMaLoHang={searchMaLoHang} 
+                            handleOnChangeTenNguoitao={searchNguoitao}/>
             </CCardBody>
           </CCard>
         </CCol>
@@ -29,13 +100,37 @@ function ReportNhapKho() {
 
 
       <CRow>
-        <CCol sm="12" xl="12">
+        <CCol xs="12" md="12" className="mb-4">
           <CCard>
             <CCardHeader>
               Danh sách nhập kho
             </CCardHeader>
             <CCardBody>
-              <ListReportNhapKho />
+              <CTabs activeTab={active} onActiveTabChange={idx => setActive(idx)}>
+                <CNav variant="tabs">
+                  <CNavItem>
+                    <CNavLink>
+                      Danh sách lô hàng
+                      {active === 0 && ''}
+                    </CNavLink>
+                  </CNavItem>
+                  <CNavItem>
+                    <CNavLink>
+                      Chi tiết lô hàng
+                      {active === 1 && ''}
+                    </CNavLink>
+                  </CNavItem>
+
+                </CNav>
+                <CTabContent>
+                  <CTabPane>
+                    <DanhSachLoHangPNKAdmin data={dataListPNK} handleRowClick={handleRowClick} />
+                  </CTabPane>
+                  <CTabPane>
+                    <DanhSachKienHangAdmin data={dataPNKDetail} />
+                  </CTabPane>
+                </CTabContent>
+              </CTabs>
             </CCardBody>
           </CCard>
         </CCol>

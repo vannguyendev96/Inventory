@@ -11,6 +11,7 @@ InputField.propTypes = {
     type: PropTypes.string,
     label: PropTypes.string,
     placeholder: PropTypes.string,
+    valueData: PropTypes.string,
     disabled: PropTypes.bool,
     isreadonly: PropTypes.bool,
 };
@@ -19,6 +20,7 @@ InputField.defaultProps = {
     type: 'text',
     label: '',
     placeholder: '',
+    valueData: '',
     disabled: false,
     isreadonly: false,
 }
@@ -26,9 +28,11 @@ InputField.defaultProps = {
 function InputField(props) {
     const {
         field, form,
-        type, label, placeholder, disabled, isreadonly
+        type, label, placeholder, disabled, isreadonly, valueData
     } = props;
     const { name } = field;
+
+    const valueInput = valueData ? valueData : field.value;
 
     const { errors, touched } = form;
     const showError = errors[name] && touched[name];    
@@ -44,6 +48,7 @@ function InputField(props) {
                     id= {name}
                     {...field}
 
+                    value={valueInput}
                     type={type}
                     disabled={disabled}
                     readOnly={isreadonly}
