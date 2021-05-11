@@ -58,6 +58,7 @@ function ReportNhapKho() {
     await pnkApi.search(queryString, dataQuery)
       .then(response => {
         setDataListPNK(response.data);
+        setActive(0);
       })
       .catch(error => console.log(error))
   }
@@ -66,6 +67,7 @@ function ReportNhapKho() {
     await pnkApi.search(queryString, malohang)
       .then(response => {
         setDataListPNK(response.data);
+        setActive(0);
       })
       .catch(error => console.log(error))
   }
@@ -74,6 +76,16 @@ function ReportNhapKho() {
     await pnkApi.search(queryString, nguoitaolohang)
       .then(response => {
         setDataListPNK(response.data);
+        setActive(0);
+      })
+      .catch(error => console.log(error))
+  }
+
+  const searchKhohang = async (queryString, khohang) => {
+    await pnkApi.search(queryString, khohang)
+      .then(response => {
+        setDataListPNK(response.data);
+        setActive(0);
       })
       .catch(error => console.log(error))
   }
@@ -91,8 +103,8 @@ function ReportNhapKho() {
               Thông tin tìm kiếm
             </CCardHeader>
             <CCardBody>
-              <SearchReportNhapKho handleSearch={searchDate} handleOnChangeMaLoHang={searchMaLoHang} 
-                            handleOnChangeTenNguoitao={searchNguoitao}/>
+              <SearchReportNhapKho handleSearch={searchDate} handleOnChangeMaLoHang={searchMaLoHang}
+                handleOnChangeTenNguoitao={searchNguoitao} handleOnChangeKhoHang={searchKhohang} />
             </CCardBody>
           </CCard>
         </CCol>

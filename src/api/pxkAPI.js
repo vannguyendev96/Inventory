@@ -28,6 +28,15 @@ const pnkApi = {
     });
     return axiosClient.post(url, raw);
   },
+
+  search: (queryString, dataQuery) => {
+    const url = '/phieuxuatkho/search-pxk';
+    let raw = JSON.stringify({
+      "queryString": queryString,
+      "dataQuery": dataQuery
+    });
+    return axiosClient.post(url, raw);
+  },
 }
 
 export default pnkApi;

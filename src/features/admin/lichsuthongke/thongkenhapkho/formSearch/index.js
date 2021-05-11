@@ -23,7 +23,10 @@ SearchReportNhapKho.propTypes = {
 };
 
 SearchReportNhapKho.defaultProps = {
-    handleSearch: null
+    handleSearch: null,
+    handleOnChangeMaLoHang: null,
+    handleOnChangeTenNguoitao: null,
+    handleOnChangeKhoHang: null,
 }
 
 function SearchReportNhapKho(props) {
