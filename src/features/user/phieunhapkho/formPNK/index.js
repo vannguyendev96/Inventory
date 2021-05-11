@@ -21,7 +21,9 @@ CreatePNK.defaultProps = {
 
 
 const optionsloaikienhang = [
-    { value: 'Hàng dễ vỡ', label: 'Hàng dễ vỡ' }
+    { value: 'Hàng dễ vỡ', label: 'Hàng dễ vỡ' },
+    { value: 'Hàng điện tử', label: 'Hàng điện tử' },
+    { value: 'Hàng mỹ phẩm', label: 'Hàng mỹ phẩm'} 
 ];
 
 function CreatePNK(props) {

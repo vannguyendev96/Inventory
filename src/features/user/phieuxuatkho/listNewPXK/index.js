@@ -69,7 +69,7 @@ function ListCreatePXK(props) {
                 </tbody>
             </Table>
             <CardFooter>
-                <Button type="submit" size="sm" color="primary" onClick={handleSubmit}><i className="fa fa-dot-circle-o"></i>Tạo phiếu nhập kho</Button>
+                <Button type="submit" size="sm" color="primary" onClick={handleSubmit}><i className="fa fa-dot-circle-o"></i>Tạo phiếu xuất kho</Button>
             </CardFooter>
         </>
     );
