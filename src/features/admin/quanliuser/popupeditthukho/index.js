@@ -96,14 +96,14 @@ function ChinhsuaThukho(props) {
 
     return (
         <>
-            <Button type="submit" size="sm" color="success" onClick={() => setUpdate(!update)}>Sữa</Button>
+            <Button type="submit" size="sm" color="success" onClick={() => setUpdate(!update)}>Edit</Button>
             <CModal
                 show={update}
                 onClose={() => setUpdate(!update)}
                 color="primary"
             >
                 <CModalHeader closeButton>
-                    <CModalTitle>Chỉnh sữa thông tin thủ kho</CModalTitle>
+                    <CModalTitle>Chỉnh sửa thông tin thủ kho</CModalTitle>
                 </CModalHeader>
                 <CModalBody>
                     {isLoading ? <FullPageLoader /> :
@@ -202,7 +202,7 @@ function ChinhsuaThukho(props) {
                 </CModalBody>
                 <CModalFooter>
                     <CButton color="primary" onClick={handleUpdateTK}>
-                        Chỉnh sữa
+                        Save
                     </CButton>
                     <CButton color="secondary" onClick={() => setUpdate(!update)}>
                         Close

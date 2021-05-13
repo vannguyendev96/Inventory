@@ -101,7 +101,7 @@ function DanhsachKhoHang(props) {
                                     <td>{phuong} {' '} {district} {' '} {provine}</td>
                                     <td>{trangthai}</td>
                                     <td>
-                                        <Button type="submit" size="sm" color="primary" onClick={() => openPopUpDetailKhoHang(tenkhohang, succhua, trangthai, provine, district, phuong)} >Xem</Button>
+                                        <Button type="submit" size="sm" color="primary" onClick={() => openPopUpDetailKhoHang(tenkhohang, succhua, trangthai, provine, district, phuong)} >See</Button>
                                         <CModal
                                             show={detail}
                                             onClose={() => setDetail(!detail)}
@@ -127,7 +127,7 @@ function DanhsachKhoHang(props) {
                                             provine={provine} district={district} phuong={phuong} />
                                     </td>
                                     <td>
-                                        <Button type="submit" size="sm" color="danger" onClick={() => openPopUpDeleteKH(tenkhohang)}>Xóa</Button>
+                                        <Button type="submit" size="sm" color="danger" onClick={() => openPopUpDeleteKH(tenkhohang)}>Delete</Button>
                                         <CModal
                                             show={deleteTK}
                                             onClose={() => setDeleteTK(!deleteTK)}

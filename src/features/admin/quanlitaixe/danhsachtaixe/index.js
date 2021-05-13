@@ -108,7 +108,7 @@ function DanhsachTaixe(props) {
                                     <td>{trangthai}</td>
                                     <td>{(new Date(namsinh)).toISOString().substr(0, 10)}</td>
                                     <td>
-                                        <Button type="submit" size="sm" color="primary" onClick={() => openPopUpDetailTX(tentx, trangthai, sdt, namsinh, provine, district, phuong,cmnd)} >Xem</Button>
+                                        <Button type="submit" size="sm" color="primary" onClick={() => openPopUpDetailTX(tentx, trangthai, sdt, namsinh, provine, district, phuong,cmnd)} >See</Button>
                                         <CModal
                                             show={detail}
                                             onClose={() => setDetail(!detail)}
@@ -137,7 +137,7 @@ function DanhsachTaixe(props) {
                                         />
                                     </td>
                                     <td>
-                                        <Button type="submit" size="sm" color="danger" onClick={() => openPopUpDeleteTX(cmnd)}>Xóa</Button>
+                                        <Button type="submit" size="sm" color="danger" onClick={() => openPopUpDeleteTX(cmnd)}>Delete</Button>
                                         <CModal
                                             show={deleteTK}
                                             onClose={() => setDeleteTK(!deleteTK)}
