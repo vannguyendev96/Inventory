@@ -26,6 +26,7 @@ const optionsloaikienhang = [
     { value: 'Hàng mỹ phẩm', label: 'Hàng mỹ phẩm' },
 ];
 
+
 function CreatePXK(props) {
 
     const { onSubmit } = props;
@@ -105,18 +106,22 @@ function CreatePXK(props) {
             })
     }
 
+    const phoneRegExp = /((09|03|07|08|05)+([0-9]{8})\b)/g
+    const nameRegExp = /^[^0-9]+$/
+
     const validationSchema = Yup.object().shape({
         tenkienhang: Yup.string().required('Vui lòng nhập tên kiện hàng'),
         soluongkienhang: Yup.string().required('Vui lòng nhập Số lượng kiện hàng'),
         trangthaikienhang: Yup.string().required('Vui lòng nhập Trạng thái kiện hàng'),
         loaikienhang: Yup.string().required('Vui lòng chọn Loại kiện hàng').nullable(),
         khochuahang: Yup.string().required('Vui lòng chọn Kho chứa hàng').nullable(),
-        tennguoinhan: Yup.string().required('Vui lòng nhập tên người nhận'),
-        sdtnguoinhan: Yup.string().required('Vui lòng nhập sdt người nhận'),
+        tennguoinhan: Yup.string().matches(nameRegExp,'Tên người nhận không đúng định dạng').required('Vui lòng nhập tên người nhận'),
+        //sdtnguoinhan: Yup.string().required('Vui lòng nhập sdt người nhận'),
         diachinguoinhan: Yup.string().required('Vui lòng nhập địa chỉ người nhận'),
         //tennguoigui: Yup.string().required('Vui lòng nhập tên người gửi'),
         //sdtnguoigui: Yup.string().required('Vui lòng nhập sdt người gửi'),
         diachinguoigui: Yup.string().required('Vui lòng nhập địa chỉ người gửi'),
+        sdtnguoinhan: Yup.string().matches(phoneRegExp, 'Số điện thoại của bạn không đúng định dạng').required('Vui lòng nhập số điện thoại'),
     })
 
     useEffect(() => {
@@ -195,7 +200,6 @@ function CreatePXK(props) {
                                     component={InputField}
 
                                     placeholder="Số điện thoại người nhận..."
-                                    type="number"
                                     
                                 />
                                 <FastField
@@ -219,7 +223,6 @@ function CreatePXK(props) {
                                     component={InputField}
 
                                     placeholder="Số điện thoại người gửi..."
-                                    type="number"
                                     isreadonly={true}
                                     valueData={dataSDTNguoiGui}
                                 />

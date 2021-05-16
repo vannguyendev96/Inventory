@@ -105,6 +105,9 @@ function CreatePNK(props) {
             })
     }
 
+    const phoneRegExp = /((09|03|07|08|05)+([0-9]{8})\b)/g
+    const nameRegExp = /^[^0-9]+$/
+
     const validationSchema = Yup.object().shape({
         tenkienhang: Yup.string().required('Vui lòng nhập tên kiện hàng'),
         soluongkienhang: Yup.string().required('Vui lòng nhập Số lượng kiện hàng'),
@@ -114,8 +117,8 @@ function CreatePNK(props) {
         //tennguoinhan: Yup.string().required('Vui lòng nhập tên người nhận'),
         //sdtnguoinhan: Yup.string().required('Vui lòng nhập sdt người nhận'),
         diachinguoinhan: Yup.string().required('Vui lòng nhập địa chỉ người nhận'),
-        tennguoigui: Yup.string().required('Vui lòng nhập tên người gửi'),
-        sdtnguoigui: Yup.string().required('Vui lòng nhập sdt người gửi'),
+        tennguoigui: Yup.string().matches(nameRegExp, 'Tên ko bao gồm chữ số').required('Vui lòng nhập tên người gửi'),
+        sdtnguoigui: Yup.string().matches(phoneRegExp, 'Số điện thoại của bạn không đúng định dạng').required('Vui lòng nhập số điện thoại'),
         diachinguoigui: Yup.string().required('Vui lòng nhập địa chỉ người gửi'),
     })
 
@@ -197,7 +200,6 @@ function CreatePNK(props) {
 
                                     placeholder="Số điện thoại người nhận..."
                                     valueData={dataSDTNguoiNhan}
-                                    type="number"
                                     isreadonly={true}
                                 />
                                 <FastField
@@ -217,9 +219,8 @@ function CreatePNK(props) {
                                 <FastField
                                     name="sdtnguoigui"
                                     component={InputField}
-
                                     placeholder="Số điện thoại người gửi..."
-                                    type="number"
+                                   
                                 />
                                 <FastField
                                     name="diachinguoigui"

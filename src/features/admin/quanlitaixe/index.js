@@ -44,17 +44,18 @@ function QuanLiTaiXe() {
     phuong: null
   };
 
-  const phoneRegExp = /((09|03|07|08|05)+([0-9]{8})\b)/g
+  const phoneRegExp = /((09|03|07|08|05)+([0-9]{8})\b)/g //validate sdt
+  const nameRegExp = /^[^0-9]+$/
 
   const validationSchema = Yup.object().shape({
     provine: Yup.string().required('Vui lòng chọn tên tỉnh, thành phố').nullable(),
     district: Yup.string().required('Vui lòng chọn tên quận, huyện').nullable(),
     phuong: Yup.string().required('Vui lòng chọn tên phường, xã').nullable(),
-    tentx: Yup.string().required('Vui lòng nhập tên tài xế'),
+    tentx: Yup.string().matches(nameRegExp,'Tên tài xế không đúng định dạng').required('Vui lòng nhập tên tài xế'),
     cmnd: Yup.string().required('Vui lòng nhập chứng minh nhân dân'),
     trangthai: Yup.string().required('Vui lòng nhập trạng thái'),
-    namsinh: Yup.string().required('Vui lòng nhập số điện thoại'),
-    sdt: Yup.string().matches(phoneRegExp, 'Số điện thoại của bạn không đúng định dạng'),
+    namsinh: Yup.string().required('Vui lòng nhập năm sinh'),
+    sdt: Yup.string().matches(phoneRegExp, 'Số điện thoại của bạn không đúng định dạng').required('Vui lòng nhập số điện thoại'), // them cai phoneRegExp vao may cho can validate sdt
   })
 
 

@@ -40,12 +40,13 @@ function QuanLiUser() {
   };
 
   const phoneRegExp = /((09|03|07|08|05)+([0-9]{8})\b)/g
+  const nameRegExp = /^[^0-9]+$/
 
   const validationSchema = Yup.object().shape({
-    tenuser: Yup.string().required('Vui lòng nhập tên user'),
+    tenuser: Yup.string().matches(nameRegExp,'Tên thủ kho không bao gồm chữ số').required('Vui lòng nhập tên thủ kho'),
     email: Yup.string().email('email không hợp lệ').required('Vui lòng nhập email'),
     kholamviec: Yup.string().required('Vui lòng nhập Kho làm việc'),
-    sdt: Yup.string().matches(phoneRegExp, 'Số điện thoại của bạn không đúng định dạng'),
+    sdt: Yup.string().matches(phoneRegExp, 'Số điện thoại của bạn không đúng định dạng').required('Vui lòng nhập số điện thoại'),
     username: Yup.string().required('Vui lòng nhập tên đăng nhập'),
     password: Yup.string().required('Vui lòng nhập tên mật khẩu')
   })
