@@ -31,13 +31,18 @@ const _navAdmin =  [
     _children: [
       {
         _tag: 'CSidebarNavItem',
-        name: 'Thống kê xuất kho',    
+        name: 'Lịch sử xuất kho',    
         to: '/thongke-xuatkho',
       },
       {
         _tag: 'CSidebarNavItem',
-        name: 'Thống kê nhập kho',
+        name: 'Lịch sử nhập kho',
         to: '/thongke-nhapkho',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Thống kê nhập xuất kho',
+        to: '/thongke-nhapxuatkho',
       }
     ],
   },

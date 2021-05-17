@@ -54,6 +54,7 @@ function PhieuXuatKho() {
 
   function handleOnchangeDataPTTT(value){
     setPhuongthucthanhtoan(value);
+    console.log(value)
   }
 
   const handleSubmitNewPXK = async () => {

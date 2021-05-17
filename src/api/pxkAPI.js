@@ -37,6 +37,11 @@ const pnkApi = {
     });
     return axiosClient.post(url, raw);
   },
+
+  report: () => {
+    const url = '/phieuxuatkho/report';
+    return axiosClient.get(url);
+  },
 }
 
 export default pnkApi;
