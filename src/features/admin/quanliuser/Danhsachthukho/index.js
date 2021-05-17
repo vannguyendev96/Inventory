@@ -1,4 +1,3 @@
-
 import {
     CButton,
     CModal,
@@ -97,7 +96,7 @@ function DanhsachThukho(props) {
                                         <td>{sdt}</td>
                                         <td>{kholamviec}</td>
                                         <td>
-                                            <Button type="submit" size="sm" color="primary" onClick={() => openPopUpDetailUser(name,emailUser,roll,sdt,email)} >Xem</Button>
+                                            <Button type="submit" size="sm" color="primary" onClick={() => openPopUpDetailUser(name,emailUser,roll,sdt,email)} >See</Button>
                                             <CModal
                                                 show={primary}
                                                 onClose={() => setPrimary(!primary)}
@@ -121,7 +120,7 @@ function DanhsachThukho(props) {
                                             <ChinhsuaThukho editTK={handleUpdateTK} username={email} tenthukho={name} email={emailUser} chucvu={roll} sdt={sdt} kholamviec={kholamviec}/>
                                         </td>
                                         <td>
-                                            <Button type="submit" size="sm" color="danger" onClick={() => openPopUpDeleteUser(email)}>Xóa</Button>
+                                            <Button type="submit" size="sm" color="danger" onClick={() => openPopUpDeleteUser(email)}>Delete</Button>
                                             <CModal
                                                 show={deleteTK}
                                                 onClose={() => setDeleteTK(!deleteTK)}

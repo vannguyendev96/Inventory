@@ -126,14 +126,14 @@ function ChinhsuaKhoHang(props) {
 
     return (
         <>
-            <Button type="submit" size="sm" color="success" onClick={() => setUpdate(!update)}>Sữa</Button>
+            <Button type="submit" size="sm" color="success" onClick={() => setUpdate(!update)}>Edit</Button>
             <CModal
                 show={update}
                 onClose={() => setUpdate(!update)}
                 color="primary"
             >
                 <CModalHeader closeButton>
-                    <CModalTitle>Chỉnh sữa thông tin kho hàng</CModalTitle>
+                    <CModalTitle>Chỉnh sửa thông tin kho hàng</CModalTitle>
                 </CModalHeader>
                 <CModalBody>
                     <Form action="" className="form-horizontal">
@@ -227,13 +227,12 @@ function ChinhsuaKhoHang(props) {
 
                 <CModalFooter>
                     <CButton color="primary" onClick={handleUpdateTK}>
-                        Chỉnh sữa
+                        Save
                     </CButton>
                     <CButton color="secondary" onClick={() => setUpdate(!update)}>
                         Close
                     </CButton>
                 </CModalFooter>
-
             </CModal>
         </>
 
