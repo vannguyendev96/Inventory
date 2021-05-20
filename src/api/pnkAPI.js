@@ -2,10 +2,11 @@ import axiosClient from "./axiosClient";
 
 const pnkApi = {
 
-  taophieunhapkho: (data) => {
+  taophieunhapkho: (data,driver) => {
     const url = '/phieunhapkho/create-pnk';
     let raw = JSON.stringify({
-      "data": data
+      "data": data,
+      "driver": driver
     });
     return axiosClient.post(url, raw);
   },

@@ -13,6 +13,7 @@ import ListCreatePXK from './listNewPXK';
 import Lydoxuatkho from './formlydoxuatkho';
 import { toast, ToastContainer } from 'react-toastify';
 import pxkApi from 'src/api/pxkAPI';
+import SelectDriver from './formDriver';
 
 function PhieuXuatKho() {
 
@@ -20,6 +21,7 @@ function PhieuXuatKho() {
   const [lydoxuatkho, setLydoxuatkho] = useState('');
   const [sotienthanhtoan, setSotienthanhtoan] = useState('');
   const [phuongthucthanhtoan, setPhuongthucthanhtoan] = useState('');
+  const [taixevanchuyen, setTaixevanchuyen] = useState('');
 
   const handleSubmitNewKienHang = (values, dataAddress, dataTenNguoiGui, dataSDTNguoiGui, resetForm) => {
     setItems([
@@ -67,8 +69,11 @@ function PhieuXuatKho() {
     else if(sotienthanhtoan === ''){
       toast.error("Vui lòng nhập phương thức thanh toán");
     }
+    else if(taixevanchuyen === ''){
+      toast.error("Vui lòng nhập tài xế vận chuyển");
+    }
     else{
-      await pxkApi.taophieuxuatkho(items,lydoxuatkho,sotienthanhtoan,phuongthucthanhtoan)
+      await pxkApi.taophieuxuatkho(items,lydoxuatkho,sotienthanhtoan,phuongthucthanhtoan,taixevanchuyen)
       .then(response => {
         toast.success(`Tạo thành công phiếu xuất kho mã ${response.malohang}`);
       })
@@ -76,6 +81,10 @@ function PhieuXuatKho() {
         toast.error(error.response.data.message);
       })
     }
+  }
+
+  function handleOnChangeDataDriver(driver){
+    setTaixevanchuyen(driver)
   }
 
   return (
@@ -114,6 +123,19 @@ function PhieuXuatKho() {
           </CCardHeader>
             <CCardBody>
               <PhuongThucThanhToan onChangeDataSTTT={handleOnchangeDataSTTT} onChangeDataPTTT={handleOnchangeDataPTTT}/>
+            </CCardBody>
+          </CCard>
+        </CCol>
+      </CRow>
+
+      <CRow>
+        <CCol sm="12" xl="12">
+          <CCard>
+            <CCardHeader>
+              Thông tin tài xế
+          </CCardHeader>
+            <CCardBody>
+              <SelectDriver onChangeDataDriver={handleOnChangeDataDriver}/>
             </CCardBody>
           </CCard>
         </CCol>

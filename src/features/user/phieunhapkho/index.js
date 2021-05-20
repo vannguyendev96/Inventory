@@ -5,7 +5,15 @@ import {
   CCardHeader,
   CCol,
   CRow,
-} from '@coreui/react'
+} from '@coreui/react';
+
+import {
+  Col,
+  Form,
+  FormGroup,
+  Input,
+  Label,
+} from 'reactstrap';
 
 
 import CreatePNK from './formPNK';
@@ -14,24 +22,61 @@ import FullPageLoader from '../../../views/fullpageloading';
 import { useHistory } from "react-router-dom";
 import { toast, ToastContainer } from 'react-toastify';
 import pnkApi from 'src/api/pnkAPI';
+import Select from "react-select";
+import driverApi from "src/api/driverAPI";
 
 
 function PhieuNhapKho() {
   let history = useHistory();
-  const [loading, setLoading] = useState(false);
+  const [loading, setIsLoading] = useState(false);
   const [items, setItems] = useState([]);
+  const [dataDriver, setDataDriver] = useState([]);
+  const [driver, setDriver] = useState('');
 
   const handleSubmitNewPNK = async () => {
-    await pnkApi.taophieunhapkho(items)
-      .then(response => {
-        toast.success(`Tạo thành công phiếu nhập kho mã ${response.malohang}`);
-      })
-      .catch(error => {
-        toast.error(error.response.data.message);
-      })
+    if (driver === '') {
+      toast.error(`Vui lòng chọn tài xế vận chuyển`);
+    }
+    else {
+      console.log(items)
+      await pnkApi.taophieunhapkho(items,driver)
+        .then(response => {
+          toast.success(`Tạo thành công phiếu nhập kho mã ${response.malohang}`);
+        })
+        .catch(error => {
+          toast.error(error.response.data.message);
+        })
+    }
+  }
+
+  const getListDriver = async () => {
+    setIsLoading(true);
+    let listDriver = [];
+    try {
+      await driverApi.getall()
+        .then(response => {
+          const list = response.data;
+          list.forEach(element => {
+            listDriver.push({
+              value: element.cmnd,
+              label: element.tentx
+            })
+          });
+          setDataDriver(listDriver);
+          setIsLoading(false);
+        })
+        .catch(error => {
+          console.log(error);
+          setIsLoading(false);
+        })
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
   }
 
   useEffect(() => {
+    getListDriver();
     if (localStorage.getItem("role") === "admin") {
       history.push("/kho-hang");
     }
@@ -60,6 +105,11 @@ function PhieuNhapKho() {
     resetForm({});
   }
 
+  function handleOnchangeDataDriver(target) {
+    console.log(target.value)
+    setDriver(target.value);
+  }
+
   return (
     <>
       <CRow>
@@ -70,6 +120,32 @@ function PhieuNhapKho() {
           </CCardHeader>
             <CCardBody>
               <CreatePNK onSubmit={handleSubmitNewKienHang} />
+            </CCardBody>
+          </CCard>
+        </CCol>
+      </CRow>
+
+      <CRow>
+        <CCol sm="12" xl="12">
+          <CCard>
+            <CCardHeader>
+            Thông tin tài xế
+          </CCardHeader>
+            <CCardBody>
+              <Form action="" className="form-horizontal">
+                <FormGroup row>
+                  <Col md="3">
+                    <Label htmlFor="hf-password">Tài xế vận chuyển</Label>
+                  </Col>
+                  <Col xs="12" md="9">
+                    <Select
+                      options={dataDriver}
+                      onChange={handleOnchangeDataDriver}
+                      classNamePrefix="select"
+                    />
+                  </Col>
+                </FormGroup>
+              </Form>
             </CCardBody>
           </CCard>
         </CCol>

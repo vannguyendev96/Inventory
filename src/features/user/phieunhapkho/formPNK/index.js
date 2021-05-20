@@ -10,6 +10,7 @@ import warehouseApi from "src/api/warehouseAPI";
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import userApi from "src/api/userlogin";
+import driverApi from "src/api/driverAPI";
 
 CreatePNK.propTypes = {
     onSubmit: PropTypes.func,
@@ -23,7 +24,7 @@ CreatePNK.defaultProps = {
 const optionsloaikienhang = [
     { value: 'Hàng dễ vỡ', label: 'Hàng dễ vỡ' },
     { value: 'Hàng điện tử', label: 'Hàng điện tử' },
-    { value: 'Hàng mỹ phẩm', label: 'Hàng mỹ phẩm'} 
+    { value: 'Hàng mỹ phẩm', label: 'Hàng mỹ phẩm' }
 ];
 
 function CreatePNK(props) {
@@ -43,9 +44,11 @@ function CreatePNK(props) {
         tennguoigui: '',
         sdtnguoigui: '',
         diachinguoigui: '',
+        //taixevanchuyen: ''
     };
 
     const [dataWareHouse, setDataWareHouse] = useState([]);
+    
     const [isLoading, setIsLoading] = useState(false);
     const [dataAddress, setDataAddress] = useState('');
 
@@ -114,13 +117,15 @@ function CreatePNK(props) {
         trangthaikienhang: Yup.string().required('Vui lòng nhập Trạng thái kiện hàng'),
         loaikienhang: Yup.string().required('Vui lòng chọn Loại kiện hàng').nullable(),
         khochuahang: Yup.string().required('Vui lòng chọn Kho chứa hàng').nullable(),
-        //tennguoinhan: Yup.string().required('Vui lòng nhập tên người nhận'),
+        //taixevanchuyen: Yup.string().required('Vui lòng chọn tài xế vận chuyển'),
         //sdtnguoinhan: Yup.string().required('Vui lòng nhập sdt người nhận'),
         diachinguoinhan: Yup.string().required('Vui lòng nhập địa chỉ người nhận'),
         tennguoigui: Yup.string().matches(nameRegExp, 'Tên ko bao gồm chữ số').required('Vui lòng nhập tên người gửi'),
         sdtnguoigui: Yup.string().matches(phoneRegExp, 'Số điện thoại của bạn không đúng định dạng').required('Vui lòng nhập số điện thoại'),
         diachinguoigui: Yup.string().required('Vui lòng nhập địa chỉ người gửi'),
-    })
+    });
+
+    
 
     useEffect(() => {
         getListWarehouse();
@@ -185,6 +190,7 @@ function CreatePNK(props) {
                                     placeholder="Địa chỉ kho hàng..."
                                     isreadonly={true}
                                 />
+                               
                                 <Field
                                     name="tennguoinhan"
                                     component={InputField}
@@ -220,7 +226,7 @@ function CreatePNK(props) {
                                     name="sdtnguoigui"
                                     component={InputField}
                                     placeholder="Số điện thoại người gửi..."
-                                   
+
                                 />
                                 <FastField
                                     name="diachinguoigui"
