@@ -98,11 +98,12 @@ function PhieuNhapKho() {
         diachinguoinhan: values.diachinguoinhan,
         tennguoigui: values.tennguoigui,
         sdtnguoigui: values.sdtnguoigui,
-        diachinguoigui: values.diachinguoigui
+        diachinguoigui: values.diachinguoigui,
+        dongia: values.dongia
       }
     ]);
     toast.success("Đã thêm kiện hàng vào đơn hàng");
-    resetForm({});
+    //resetForm({});
   }
 
   function handleOnchangeDataDriver(target) {

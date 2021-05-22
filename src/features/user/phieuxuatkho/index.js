@@ -23,6 +23,8 @@ function PhieuXuatKho() {
   const [phuongthucthanhtoan, setPhuongthucthanhtoan] = useState('');
   const [taixevanchuyen, setTaixevanchuyen] = useState('');
 
+  const [tongtien, setTongtien] = useState(0);
+
   const handleSubmitNewKienHang = (values, dataAddress, dataTenNguoiGui, dataSDTNguoiGui, resetForm) => {
     setItems([
       ...items,
@@ -39,51 +41,76 @@ function PhieuXuatKho() {
         diachinguoinhan: values.diachinguoinhan,
         tennguoigui: dataTenNguoiGui,
         sdtnguoigui: dataSDTNguoiGui,
-        diachinguoigui: values.diachinguoigui
+        diachinguoigui: values.diachinguoigui,
+        dongia: values.dongia
       }
     ]);
+
+
+    const arrayItems = [
+      ...items,
+      {
+        nguoitaolohang: localStorage.getItem("username"),
+        tenkienhang: values.tenkienhang,
+        soluongkienhang: values.soluongkienhang,
+        trangthai: values.trangthaikienhang,
+        loaikienhang: values.loaikienhang,
+        khochuakienhang: values.khochuahang,
+        diachikhochua: dataAddress,
+        tennguoinhan: values.tennguoinhan,
+        sdtnguoinhan: values.tennguoinhan,
+        diachinguoinhan: values.diachinguoinhan,
+        tennguoigui: dataTenNguoiGui,
+        sdtnguoigui: dataSDTNguoiGui,
+        diachinguoigui: values.diachinguoigui,
+        dongia: values.dongia
+      }
+    ];
+
+    let total = 0;
+    arrayItems.forEach(kienhang => {
+      const dongiaConvert = (kienhang.dongia).split(",").join("");
+      total = tongtien + parseFloat(dongiaConvert, 10);
+    });
+    setTongtien(total);
+
     toast.success("Đã thêm kiện hàng vào đơn hàng");
-    resetForm({});
+    //resetForm({});
   }
 
-  function handleOnchangeData(value){
+  function handleOnchangeData(value) {
     setLydoxuatkho(value);
   }
 
-  function handleOnchangeDataSTTT(value){
+  function handleOnchangeDataSTTT(value) {
     setSotienthanhtoan(value);
   }
 
-  function handleOnchangeDataPTTT(value){
+  function handleOnchangeDataPTTT(value) {
     setPhuongthucthanhtoan(value);
     console.log(value)
   }
 
   const handleSubmitNewPXK = async () => {
-    if(lydoxuatkho === ''){
+    if (lydoxuatkho === '') {
       toast.error("Vui lòng nhập lý do xuất kho");
     }
-    else if(sotienthanhtoan === ''){
-      toast.error("Vui lòng nhập số tiền thanh toán");
-    }
-    else if(sotienthanhtoan === ''){
-      toast.error("Vui lòng nhập phương thức thanh toán");
-    }
-    else if(taixevanchuyen === ''){
+    else if (taixevanchuyen === '') {
       toast.error("Vui lòng nhập tài xế vận chuyển");
     }
-    else{
-      await pxkApi.taophieuxuatkho(items,lydoxuatkho,sotienthanhtoan,phuongthucthanhtoan,taixevanchuyen)
-      .then(response => {
-        toast.success(`Tạo thành công phiếu xuất kho mã ${response.malohang}`);
-      })
-      .catch(error => {
-        toast.error(error.response.data.message);
-      })
+    else {
+      const pttt = (phuongthucthanhtoan !== '') ? phuongthucthanhtoan : 'Chuyển khoản';
+      await pxkApi.taophieuxuatkho(items, lydoxuatkho, tongtien, pttt, taixevanchuyen)
+        .then(response => {
+          toast.success(`Tạo thành công phiếu xuất kho mã ${response.malohang}`);
+        })
+        .catch(error => {
+          toast.error(error.response.data.message);
+        })
     }
   }
 
-  function handleOnChangeDataDriver(driver){
+  function handleOnChangeDataDriver(driver) {
     setTaixevanchuyen(driver)
   }
 
@@ -96,7 +123,7 @@ function PhieuXuatKho() {
               Thông tin kiện hàng cần xuất kho
           </CCardHeader>
             <CCardBody>
-              <CreatePXK onSubmit={handleSubmitNewKienHang}/>
+              <CreatePXK onSubmit={handleSubmitNewKienHang} />
             </CCardBody>
           </CCard>
         </CCol>
@@ -106,10 +133,10 @@ function PhieuXuatKho() {
         <CCol sm="12" xl="12">
           <CCard>
             <CCardHeader>
-            Lý do xuất kho
+              Lý do xuất kho
           </CCardHeader>
             <CCardBody>
-              <Lydoxuatkho onChangeData={handleOnchangeData}/>
+              <Lydoxuatkho onChangeData={handleOnchangeData} />
             </CCardBody>
           </CCard>
         </CCol>
@@ -122,7 +149,7 @@ function PhieuXuatKho() {
               Thông tin thanh toán
           </CCardHeader>
             <CCardBody>
-              <PhuongThucThanhToan onChangeDataSTTT={handleOnchangeDataSTTT} onChangeDataPTTT={handleOnchangeDataPTTT}/>
+              <PhuongThucThanhToan valueCurrency={tongtien} onChangeDataSTTT={handleOnchangeDataSTTT} onChangeDataPTTT={handleOnchangeDataPTTT} />
             </CCardBody>
           </CCard>
         </CCol>
@@ -135,7 +162,7 @@ function PhieuXuatKho() {
               Thông tin tài xế
           </CCardHeader>
             <CCardBody>
-              <SelectDriver onChangeDataDriver={handleOnChangeDataDriver}/>
+              <SelectDriver onChangeDataDriver={handleOnChangeDataDriver} />
             </CCardBody>
           </CCard>
         </CCol>
@@ -148,7 +175,7 @@ function PhieuXuatKho() {
               Danh sách kiện hàng cần xuất kho
         </CCardHeader>
             <CCardBody>
-              <ListCreatePXK data={items} onSubmit={handleSubmitNewPXK}/>
+              <ListCreatePXK data={items} onSubmit={handleSubmitNewPXK} />
             </CCardBody>
           </CCard>
         </CCol>

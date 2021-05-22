@@ -26,6 +26,7 @@ function DanhSachKienHangPXK(props) {
                         <th>STT</th>
                         <th>Tên kiện hàng</th>
                         <th>Số lượng</th>
+                        <th>Đơn giá</th>
                         <th>Trạng thái</th>
                         <th>Loại kiện</th>
                         <th>Kho chứa</th>
@@ -41,7 +42,7 @@ function DanhSachKienHangPXK(props) {
                             const { malohang, nguoitaolohang, tenkienhang,soluongkienhang, 
                                 trangthai, loaikienhang, khochuakienhang, diachikhochua,
                                 tennguoinhan, sdtnguoinhan, diachinguoinhan,
-                                tennguoigui, sdtnguoigui, diachinguoigui} = dataList //destructuring
+                                tennguoigui, sdtnguoigui, diachinguoigui, dongia} = dataList //destructuring
                             return (
                                 <tr
                                     key={index}
@@ -49,6 +50,7 @@ function DanhSachKienHangPXK(props) {
                                     <td>{index + 1}</td>
                                     <td>{tenkienhang}</td>
                                     <td>{soluongkienhang}</td>
+                                    <td>{dongia}</td>
                                     <td>{trangthai}</td>
                                     <td>{loaikienhang}</td>
                                     <td>{khochuakienhang}</td>

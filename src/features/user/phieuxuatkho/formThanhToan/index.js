@@ -14,11 +14,13 @@ import PropTypes from 'prop-types';
 PhuongThucThanhToan.propTypes = {
     onChangeDataSTTT: PropTypes.func,
     onChangeDataPTTT: PropTypes.func,
+    valueCurrency: PropTypes.number
 };
 
 PhuongThucThanhToan.defaultProps = {
     onChangeDataSTTT: null,
-    onChangeDataPTTT: null
+    onChangeDataPTTT: null,
+    valueCurrency   : 0
 }
 
 const optionsphuongthucthanhtoan = [
@@ -29,7 +31,7 @@ const optionsphuongthucthanhtoan = [
 
 function PhuongThucThanhToan(props) {
 
-    const { onChangeDataSTTT, onChangeDataPTTT } = props;
+    const { onChangeDataSTTT, onChangeDataPTTT, valueCurrency } = props;
 
 
     function numberWithCommas(x) {
@@ -51,22 +53,15 @@ function PhuongThucThanhToan(props) {
 
     return (
         <Form action="" className="form-horizontal">
-            <FormGroup row>
+            <FormGroup row >
                 <Col md="3">
                     <Label htmlFor="hf-password">Số tiền thanh toán</Label>
                 </Col>
                 <Col xs="12" md="9">
-                    {/* <Input
-                        type="text"
-                        id="sotienthanhtoan"
-                        name="sotienthanhtoan"
-                        placeholder="Số tiền thanh toán..."
-                        value={currency}
-                        onChange={handleOnchangeDataSTTT}
-                    /> */}
                     <CurrencyFormat 
-                        thousandSeparator={true} prefix={'VND '}  
-                        onValueChange={handleOnchangeDataSTTT}
+                        thousandSeparator={true} prefix={'VND '} 
+                        value={valueCurrency} 
+                        //onValueChange={handleOnchangeDataSTTT}
                     />
                 </Col>
             </FormGroup>

@@ -35,13 +35,13 @@ function DanhSachLoHangPNK(props) {
                         <th>Mã lô hàng</th>
                         <th>Người tạo lô hàng</th>
                         <th>Thời gian tạo lô hàng</th>
-                        
+                        <th>Tổng đơn giá</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
                         dataPNK.map((dataList, index) => {
-                            const { malohang, nguoitaolohang, ngaytaolohang} = dataList //destructuring
+                            const { malohang, nguoitaolohang, ngaytaolohang, tongtien} = dataList //destructuring
                             return (
                                 <tr
                                     key={index}
@@ -51,6 +51,7 @@ function DanhSachLoHangPNK(props) {
                                     <td>{malohang}</td>
                                     <td>{nguoitaolohang}</td>
                                     <td>{new Date(ngaytaolohang).getFullYear() + "-" + (new Date(ngaytaolohang).getMonth() + 1) + "-" + new Date(ngaytaolohang).getDate()}</td>
+                                    <td>{tongtien} {' VND'}</td>
                                 </tr>
                             )
                         })

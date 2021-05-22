@@ -32,6 +32,7 @@ function ListCreatePNK(props) {
                         <th>STT</th>
                         <th>Tên</th>
                         <th>Số lượng</th>
+                        <th>Đơn giá</th>
                         <th>Trạng thái</th>
                         <th>Loại</th>
                         <th>Kho chứa hàng</th>
@@ -48,7 +49,7 @@ function ListCreatePNK(props) {
                             const { tenkienhang, soluongkienhang, trangthai, 
                                 loaikienhang, khochuakienhang, diachikhochua, 
                                 tennguoinhan, sdtnguoinhan, diachinguoinhan,
-                                tennguoigui, sdtnguoigui, diachinguoigui } = dataList //destructuring
+                                tennguoigui, sdtnguoigui, diachinguoigui, dongia } = dataList //destructuring
                             return (
                                 <tr
                                     key={index}
@@ -56,6 +57,7 @@ function ListCreatePNK(props) {
                                     <td>{index + 1}</td>
                                     <td>{tenkienhang}</td>
                                     <td>{soluongkienhang}</td>
+                                    <td>{dongia}</td>
                                     <td>{trangthai}</td>
                                     <td>{loaikienhang}</td>
                                     <td>{khochuakienhang}</td>

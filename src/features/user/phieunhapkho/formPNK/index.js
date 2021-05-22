@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import userApi from "src/api/userlogin";
 import driverApi from "src/api/driverAPI";
+import CurrencyFormatField from "src/custom-fields/CurrencyFormatField";
 
 CreatePNK.propTypes = {
     onSubmit: PropTypes.func,
@@ -45,10 +46,11 @@ function CreatePNK(props) {
         sdtnguoigui: '',
         diachinguoigui: '',
         //taixevanchuyen: ''
+        dongia: ''
     };
 
     const [dataWareHouse, setDataWareHouse] = useState([]);
-    
+
     const [isLoading, setIsLoading] = useState(false);
     const [dataAddress, setDataAddress] = useState('');
 
@@ -119,13 +121,14 @@ function CreatePNK(props) {
         khochuahang: Yup.string().required('Vui lòng chọn Kho chứa hàng').nullable(),
         //taixevanchuyen: Yup.string().required('Vui lòng chọn tài xế vận chuyển'),
         //sdtnguoinhan: Yup.string().required('Vui lòng nhập sdt người nhận'),
+        dongia: Yup.string().required('Vui lòng nhập Đơn giá'),
         diachinguoinhan: Yup.string().required('Vui lòng nhập địa chỉ người nhận'),
         tennguoigui: Yup.string().matches(nameRegExp, 'Tên ko bao gồm chữ số').required('Vui lòng nhập tên người gửi'),
         sdtnguoigui: Yup.string().matches(phoneRegExp, 'Số điện thoại của bạn không đúng định dạng').required('Vui lòng nhập số điện thoại'),
         diachinguoigui: Yup.string().required('Vui lòng nhập địa chỉ người gửi'),
     });
 
-    
+
 
     useEffect(() => {
         getListWarehouse();
@@ -190,7 +193,7 @@ function CreatePNK(props) {
                                     placeholder="Địa chỉ kho hàng..."
                                     isreadonly={true}
                                 />
-                               
+
                                 <Field
                                     name="tennguoinhan"
                                     component={InputField}
@@ -233,6 +236,14 @@ function CreatePNK(props) {
                                     component={InputField}
 
                                     placeholder="Địa chỉ người gửi..."
+                                />
+
+                                <Field
+                                    name="dongia"
+                                    component={CurrencyFormatField}
+
+                                    label="Đơn giá"
+                                   
                                 />
 
                                 <CardFooter>

@@ -10,6 +10,7 @@ import warehouseApi from "src/api/warehouseAPI";
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import userApi from "src/api/userlogin";
+import CurrencyFormatField from "src/custom-fields/CurrencyFormatField";
 
 CreatePXK.propTypes = {
     onSubmit: PropTypes.func,
@@ -44,6 +45,7 @@ function CreatePXK(props) {
         tennguoigui: '',
         sdtnguoigui: '',
         diachinguoigui: '',
+        dongia: '',
     };
 
     const [dataWareHouse, setDataWareHouse] = useState([]);
@@ -115,11 +117,12 @@ function CreatePXK(props) {
         trangthaikienhang: Yup.string().required('Vui lòng nhập Trạng thái kiện hàng'),
         loaikienhang: Yup.string().required('Vui lòng chọn Loại kiện hàng').nullable(),
         khochuahang: Yup.string().required('Vui lòng chọn Kho chứa hàng').nullable(),
-        tennguoinhan: Yup.string().matches(nameRegExp,'Tên người nhận không đúng định dạng').required('Vui lòng nhập tên người nhận'),
+        tennguoinhan: Yup.string().matches(nameRegExp, 'Tên người nhận không đúng định dạng').required('Vui lòng nhập tên người nhận'),
         //sdtnguoinhan: Yup.string().required('Vui lòng nhập sdt người nhận'),
         diachinguoinhan: Yup.string().required('Vui lòng nhập địa chỉ người nhận'),
         //tennguoigui: Yup.string().required('Vui lòng nhập tên người gửi'),
         //sdtnguoigui: Yup.string().required('Vui lòng nhập sdt người gửi'),
+        dongia: Yup.string().required('Vui lòng nhập đơn giá'),
         diachinguoigui: Yup.string().required('Vui lòng nhập địa chỉ người gửi'),
         sdtnguoinhan: Yup.string().matches(phoneRegExp, 'Số điện thoại của bạn không đúng định dạng').required('Vui lòng nhập số điện thoại'),
     })
@@ -192,7 +195,7 @@ function CreatePXK(props) {
                                     component={InputField}
 
                                     label="Thông tin người nhận"
-                                   
+
                                     placeholder="Tên người nhận..."
                                 />
                                 <FastField
@@ -200,7 +203,7 @@ function CreatePXK(props) {
                                     component={InputField}
 
                                     placeholder="Số điện thoại người nhận..."
-                                    
+
                                 />
                                 <FastField
                                     name="diachinguoinhan"
@@ -231,6 +234,14 @@ function CreatePXK(props) {
                                     component={InputField}
 
                                     placeholder="Địa chỉ người gửi..."
+                                />
+
+                                <Field
+                                    name="dongia"
+                                    component={CurrencyFormatField}
+
+                                    label="Đơn giá"
+
                                 />
 
                                 <CardFooter>
