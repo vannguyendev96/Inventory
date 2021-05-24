@@ -15,7 +15,7 @@ import {
 import pxkAPI from 'src/api/pxkAPI';
 import DanhSachLoHangPXK from './pxk-danhsachlohang';
 import DanhSachKienHangPXK from './pxkdetail-danhsachkienhang';
-
+import { toast, ToastContainer } from 'react-toastify';
 
 function PhieuXuatKhoDanhSach() {
 
@@ -51,7 +51,37 @@ function PhieuXuatKhoDanhSach() {
 
     useEffect(() => {
         fetchDataPXK();
-    }, [])
+    }, []);
+
+    const handleUpdatePXK = async (malohang, tenkienhang, soluongkienhang, trangthai, loaikienhang, khochuakienhang,
+        diachikhochua, diachinguoigui, tennguoinhan, sdtnguoinhan, diachinguoinhan, dongia, dataUpdate) => {
+        try {
+            await pxkAPI.chinhsuaphieuxuatkho(malohang, tenkienhang, soluongkienhang, trangthai, loaikienhang, khochuakienhang,
+                diachikhochua, diachinguoigui, tennguoinhan, sdtnguoinhan, diachinguoinhan, dongia, dataUpdate)
+                .then(response => {
+                    toast.success("Chỉnh sữa phiếu xuất kho thành công");
+                    handleRowClick(malohang);
+                    fetchDataPXK();
+                })
+                .catch(error =>  toast.error(error.response.data.message))
+        } catch (error) {
+            toast.error("Không thể kết nối đến server");
+        }
+    }
+
+    const handleDeletePXK = async (data) => {
+        try {
+            await pxkAPI.xoaphieuxuatkho(data)
+                .then(response => {
+                    toast.success("Đã xóa kiện hàng thành công");
+                    handleRowClick(data.malohang);
+                    fetchDataPXK();
+                })
+                .catch(error =>  toast.error(error.response.data.message))
+        } catch (error) {
+            toast.error("Không thể kết nối đến server");
+        }
+    }
 
     return (
         <>
@@ -83,7 +113,7 @@ function PhieuXuatKhoDanhSach() {
                                         <DanhSachLoHangPXK data={dataListPXK} handleRowClick={handleRowClick}/>
                                     </CTabPane>
                                     <CTabPane>
-                                        <DanhSachKienHangPXK data={dataPXKDetail}/>
+                                        <DanhSachKienHangPXK data={dataPXKDetail} updatePNK={handleUpdatePXK} deletePXK={handleDeletePXK}/>
                                     </CTabPane>
                                 
                                 </CTabContent>
@@ -92,7 +122,7 @@ function PhieuXuatKhoDanhSach() {
                     </CCard>
                 </CCol>
 
-
+                <ToastContainer />
             </CRow>
         </>
     )

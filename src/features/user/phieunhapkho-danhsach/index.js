@@ -15,23 +15,28 @@ import {
 import pnkApi from 'src/api/pnkAPI';
 import DanhSachLoHangPNK from './pnk-danhsachlohang';
 import DanhSachKienHang from './pnkdetail-danhsachkienhang';
+import { toast, ToastContainer } from 'react-toastify';
 
 function PhieuNhapKhoDanhSach() {
 
     const [dataListPNK, setDataListPNK] = useState([]);
     const [dataPNKDetail, setDataPNKDetail] = useState([]);
-    const [active, setActive] = useState(1)
+    const [active, setActive] = useState(1);
+    const [isLoading, setIsLoading] = useState(false);
 
     const fetchDataPNK = async () => {
+        setIsLoading(true);
         try {
             const username = localStorage.getItem("username");
             await pnkApi.getbyuser(username)
                 .then(response => {
+                    setIsLoading(false);
                     setDataListPNK(response.data);
                 })
-                .catch(error => console.log(error))
+                .catch(error =>  setIsLoading(false))
         } catch (error) {
-            console.log(error)
+            console.log(error);
+            setIsLoading(false);
         }
     }
 
@@ -46,6 +51,36 @@ function PhieuNhapKhoDanhSach() {
             console.log(error)
         }
         setActive(1);
+    }
+
+    const handleUpdatePNK = async (malohang, tenkienhang, soluongkienhang, trangthai, loaikienhang, khochuakienhang,
+        diachikhochua, diachinguoinhan, tennguoigui, sdtnguoigui, diachinguoigui, dongia, dataUpdate) => {
+        try {
+            await pnkApi.chinhsuaphieunhapkho(malohang, tenkienhang, soluongkienhang, trangthai, loaikienhang, khochuakienhang,
+                diachikhochua, diachinguoinhan, tennguoigui, sdtnguoigui, diachinguoigui, dongia, dataUpdate)
+                .then(response => {
+                    toast.success("Chỉnh sữa phiếu nhập kho thành công");
+                    handleRowClick(malohang);
+                    fetchDataPNK();
+                })
+                .catch(error =>  toast.error(error.response.data.message))
+        } catch (error) {
+            toast.error("Không thể kết nối đến server");
+        }
+    }
+
+    const handleDeletePNK = async (data) => {
+        try {
+            await pnkApi.xoaphieunhapkho(data)
+                .then(response => {
+                    toast.success("Đã xóa kiện hàng thành công");
+                    handleRowClick(data.malohang);
+                    fetchDataPNK();
+                })
+                .catch(error =>  toast.error(error.response.data.message))
+        } catch (error) {
+            toast.error("Không thể kết nối đến server");
+        }
     }
 
     useEffect(() => {
@@ -72,27 +107,27 @@ function PhieuNhapKhoDanhSach() {
                                     </CNavItem>
                                     <CNavItem>
                                         <CNavLink>
-                                        Chi tiết lô hàng
+                                            Chi tiết lô hàng
                                             {active === 1 && ''}
                                         </CNavLink>
                                     </CNavItem>
-                                   
+
                                 </CNav>
                                 <CTabContent>
                                     <CTabPane>
-                                        <DanhSachLoHangPNK data={dataListPNK} handleRowClick={handleRowClick}/>
+                                        <DanhSachLoHangPNK data={dataListPNK} handleRowClick={handleRowClick} />
                                     </CTabPane>
                                     <CTabPane>
-                                        <DanhSachKienHang data={dataPNKDetail}/>
+                                        <DanhSachKienHang data={dataPNKDetail} updatePNK={handleUpdatePNK} deletePNK={handleDeletePNK}/>
                                     </CTabPane>
-                                
+
                                 </CTabContent>
                             </CTabs>
                         </CCardBody>
                     </CCard>
                 </CCol>
 
-
+                <ToastContainer />
             </CRow>
         </>
     )

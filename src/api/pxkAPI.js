@@ -43,6 +43,35 @@ const pnkApi = {
     const url = '/phieuxuatkho/report';
     return axiosClient.get(url);
   },
+
+  chinhsuaphieuxuatkho: (malohang, tenkienhang, soluongkienhang, trangthai, loaikienhang, khochuakienhang,
+    diachikhochua, diachinguoigui, tennguoinhan, sdtnguoinhan, diachinguoinhan, dongia, dataUpdate) => {
+    const url = '/phieuxuatkho/edit-pxk';
+    let raw = JSON.stringify({
+      "malohang": malohang,
+      "tenkienhang": tenkienhang,
+      "soluongkienhang": soluongkienhang,
+      "trangthai": trangthai,
+      "loaikienhang": loaikienhang,
+      "khochuakienhang": khochuakienhang,
+      "diachikhochua": diachikhochua,
+      "diachinguoigui": diachinguoigui,
+      "tennguoinhan": tennguoinhan,
+      "sdtnguoinhan": sdtnguoinhan,
+      "diachinguoinhan": diachinguoinhan,
+      "dongia": dongia,
+      "dataUpdate": dataUpdate
+    });
+    return axiosClient.post(url, raw);
+  },
+
+  xoaphieuxuatkho: (dataUpdate) => {
+    const url = '/phieuxuatkho/delete-pxk';
+    let raw = JSON.stringify({
+      "dataUpdate": dataUpdate
+    });
+    return axiosClient.post(url, raw);
+  },
 }
 
 export default pnkApi;
