@@ -38,7 +38,6 @@ function PhieuNhapKho() {
       toast.error(`Vui lòng chọn tài xế vận chuyển`);
     }
     else {
-      console.log(items)
       await pnkApi.taophieunhapkho(items,driver)
         .then(response => {
           toast.success(`Tạo thành công phiếu nhập kho mã ${response.malohang}`);
