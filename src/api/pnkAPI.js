@@ -65,6 +65,19 @@ const pnkApi = {
     return axiosClient.post(url, raw);
   },
 
+  getlistkhtk: () => {
+    const url = '/phieunhapkho/get-khtk';
+
+    return axiosClient.get(url);
+  },
+
+  getkhtkbyid: (id) => {
+    const url = '/phieunhapkho/getdetail-khtk';
+    let raw = JSON.stringify({
+      "id": id
+    });
+    return axiosClient.post(url, raw);
+  },
 }
 
 export default pnkApi;

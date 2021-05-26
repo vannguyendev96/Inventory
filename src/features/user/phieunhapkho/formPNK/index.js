@@ -128,8 +128,6 @@ function CreatePNK(props) {
         diachinguoigui: Yup.string().required('Vui lòng nhập địa chỉ người gửi'),
     });
 
-
-
     useEffect(() => {
         getListWarehouse();
     }, [])
@@ -243,7 +241,7 @@ function CreatePNK(props) {
                                     component={CurrencyFormatField}
 
                                     label="Đơn giá"
-                                   
+                                    
                                 />
 
                                 <CardFooter>

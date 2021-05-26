@@ -10,31 +10,23 @@ CurrencyFormatField.propTypes = {
     form: PropTypes.object.isRequired,
 
     label: PropTypes.string,
+   
 };
 
 CurrencyFormatField.defaultProps = {
-    label: ''
+    label: '',
 }
 
 
 function CurrencyFormatField(props) {
 
-    const { field, form, label,  } = props;
+    const { field, form, label } = props;
     const { name, value } = field;
 
     const { errors, touched } = form;
     const showError = errors[name] && touched[name];    
 
-    // const handleSelectedOptionChange = (valueData) => {
-    //     const changeEvent = {
-    //         target: {
-    //             name: name,
-    //             value: valueData
-    //         }
-    //     };
-    //     field.onValueChange(changeEvent);
-    // }
-
+    
     return (
         <FormGroup row>
             <Col md="3">
@@ -46,7 +38,6 @@ function CurrencyFormatField(props) {
                     {...field}
                     
                     thousandSeparator={true} prefix={''}  
-                    //onValueChange={handleSelectedOptionChange}
 
                     className={showError ? 'is-invalid' : ''}
                 />

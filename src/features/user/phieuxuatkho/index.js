@@ -25,16 +25,16 @@ function PhieuXuatKho() {
 
   const [tongtien, setTongtien] = useState(0);
 
-  const handleSubmitNewKienHang = (values, dataAddress, dataTenNguoiGui, dataSDTNguoiGui, resetForm) => {
+  const handleSubmitNewKienHang = (values, dataTenKienHang, dataLoaiKienHang, dataKhoChuaKienHang, dataDonGia, dataAddress, dataTenNguoiGui, dataSDTNguoiGui, resetForm) => {
     setItems([
       ...items,
       {
         nguoitaolohang: localStorage.getItem("username"),
-        tenkienhang: values.tenkienhang,
+        tenkienhang: dataTenKienHang,
         soluongkienhang: values.soluongkienhang,
         trangthai: values.trangthaikienhang,
-        loaikienhang: values.loaikienhang,
-        khochuakienhang: values.khochuahang,
+        loaikienhang: dataLoaiKienHang,
+        khochuakienhang: dataKhoChuaKienHang,
         diachikhochua: dataAddress,
         tennguoinhan: values.tennguoinhan,
         sdtnguoinhan: values.sdtnguoinhan,
@@ -42,7 +42,7 @@ function PhieuXuatKho() {
         tennguoigui: dataTenNguoiGui,
         sdtnguoigui: dataSDTNguoiGui,
         diachinguoigui: values.diachinguoigui,
-        dongia: values.dongia
+        dongia: dataDonGia
       }
     ]);
 
@@ -51,11 +51,11 @@ function PhieuXuatKho() {
       ...items,
       {
         nguoitaolohang: localStorage.getItem("username"),
-        tenkienhang: values.tenkienhang,
+        tenkienhang: dataTenKienHang,
         soluongkienhang: values.soluongkienhang,
         trangthai: values.trangthaikienhang,
-        loaikienhang: values.loaikienhang,
-        khochuakienhang: values.khochuahang,
+        loaikienhang: dataLoaiKienHang,
+        khochuakienhang: dataKhoChuaKienHang,
         diachikhochua: dataAddress,
         tennguoinhan: values.tennguoinhan,
         sdtnguoinhan: values.sdtnguoinhan,
@@ -63,14 +63,14 @@ function PhieuXuatKho() {
         tennguoigui: dataTenNguoiGui,
         sdtnguoigui: dataSDTNguoiGui,
         diachinguoigui: values.diachinguoigui,
-        dongia: values.dongia
+        dongia: dataDonGia
       }
     ];
 
     let total = 0;
     arrayItems.forEach(kienhang => {
       const dongiaConvert = (kienhang.dongia).split(",").join("");
-      total = tongtien + parseFloat(dongiaConvert, 10);
+      total = tongtien + parseFloat(dongiaConvert, 10)*parseFloat(kienhang.soluongkienhang, 10);
     });
     setTongtien(total);
 
@@ -88,7 +88,6 @@ function PhieuXuatKho() {
 
   function handleOnchangeDataPTTT(value) {
     setPhuongthucthanhtoan(value);
-    console.log(value)
   }
 
   const handleSubmitNewPXK = async () => {

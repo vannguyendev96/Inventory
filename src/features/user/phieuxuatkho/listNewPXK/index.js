@@ -32,6 +32,7 @@ function ListCreatePXK(props) {
                         <th>Tên</th>
                         <th>Số lượng</th>
                         <th>Đơn giá</th>
+                        <th>Thành tiền</th>
                         <th>Trạng thái</th>
                         <th>Loại</th>
                         <th>Kho chứa hàng</th>
@@ -49,6 +50,9 @@ function ListCreatePXK(props) {
                                 loaikienhang, khochuakienhang, diachikhochua, 
                                 tennguoinhan, sdtnguoinhan, diachinguoinhan,
                                 tennguoigui, sdtnguoigui, diachinguoigui, dongia } = dataList //destructuring
+
+                                const dongiaConvert = (dongia).split(",").join("");
+                                const thanhtien =new Intl.NumberFormat().format(parseFloat(dongiaConvert, 10)*parseFloat(soluongkienhang, 10));
                             return (
                                 <tr
                                     key={index}
@@ -57,6 +61,7 @@ function ListCreatePXK(props) {
                                     <td>{tenkienhang}</td>
                                     <td>{soluongkienhang}</td>
                                     <td>{dongia}</td>
+                                    <td>{thanhtien}</td>
                                     <td>{trangthai}</td>
                                     <td>{loaikienhang}</td>
                                     <td>{khochuakienhang}</td>

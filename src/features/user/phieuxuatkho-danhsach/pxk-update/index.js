@@ -180,6 +180,7 @@ function ChinhsuaPXK(props) {
                                         name="tenkienhang"
                                         defaultValue={tenkienhang}
                                         onChange={(e) => setTenKienHangPNK(e.target.value)}
+                                        readOnly={true}
                                     />
                                 </Col>
                             </FormGroup>
@@ -204,10 +205,19 @@ function ChinhsuaPXK(props) {
                                     <Label htmlFor="hf-password">Đơn giá</Label>
                                 </Col>
                                 <Col xs="12" md="9">
-                                    <CurrencyFormat
+                                    {/* <CurrencyFormat
                                         value={dongiaPNK}
                                         thousandSeparator={true} prefix={'VND '}
                                         onValueChange={(e) => setDongiaPNK(e.value)}
+                                        readOnly={true}
+                                    /> */}
+
+                                    <Input
+                                        type="text"
+                                        id="dongia"
+                                        name="dongia"
+                                        defaultValue={dongiaPNK}
+                                        readOnly={true}
                                     />
                                 </Col>
                             </FormGroup>
@@ -232,10 +242,17 @@ function ChinhsuaPXK(props) {
                                     <Label htmlFor="hf-password">Loại kiện hàng</Label>
                                 </Col>
                                 <Col xs="12" md="9">
-                                    <Select
+                                    {/* <Select
                                         defaultValue={optionsloaikienhang.filter(option => (option.label) === loaikienhang)}
                                         onChange={handleOnchangeLoaiKienHang}
                                         options={optionsloaikienhang}
+                                    /> */}
+                                    <Input
+                                        type="text"
+                                        id="loaikienhang"
+                                        name="loaikienhang"
+                                        defaultValue={loaikienhang}
+                                        readOnly={true}
                                     />
                                 </Col>
                             </FormGroup>
@@ -245,13 +262,12 @@ function ChinhsuaPXK(props) {
                                     <Label htmlFor="hf-password">Kho chứa</Label>
                                 </Col>
                                 <Col xs="12" md="9">
-
-
-                                    <Select
-                                        defaultValue={dataWareHouse.filter(option => (option.label) === khochuakienhang)}
-                                        // onChange={(target) => setKhochuakienhangPNK(target.value)}
-                                        onChange={handOnchangKhoChua}
-                                        options={dataWareHouse}
+                                    <Input
+                                        type="text"
+                                        id="khochua"
+                                        name="khochua"
+                                        defaultValue={khochuakienhang}
+                                        readOnly={true}
                                     />
                                 </Col>
                             </FormGroup>

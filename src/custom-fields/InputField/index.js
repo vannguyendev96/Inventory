@@ -14,6 +14,7 @@ InputField.propTypes = {
     valueData: PropTypes.string,
     disabled: PropTypes.bool,
     isreadonly: PropTypes.bool,
+   
 };
 
 InputField.defaultProps = {
@@ -23,12 +24,13 @@ InputField.defaultProps = {
     valueData: '',
     disabled: false,
     isreadonly: false,
+   
 }
 
 function InputField(props) {
     const {
         field, form,
-        type, label, placeholder, disabled, isreadonly, valueData
+        type, label, placeholder, disabled, isreadonly, valueData,
     } = props;
     const { name } = field;
 
@@ -36,6 +38,8 @@ function InputField(props) {
 
     const { errors, touched } = form;
     const showError = errors[name] && touched[name];    
+
+   
 
     return (
         <FormGroup row>
@@ -53,6 +57,7 @@ function InputField(props) {
                     disabled={disabled}
                     readOnly={isreadonly}
                     placeholder={placeholder}
+                    
                     min="0"
 
                     invalid={showError}
