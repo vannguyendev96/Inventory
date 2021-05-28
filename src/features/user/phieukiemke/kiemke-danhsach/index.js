@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
     Col,
@@ -47,37 +47,60 @@ function DanhSachTonKho(props) {
     const [isCheckSL, setIsCheckSL] = useState(false);
     const [errorSL, setErrorSL] = useState('');
 
-    function openPopUpkiemke(data) {
+    const [tenkienhangPOPUP, setTenkienhangPOPUP] = useState('');
+    const [soluongPOPUP, setSoluongPOPUP] = useState('');
+
+    function openPopUpkiemke(data, tenkienhang, soluongkienhang) {
+        setTenkienhangPOPUP(tenkienhang);
+        setSoluongPOPUP(soluongkienhang);
+
+        setSoLuongKiemKe(0);
+        setTrangThaiKienHang('')
+
         setDeleteTK(!deleteTK);
         setDataKiemKeClick(data);
+
     }
 
-    function handleNewKiemKe(){
+    function handleNewKiemKe() {
         setDeleteTK(!deleteTK);
-        if(onSubmit){
+        if (onSubmit) {
             onSubmit(dataKiemKeClick, soluongkiemke, trangthaikienhang)
         }
         setSoLuongKiemKe(0);
         setTrangThaiKienHang('')
     }
 
-    function handleOnchangeSL(value,max){
-        if(value < 0 || value > max){
-            setIsCheckSL(true);
-            setErrorSL(`Số lượng tồn kho nhập vào phải bé hơn số lượng kiện hàng trong kho (${max}) và lớn hơn 0 `)
-        }
-        else{
-            setSoLuongKiemKe(value)
-            setIsCheckSL(false);
-            setErrorSL('')
+    const handleOnchangeSL = (target) => {
+        const value = target.value;
+        setSoLuongKiemKe(value)
+        // if (value < 0 || value > soluongPOPUP) {
+        //     setIsCheckSL(true);
+        //     setErrorSL(`Số lượng tồn kho nhập vào phải bé hơn số lượng kiện hàng trong kho (${soluongPOPUP}) và lớn hơn 0 `)
+        // }
+        // else {
+        //     setIsCheckSL(false);
+        //     setErrorSL('')
+        // }
+    }
+
+    function pnkHeaderClick(tenkienhang, dongia, loaikienhang, khochuakienhang) {
+        if (handleRowClick) {
+            handleRowClick(tenkienhang, dongia, loaikienhang, khochuakienhang);
         }
     }
 
-    function pnkHeaderClick(tenkienhang,dongia,loaikienhang,khochuakienhang){
-        if(handleRowClick){
-            handleRowClick(tenkienhang,dongia,loaikienhang,khochuakienhang);
+    useEffect( () => {
+        if (soluongkiemke < 0 || parseFloat(soluongkiemke, 10) > parseFloat(soluongPOPUP, 10) ) {
+            setIsCheckSL(true);
+            setErrorSL(`Số lượng tồn kho nhập vào phải bé hơn số lượng kiện hàng trong kho (${soluongPOPUP}) và lớn hơn 0 `)
         }
-    }
+        else {
+            setIsCheckSL(false);
+            setErrorSL('')
+        }
+    },[soluongkiemke])
+    
 
     return (
         <>
@@ -101,7 +124,7 @@ function DanhSachTonKho(props) {
                             return (
                                 <tr
                                     key={index}
-                                    
+
                                 >
                                     <td>{index + 1}</td>
                                     <td>{tenkienhang}</td>
@@ -110,7 +133,7 @@ function DanhSachTonKho(props) {
                                     <td>{loaikienhang}</td>
                                     <td>{khochuakienhang}</td>
                                     <td>
-                                        <Button type="submit" size="sm" color="success" onClick={() => openPopUpkiemke(dataList)}>Kiểm kê</Button>
+                                        <Button type="submit" size="sm" color="success" onClick={() => openPopUpkiemke(dataList, tenkienhang, soluongkienhang)}>Kiểm kê</Button>
                                         <CModal
                                             show={deleteTK}
                                             onClose={() => setDeleteTK(!deleteTK)}
@@ -130,7 +153,7 @@ function DanhSachTonKho(props) {
                                                                 type="text"
                                                                 id="tenkienhang"
                                                                 name="tenkienhang"
-                                                                defaultValue={tenkienhang}
+                                                                defaultValue={tenkienhangPOPUP}
                                                             />
                                                         </Col>
                                                     </FormGroup>
@@ -144,7 +167,9 @@ function DanhSachTonKho(props) {
                                                                 type="number"
                                                                 id="soluong"
                                                                 name="soluong"
-                                                                onChange={(e) => handleOnchangeSL(e.target.value,soluongkienhang)}
+                                                                value={soluongkiemke}
+                                                                //onChange={handleOnchangeSL}
+                                                                onChange={(e) => setSoLuongKiemKe(e.target.value)}
                                                                 invalid={isCheckSL}
                                                             />
                                                             <FormFeedback>{errorSL}</FormFeedback>
@@ -160,6 +185,7 @@ function DanhSachTonKho(props) {
                                                                 type="text"
                                                                 id="trangthai"
                                                                 name="trangthai"
+                                                                value={trangthaikienhang}
                                                                 onChange={(e) => setTrangThaiKienHang(e.target.value)}
                                                             />
                                                         </Col>
@@ -172,12 +198,12 @@ function DanhSachTonKho(props) {
                                                 </CButton>
                                                 <CButton color="secondary" onClick={() => setDeleteTK(!deleteTK)}>
                                                     Close
-                                                    </CButton>
+                                                </CButton>
                                             </CModalFooter>
                                         </CModal>
                                     </td>
                                     <td>
-                                        <Button type="submit" size="sm" color="primary" onClick={() => pnkHeaderClick(tenkienhang,dongia,loaikienhang,khochuakienhang)}>Lịch sử kiểm kê</Button>    
+                                        <Button type="submit" size="sm" color="primary" onClick={() => pnkHeaderClick(tenkienhang, dongia, loaikienhang, khochuakienhang)}>Lịch sử kiểm kê</Button>
                                     </td>
                                 </tr>
                             )

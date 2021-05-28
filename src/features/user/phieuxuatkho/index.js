@@ -22,59 +22,66 @@ function PhieuXuatKho() {
   const [sotienthanhtoan, setSotienthanhtoan] = useState('');
   const [phuongthucthanhtoan, setPhuongthucthanhtoan] = useState('');
   const [taixevanchuyen, setTaixevanchuyen] = useState('');
+  const [soluongtonkho, setSoluongtonkho] = useState(0);
 
   const [tongtien, setTongtien] = useState(0);
 
   const handleSubmitNewKienHang = (values, dataTenKienHang, dataLoaiKienHang, dataKhoChuaKienHang, dataDonGia, dataAddress, dataTenNguoiGui, dataSDTNguoiGui, resetForm) => {
-    setItems([
-      ...items,
-      {
-        nguoitaolohang: localStorage.getItem("username"),
-        tenkienhang: dataTenKienHang,
-        soluongkienhang: values.soluongkienhang,
-        trangthai: values.trangthaikienhang,
-        loaikienhang: dataLoaiKienHang,
-        khochuakienhang: dataKhoChuaKienHang,
-        diachikhochua: dataAddress,
-        tennguoinhan: values.tennguoinhan,
-        sdtnguoinhan: values.sdtnguoinhan,
-        diachinguoinhan: values.diachinguoinhan,
-        tennguoigui: dataTenNguoiGui,
-        sdtnguoigui: dataSDTNguoiGui,
-        diachinguoigui: values.diachinguoigui,
-        dongia: dataDonGia
-      }
-    ]);
+    if (parseFloat(values.soluongkienhang, 10) > soluongtonkho) {
+      toast.error(`Tồn kho của kiện hàng ${dataTenKienHang} chỉ còn ${soluongtonkho}`);
+    }
+    else {
+      setItems([
+        ...items,
+        {
+          nguoitaolohang: localStorage.getItem("username"),
+          tenkienhang: dataTenKienHang,
+          soluongkienhang: values.soluongkienhang,
+          trangthai: values.trangthaikienhang,
+          loaikienhang: dataLoaiKienHang,
+          khochuakienhang: dataKhoChuaKienHang,
+          diachikhochua: dataAddress,
+          tennguoinhan: values.tennguoinhan,
+          sdtnguoinhan: values.sdtnguoinhan,
+          diachinguoinhan: values.diachinguoinhan,
+          tennguoigui: dataTenNguoiGui,
+          sdtnguoigui: dataSDTNguoiGui,
+          diachinguoigui: values.diachinguoigui,
+          dongia: dataDonGia
+        }
+      ]);
 
 
-    const arrayItems = [
-      ...items,
-      {
-        nguoitaolohang: localStorage.getItem("username"),
-        tenkienhang: dataTenKienHang,
-        soluongkienhang: values.soluongkienhang,
-        trangthai: values.trangthaikienhang,
-        loaikienhang: dataLoaiKienHang,
-        khochuakienhang: dataKhoChuaKienHang,
-        diachikhochua: dataAddress,
-        tennguoinhan: values.tennguoinhan,
-        sdtnguoinhan: values.sdtnguoinhan,
-        diachinguoinhan: values.diachinguoinhan,
-        tennguoigui: dataTenNguoiGui,
-        sdtnguoigui: dataSDTNguoiGui,
-        diachinguoigui: values.diachinguoigui,
-        dongia: dataDonGia
-      }
-    ];
+      const arrayItems = [
+        ...items,
+        {
+          nguoitaolohang: localStorage.getItem("username"),
+          tenkienhang: dataTenKienHang,
+          soluongkienhang: values.soluongkienhang,
+          trangthai: values.trangthaikienhang,
+          loaikienhang: dataLoaiKienHang,
+          khochuakienhang: dataKhoChuaKienHang,
+          diachikhochua: dataAddress,
+          tennguoinhan: values.tennguoinhan,
+          sdtnguoinhan: values.sdtnguoinhan,
+          diachinguoinhan: values.diachinguoinhan,
+          tennguoigui: dataTenNguoiGui,
+          sdtnguoigui: dataSDTNguoiGui,
+          diachinguoigui: values.diachinguoigui,
+          dongia: dataDonGia
+        }
+      ];
 
-    let total = 0;
-    arrayItems.forEach(kienhang => {
-      const dongiaConvert = (kienhang.dongia).split(",").join("");
-      total = tongtien + parseFloat(dongiaConvert, 10)*parseFloat(kienhang.soluongkienhang, 10);
-    });
-    setTongtien(total);
+      let total = 0;
+      arrayItems.forEach(kienhang => {
+        const dongiaConvert = (kienhang.dongia).split(",").join("");
+        total = tongtien + parseFloat(dongiaConvert, 10) * parseFloat(kienhang.soluongkienhang, 10);
+      });
+      setTongtien(total);
 
-    toast.success("Đã thêm kiện hàng vào đơn hàng");
+      toast.success("Đã thêm kiện hàng vào đơn hàng");
+    }
+
     //resetForm({});
   }
 
@@ -113,6 +120,10 @@ function PhieuXuatKho() {
     setTaixevanchuyen(driver)
   }
 
+  function handleOnChangeSoLuong(soluong) {
+    setSoluongtonkho(soluong);
+  }
+
   return (
     <>
       <CRow>
@@ -122,7 +133,7 @@ function PhieuXuatKho() {
               Thông tin kiện hàng cần xuất kho
           </CCardHeader>
             <CCardBody>
-              <CreatePXK onSubmit={handleSubmitNewKienHang} />
+              <CreatePXK onSubmit={handleSubmitNewKienHang} onChangeSoLuong={handleOnChangeSoLuong} />
             </CCardBody>
           </CCard>
         </CCol>

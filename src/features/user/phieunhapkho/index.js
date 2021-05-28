@@ -38,14 +38,25 @@ function PhieuNhapKho() {
       toast.error(`Vui lòng chọn tài xế vận chuyển`);
     }
     else {
-      await pnkApi.taophieunhapkho(items,driver)
+      setIsLoading(true);
+      await pnkApi.taophieunhapkho(items, driver)
         .then(response => {
-          toast.success(`Tạo thành công phiếu nhập kho mã ${response.malohang}`);
+          // console.log("a")
+          // toast.success(`Tạo thành công phiếu nhập kho mã ${response.malohang}`);
+          setIsLoading(false);
+          history.push({
+            pathname: '/phieu-nhap-kho-danhsach',
+            state: {
+              malohang: response.malohang,
+            },
+          });
         })
         .catch(error => {
+          setIsLoading(false);
           toast.error(error.response.data.message);
         })
     }
+    // 
   }
 
   const getListDriver = async () => {
@@ -111,63 +122,69 @@ function PhieuNhapKho() {
   }
 
   return (
-    <>
-      <CRow>
-        <CCol sm="12" xl="12">
-          <CCard>
-            <CCardHeader>
-              Thông tin kiện hàng cần nhập kho
+    <div>
+      {loading ? <FullPageLoader /> :
+        <>
+
+          <CRow>
+            <CCol sm="12" xl="12">
+              <CCard>
+                <CCardHeader>
+                  Thông tin kiện hàng cần nhập kho
           </CCardHeader>
-            <CCardBody>
-              <CreatePNK onSubmit={handleSubmitNewKienHang} />
-            </CCardBody>
-          </CCard>
-        </CCol>
-      </CRow>
+                <CCardBody>
+                  <CreatePNK onSubmit={handleSubmitNewKienHang} />
+                </CCardBody>
+              </CCard>
+            </CCol>
+          </CRow>
 
-      <CRow>
-        <CCol sm="12" xl="12">
-          <CCard>
-            <CCardHeader>
-            Thông tin tài xế
+          <CRow>
+            <CCol sm="12" xl="12">
+              <CCard>
+                <CCardHeader>
+                  Thông tin tài xế
           </CCardHeader>
-            <CCardBody>
-              <Form action="" className="form-horizontal">
-                <FormGroup row>
-                  <Col md="3">
-                    <Label htmlFor="hf-password">Tài xế vận chuyển</Label>
-                  </Col>
-                  <Col xs="12" md="9">
-                    <Select
-                      options={dataDriver}
-                      onChange={handleOnchangeDataDriver}
-                      classNamePrefix="select"
-                    />
-                  </Col>
-                </FormGroup>
-              </Form>
-            </CCardBody>
-          </CCard>
-        </CCol>
-      </CRow>
+                <CCardBody>
+                  <Form action="" className="form-horizontal">
+                    <FormGroup row>
+                      <Col md="3">
+                        <Label htmlFor="hf-password">Tài xế vận chuyển</Label>
+                      </Col>
+                      <Col xs="12" md="9">
+                        <Select
+                          options={dataDriver}
+                          onChange={handleOnchangeDataDriver}
+                          classNamePrefix="select"
+                        />
+                      </Col>
+                    </FormGroup>
+                  </Form>
+                </CCardBody>
+              </CCard>
+            </CCol>
+          </CRow>
 
 
 
-      <CRow>
-        <CCol sm="12" xl="12">
-          <CCard>
-            <CCardHeader>
-              Danh sách kiện hàng cần nhập kho
+          <CRow>
+            <CCol sm="12" xl="12">
+              <CCard>
+                <CCardHeader>
+                  Danh sách kiện hàng cần nhập kho
             </CCardHeader>
-            <CCardBody>
-              <ListCreatePNK data={items} onSubmit={handleSubmitNewPNK} />
-            </CCardBody>
-          </CCard>
-        </CCol>
-      </CRow>
+                <CCardBody>
+                  <ListCreatePNK data={items} onSubmit={handleSubmitNewPNK} />
+                </CCardBody>
+              </CCard>
+            </CCol>
+          </CRow>
 
-      <ToastContainer />
-    </>
+          <ToastContainer />
+        </>
+      }
+    </div>
+
   );
 }
 

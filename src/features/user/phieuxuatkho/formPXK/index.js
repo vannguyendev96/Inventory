@@ -15,10 +15,12 @@ import pnkApi from "src/api/pnkAPI";
 
 CreatePXK.propTypes = {
     onSubmit: PropTypes.func,
+    onChangeSoLuong: PropTypes.func,
 };
 
 CreatePXK.defaultProps = {
-    onSubmit: null
+    onSubmit: null,
+    onChangeSoLuong: null
 }
 
 
@@ -31,7 +33,7 @@ const optionsloaikienhang = [
 
 function CreatePXK(props) {
 
-    const { onSubmit } = props;
+    const { onSubmit, onChangeSoLuong } = props;
 
     const initialValues = {
         tenkienhang: '',
@@ -144,6 +146,9 @@ function CreatePXK(props) {
     const handOnchangTenKienHang = async (value) => {
         await pnkApi.getkhtkbyid(value)
             .then(response => {
+                if(onChangeSoLuong){
+                    onChangeSoLuong(response.data[0].soluongkienhang)
+                }
                 setDataTenKienHang(response.data[0].tenkienhang);
                 setDataLoaiKienHang(response.data[0].loaikienhang);
                 setDataKhoChuaKienHang(response.data[0].khochuakienhang);

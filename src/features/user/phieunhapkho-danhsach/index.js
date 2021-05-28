@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
     CCol,
     CNav,
@@ -19,6 +20,7 @@ import { toast, ToastContainer } from 'react-toastify';
 
 function PhieuNhapKhoDanhSach() {
 
+    const location = useLocation();
     const [dataListPNK, setDataListPNK] = useState([]);
     const [dataPNKDetail, setDataPNKDetail] = useState([]);
     const [active, setActive] = useState(1);
@@ -84,6 +86,11 @@ function PhieuNhapKhoDanhSach() {
     }
 
     useEffect(() => {
+        if(location.state !== null)
+        {
+            toast.success(`Tạo thành công phiếu nhập kho mã ${location.state.malohang}`);
+        }
+        
         setActive(0);
         fetchDataPNK();
     }, [])
