@@ -2,14 +2,16 @@ import axiosClient from "./axiosClient";
 
 const pnkApi = {
 
-  taophieuxuatkho: (data, lydoxuatkho, sotienthanhtoan, phuongthucthanhtoan, taixevanchuyen) => {
+  taophieuxuatkho: (data, lydoxuatkho, sotienthanhtoan, phuongthucthanhtoan, taixevanchuyen, dongiacuoc, quangduongdichuyen) => {
     const url = '/phieuxuatkho/create-pxk';
     let raw = JSON.stringify({
       "data": data,
       "lydoxuatkho": lydoxuatkho,
       "sotienthanhtoan": sotienthanhtoan,
       "phuongthucthanhtoan": phuongthucthanhtoan,
-      "taixevanchuyen": taixevanchuyen
+      "taixevanchuyen": taixevanchuyen,
+      "dongiacuoc": dongiacuoc,
+      "quangduongdichuyen": quangduongdichuyen
     });
     return axiosClient.post(url, raw);
   },
@@ -44,13 +46,14 @@ const pnkApi = {
     return axiosClient.get(url);
   },
 
-  chinhsuaphieuxuatkho: (malohang, tenkienhang, soluongkienhang, trangthai, loaikienhang, khochuakienhang,
+  chinhsuaphieuxuatkho: (malohang, tenkienhang, soluongkienhang, khoiluongkienhang, trangthai, loaikienhang, khochuakienhang,
     diachikhochua, diachinguoigui, tennguoinhan, sdtnguoinhan, diachinguoinhan, dongia, dataUpdate) => {
     const url = '/phieuxuatkho/edit-pxk';
     let raw = JSON.stringify({
       "malohang": malohang,
       "tenkienhang": tenkienhang,
       "soluongkienhang": soluongkienhang,
+      "khoiluongkienhang": khoiluongkienhang,
       "trangthai": trangthai,
       "loaikienhang": loaikienhang,
       "khochuakienhang": khochuakienhang,

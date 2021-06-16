@@ -35,10 +35,10 @@ function DanhSachKienHangPXK(props) {
     const [deleteTK, setDeleteTK] = useState(false);
     const [dataDeleteClick, setDataDeleteClick] = useState({});
 
-    function handleUpdate(malohang, tenKienHangPNK, soluongPNK, trangthaiPNK, loaikienhangPNK, khochuakienhangPNK, dckhochuaPNK,
+    function handleUpdate(malohang, tenKienHangPNK, soluongPNK, khoiluongPNK, trangthaiPNK, loaikienhangPNK, khochuakienhangPNK, dckhochuaPNK,
         diachinguoiguiPNK, tennguoinhanPNK, sdtnguoinhanPNK, diachinguoinhanPNK, dongiaPNK, dataUpdate) {
         if (updatePNK) {
-            updatePNK(malohang, tenKienHangPNK, soluongPNK, trangthaiPNK, loaikienhangPNK, khochuakienhangPNK, dckhochuaPNK,
+            updatePNK(malohang, tenKienHangPNK, soluongPNK, khoiluongPNK, trangthaiPNK, loaikienhangPNK, khochuakienhangPNK, dckhochuaPNK,
                 diachinguoiguiPNK, tennguoinhanPNK, sdtnguoinhanPNK, diachinguoinhanPNK, dongiaPNK, dataUpdate)
         }
     }
@@ -63,6 +63,7 @@ function DanhSachKienHangPXK(props) {
                         <th>STT</th>
                         <th>Tên kiện hàng</th>
                         <th>Số lượng</th>
+                        <th>Khối lượng</th>
                         <th>Đơn giá</th>
                         <th>Trạng thái</th>
                         <th>Loại kiện</th>
@@ -77,7 +78,7 @@ function DanhSachKienHangPXK(props) {
                 <tbody>
                     {
                         dataKienHang.map((dataList, index) => {
-                            const { malohang, nguoitaolohang, tenkienhang, soluongkienhang,
+                            const { malohang, nguoitaolohang, tenkienhang, soluongkienhang,khoiluongkienhang,
                                 trangthai, loaikienhang, khochuakienhang, diachikhochua,
                                 tennguoinhan, sdtnguoinhan, diachinguoinhan,
                                 tennguoigui, sdtnguoigui, diachinguoigui, dongia } = dataList //destructuring
@@ -88,6 +89,7 @@ function DanhSachKienHangPXK(props) {
                                     <td>{index + 1}</td>
                                     <td>{tenkienhang}</td>
                                     <td>{soluongkienhang}</td>
+                                    <td>{khoiluongkienhang}</td>
                                     <td>{dongia}</td>
                                     <td>{trangthai}</td>
                                     <td>{loaikienhang}</td>
@@ -100,6 +102,7 @@ function DanhSachKienHangPXK(props) {
                                             malohang={malohang}
                                             tenkienhang={tenkienhang}
                                             soluongkienhang={soluongkienhang}
+                                            khoiluongkienhang={khoiluongkienhang}
                                             dongia={dongia}
                                             trangthai={trangthai}
                                             loaikienhang={loaikienhang}

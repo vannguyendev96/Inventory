@@ -35,6 +35,7 @@ function CreatePNK(props) {
     const initialValues = {
         tenkienhang: '',
         soluongkienhang: '',
+        khoiluongkienhang: '',
         trangthaikienhang: '',
         loaikienhang: null,
         khochuahang: null,
@@ -116,6 +117,7 @@ function CreatePNK(props) {
     const validationSchema = Yup.object().shape({
         tenkienhang: Yup.string().required('Vui lòng nhập tên kiện hàng'),
         soluongkienhang: Yup.string().required('Vui lòng nhập Số lượng kiện hàng'),
+        khoiluongkienhang: Yup.string().required('Vui lòng nhập Khối lượng kiện hàng'),
         trangthaikienhang: Yup.string().required('Vui lòng nhập Trạng thái kiện hàng'),
         loaikienhang: Yup.string().required('Vui lòng chọn Loại kiện hàng').nullable(),
         khochuahang: Yup.string().required('Vui lòng chọn Kho chứa hàng').nullable(),
@@ -158,6 +160,15 @@ function CreatePNK(props) {
                                     placeholder="Số lượng kiện hàng..."
                                     type="number"
                                 />
+                                <FastField
+                                    name="khoiluongkienhang"
+                                    component={InputField}
+
+                                    label="Khối lượng kiện hàng"
+                                    placeholder="Khối lượng kiện hàng/ Một kiện hàng(KG)"
+                                    type="number"
+                                />
+
                                 <FastField
                                     name="trangthaikienhang"
                                     component={InputField}

@@ -110,6 +110,7 @@ function DanhSachTonKho(props) {
                         <th>STT</th>
                         <th>Tên kiện hàng</th>
                         <th>Số lượng tồn kho</th>
+                        <th>Khối lượng tồn kho</th>
                         <th>Đơn giá</th>
                         <th>Loại kiện hàng</th>
                         <th>Kho chứa</th>
@@ -120,7 +121,7 @@ function DanhSachTonKho(props) {
                 <tbody>
                     {
                         dataPNK.map((dataList, index) => {
-                            const { tenkienhang, soluongkienhang, dongia, loaikienhang, khochuakienhang, kiemke, ngaykiemke } = dataList //destructuring
+                            const { tenkienhang, soluongkienhang, khoiluongkienhang, dongia, loaikienhang, khochuakienhang, kiemke, ngaykiemke } = dataList //destructuring
                             return (
                                 <tr
                                     key={index}
@@ -129,6 +130,7 @@ function DanhSachTonKho(props) {
                                     <td>{index + 1}</td>
                                     <td>{tenkienhang}</td>
                                     <td>{soluongkienhang}</td>
+                                    <td>{khoiluongkienhang}</td>
                                     <td>{dongia}</td>
                                     <td>{loaikienhang}</td>
                                     <td>{khochuakienhang}</td>

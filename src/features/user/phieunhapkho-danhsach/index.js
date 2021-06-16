@@ -17,6 +17,7 @@ import pnkApi from 'src/api/pnkAPI';
 import DanhSachLoHangPNK from './pnk-danhsachlohang';
 import DanhSachKienHang from './pnkdetail-danhsachkienhang';
 import { toast, ToastContainer } from 'react-toastify';
+import UpdatePNKPage from './pnk-update/update-pnk';
 
 function PhieuNhapKhoDanhSach() {
 
@@ -35,7 +36,7 @@ function PhieuNhapKhoDanhSach() {
                     setIsLoading(false);
                     setDataListPNK(response.data);
                 })
-                .catch(error =>  setIsLoading(false))
+                .catch(error => setIsLoading(false))
         } catch (error) {
             console.log(error);
             setIsLoading(false);
@@ -55,20 +56,21 @@ function PhieuNhapKhoDanhSach() {
         setActive(1);
     }
 
-    const handleUpdatePNK = async (malohang, tenkienhang, soluongkienhang, trangthai, loaikienhang, khochuakienhang,
+    const handleUpdatePNK = async (malohang, tenkienhang, soluongkienhang, khoiluongkienhang, trangthai, loaikienhang, khochuakienhang,
         diachikhochua, diachinguoinhan, tennguoigui, sdtnguoigui, diachinguoigui, dongia, dataUpdate) => {
         try {
-            await pnkApi.chinhsuaphieunhapkho(malohang, tenkienhang, soluongkienhang, trangthai, loaikienhang, khochuakienhang,
+            await pnkApi.chinhsuaphieunhapkho(malohang, tenkienhang, soluongkienhang, khoiluongkienhang, trangthai, loaikienhang, khochuakienhang,
                 diachikhochua, diachinguoinhan, tennguoigui, sdtnguoigui, diachinguoigui, dongia, dataUpdate)
                 .then(response => {
                     toast.success("Chỉnh sữa phiếu nhập kho thành công");
                     handleRowClick(malohang);
                     fetchDataPNK();
                 })
-                .catch(error =>  toast.error(error.response.data.message))
+                .catch(error => toast.error(error.response.data.message))
         } catch (error) {
             toast.error("Không thể kết nối đến server");
         }
+       
     }
 
     const handleDeletePNK = async (data) => {
@@ -79,21 +81,23 @@ function PhieuNhapKhoDanhSach() {
                     handleRowClick(data.malohang);
                     fetchDataPNK();
                 })
-                .catch(error =>  toast.error(error.response.data.message))
+                .catch(error => toast.error(error.response.data.message))
         } catch (error) {
             toast.error("Không thể kết nối đến server");
         }
     }
 
     useEffect(() => {
-        if(location.state !== null)
-        {
+        if (location.state) {
+            console.log(location.state)
             toast.success(`Tạo thành công phiếu nhập kho mã ${location.state.malohang}`);
         }
-        
+
         setActive(0);
         fetchDataPNK();
-    }, [])
+    }, []);
+
+
 
     return (
         <>
@@ -119,13 +123,15 @@ function PhieuNhapKhoDanhSach() {
                                         </CNavLink>
                                     </CNavItem>
 
+                                    
+
                                 </CNav>
                                 <CTabContent>
                                     <CTabPane>
                                         <DanhSachLoHangPNK data={dataListPNK} handleRowClick={handleRowClick} />
                                     </CTabPane>
                                     <CTabPane>
-                                        <DanhSachKienHang data={dataPNKDetail} updatePNK={handleUpdatePNK} deletePNK={handleDeletePNK}/>
+                                        <DanhSachKienHang data={dataPNKDetail} updatePNK={handleUpdatePNK} deletePNK={handleDeletePNK} />
                                     </CTabPane>
 
                                 </CTabContent>

@@ -2,11 +2,13 @@ import axiosClient from "./axiosClient";
 
 const pnkApi = {
 
-  taophieunhapkho: (data,driver) => {
+  taophieunhapkho: (data,driver,dongiacuoc,quangduongdichuyen) => {
     const url = '/phieunhapkho/create-pnk';
     let raw = JSON.stringify({
       "data": data,
-      "driver": driver
+      "driver": driver,
+      "dongiacuoc": dongiacuoc,
+      "quangduongdichuyen": quangduongdichuyen
     });
     return axiosClient.post(url, raw);
   },
@@ -36,13 +38,14 @@ const pnkApi = {
     return axiosClient.post(url, raw);
   },
 
-  chinhsuaphieunhapkho: (malohang, tenkienhang, soluongkienhang, trangthai, loaikienhang, khochuakienhang,
+  chinhsuaphieunhapkho: (malohang, tenkienhang, soluongkienhang, khoiluongkienhang, trangthai, loaikienhang, khochuakienhang,
     diachikhochua, diachinguoinhan, tennguoigui, sdtnguoigui, diachinguoigui, dongia, dataUpdate) => {
     const url = '/phieunhapkho/edit-pnk';
     let raw = JSON.stringify({
       "malohang": malohang,
       "tenkienhang": tenkienhang,
       "soluongkienhang": soluongkienhang,
+      "khoiluongkienhang": khoiluongkienhang,
       "trangthai": trangthai,
       "loaikienhang": loaikienhang,
       "khochuakienhang": khochuakienhang,

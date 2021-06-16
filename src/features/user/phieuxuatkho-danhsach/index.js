@@ -53,10 +53,10 @@ function PhieuXuatKhoDanhSach() {
         fetchDataPXK();
     }, []);
 
-    const handleUpdatePXK = async (malohang, tenkienhang, soluongkienhang, trangthai, loaikienhang, khochuakienhang,
+    const handleUpdatePXK = async (malohang, tenkienhang, soluongkienhang, khoiluongkienhang, trangthai, loaikienhang, khochuakienhang,
         diachikhochua, diachinguoigui, tennguoinhan, sdtnguoinhan, diachinguoinhan, dongia, dataUpdate) => {
         try {
-            await pxkAPI.chinhsuaphieuxuatkho(malohang, tenkienhang, soluongkienhang, trangthai, loaikienhang, khochuakienhang,
+            await pxkAPI.chinhsuaphieuxuatkho(malohang, tenkienhang, soluongkienhang, khoiluongkienhang, trangthai, loaikienhang, khochuakienhang,
                 diachikhochua, diachinguoigui, tennguoinhan, sdtnguoinhan, diachinguoinhan, dongia, dataUpdate)
                 .then(response => {
                     toast.success("Chỉnh sữa phiếu xuất kho thành công");

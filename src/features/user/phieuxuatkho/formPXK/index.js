@@ -38,6 +38,7 @@ function CreatePXK(props) {
     const initialValues = {
         tenkienhang: '',
         soluongkienhang: '',
+        khoiluongkienhang: '',
         trangthaikienhang: '',
         loaikienhang: null,
         khochuahang: null,
@@ -57,6 +58,7 @@ function CreatePXK(props) {
     const [dataAddress, setDataAddress] = useState('');
 
     const [dataTenKienHang, setDataTenKienHang] = useState('');
+    const [dataKhoiLuong, setDataKhoiLuong] = useState('');
     const [dataLoaiKienHang, setDataLoaiKienHang] = useState('');
     const [dataKhoChuaKienHang, setDataKhoChuaKienHang] = useState('');
     const [dataDonGia, setDataDonGia] = useState('');
@@ -118,7 +120,8 @@ function CreatePXK(props) {
 
     const handleSubmitForm = async (values, resetForm) => {
         if (onSubmit) {
-            onSubmit(values, dataTenKienHang, dataLoaiKienHang, dataKhoChuaKienHang, dataDonGia, dataAddress, dataTenNguoiGui, dataSDTNguoiGui, resetForm)
+            onSubmit(values, dataTenKienHang, dataLoaiKienHang, dataKhoChuaKienHang, dataDonGia, 
+                dataKhoiLuong,dataAddress, dataTenNguoiGui, dataSDTNguoiGui, resetForm)
         }
     }
 
@@ -146,11 +149,12 @@ function CreatePXK(props) {
     const handOnchangTenKienHang = async (value) => {
         await pnkApi.getkhtkbyid(value)
             .then(response => {
-                if(onChangeSoLuong){
+                if (onChangeSoLuong) {
                     onChangeSoLuong(response.data[0].soluongkienhang)
                 }
                 setDataTenKienHang(response.data[0].tenkienhang);
                 setDataLoaiKienHang(response.data[0].loaikienhang);
+                setDataKhoiLuong(response.data[0].khoiluongkienhang)
                 setDataKhoChuaKienHang(response.data[0].khochuakienhang);
                 setDataDonGia(response.data[0].dongia);
                 handOnchangKhoChua(response.data[0].khochuakienhang)
@@ -221,6 +225,17 @@ function CreatePXK(props) {
                                     placeholder="Số lượng kiện hàng..."
                                     type="number"
                                 />
+
+                                <Field
+                                    name="khoiluongkienhang"
+                                    component={InputField}
+
+                                    label="Khối lượng kiện hàng(KG)"
+                                    valueData={dataKhoiLuong}
+                                    placeholder="Khối lượng kiện hàng..."
+                                    isreadonly={true}
+                                />
+
                                 <FastField
                                     name="trangthaikienhang"
                                     component={InputField}

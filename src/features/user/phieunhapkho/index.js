@@ -14,8 +14,7 @@ import {
   Input,
   Label,
 } from 'reactstrap';
-
-
+import CurrencyFormat from 'react-currency-format';
 import CreatePNK from './formPNK';
 import ListCreatePNK from './listNewPNK';
 import FullPageLoader from '../../../views/fullpageloading';
@@ -33,13 +32,16 @@ function PhieuNhapKho() {
   const [dataDriver, setDataDriver] = useState([]);
   const [driver, setDriver] = useState('');
 
+  const [quangduongvanchuyen, setQuangduongvanchuyen] = useState('');
+  const [dongiacuoc, setDongiacuoc] = useState('');
+
   const handleSubmitNewPNK = async () => {
     if (driver === '') {
       toast.error(`Vui lòng chọn tài xế vận chuyển`);
     }
     else {
       setIsLoading(true);
-      await pnkApi.taophieunhapkho(items, driver)
+      await pnkApi.taophieunhapkho(items, driver, dongiacuoc, quangduongvanchuyen)
         .then(response => {
           // console.log("a")
           // toast.success(`Tạo thành công phiếu nhập kho mã ${response.malohang}`);
@@ -99,6 +101,7 @@ function PhieuNhapKho() {
         nguoitaolohang: localStorage.getItem("username"),
         tenkienhang: values.tenkienhang,
         soluongkienhang: values.soluongkienhang,
+        khoiluongkienhang: values.khoiluongkienhang,
         trangthai: values.trangthaikienhang,
         loaikienhang: values.loaikienhang,
         khochuakienhang: values.khochuahang,
@@ -112,12 +115,13 @@ function PhieuNhapKho() {
         dongia: values.dongia
       }
     ]);
+    console.log(values.dongia)
     toast.success("Đã thêm kiện hàng vào đơn hàng");
     //resetForm({});
   }
 
   function handleOnchangeDataDriver(target) {
-    console.log(target.value)
+    
     setDriver(target.value);
   }
 
@@ -156,6 +160,33 @@ function PhieuNhapKho() {
                           options={dataDriver}
                           onChange={handleOnchangeDataDriver}
                           classNamePrefix="select"
+                        />
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup row>
+                      <Col md="3">
+                        <Label htmlFor="hf-password">Quảng đường vận chuyển(KM)</Label>
+                      </Col>
+                      <Col xs="12" md="9">
+                        <Input
+                          type="number"
+                          id="qdvc"
+                          name="qdvc"
+                          placeholder="Quảng đường vận chuyển(KM)..."
+                          onChange={(e) => setQuangduongvanchuyen(e.target.value)} //setQuangduongvanchuyen
+                        />
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup row>
+                      <Col md="3">
+                        <Label htmlFor="hf-password">Đơn giá cước</Label>
+                      </Col>
+                      <Col xs="12" md="9">
+                        <CurrencyFormat
+                          thousandSeparator={true} prefix={'VND '}
+                          onValueChange={(values) => setDongiacuoc(values.value)}
                         />
                       </Col>
                     </FormGroup>

@@ -24,10 +24,13 @@ import Select from 'react-select';
 import warehouseApi from "src/api/warehouseAPI";
 import FullPageLoader from "src/views/fullpageloading";
 
+import Popup from "src/views/notifications/modals/Popup";
+
 ChinhsuaPXK.propTypes = {
     malohang: PropTypes.string,
     tenkienhang: PropTypes.string,
     soluongkienhang: PropTypes.string,
+    khoiluongkienhang: PropTypes.string,
     trangthai: PropTypes.string,
     loaikienhang: PropTypes.string,
     khochuakienhang: PropTypes.string,
@@ -46,6 +49,7 @@ ChinhsuaPXK.defaultProps = {
     malohang: '',
     tenkienhang: '',
     soluongkienhang: '',
+    khoiluongkienhang: '',
     trangthai: '',
     loaikienhang: '',
     khochuakienhang: '',
@@ -69,7 +73,8 @@ const optionsloaikienhang = [
 
 function ChinhsuaPXK(props) {
 
-    const { malohang, tenkienhang, soluongkienhang, trangthai, loaikienhang, khochuakienhang, diachikhochua,
+    const { malohang, tenkienhang, soluongkienhang, khoiluongkienhang,
+        trangthai, loaikienhang, khochuakienhang, diachikhochua,
         tennguoinhan, sdtnguoinhan, diachinguoinhan,
         tennguoigui, sdtnguoigui, diachinguoigui,
         dongia, editPXK } = props;
@@ -80,6 +85,7 @@ function ChinhsuaPXK(props) {
 
     const [tenKienHangPNK, setTenKienHangPNK] = useState(tenkienhang);
     const [soluongPNK, setSoLuongPNK] = useState(soluongkienhang);
+    const [khoiluongPNK, setKhoiLuongPNK] = useState(khoiluongkienhang);
     const [trangthaiPNK, setTrangthaiPNK] = useState(trangthai);
     const [loaikienhangPNK, setLoaikienhangPNK] = useState(loaikienhang);
     const [khochuakienhangPNK, setKhochuakienhangPNK] = useState(khochuakienhang);
@@ -141,260 +147,276 @@ function ChinhsuaPXK(props) {
     }
 
     function handleSubmitUpdate() {
-        setUpdate(!update);
+        setIsOpen(!isOpen);
         if (editPXK) {
             const data = {
-                malohang, tenkienhang, soluongkienhang, trangthai, loaikienhang, khochuakienhang, diachikhochua,
+                malohang, tenkienhang, soluongkienhang, khoiluongkienhang,
+                trangthai, loaikienhang, khochuakienhang, diachikhochua,
                 tennguoinhan, sdtnguoinhan, diachinguoinhan,
                 tennguoigui, sdtnguoigui, diachinguoigui,
                 dongia
             }
-            editPXK(malohang, tenKienHangPNK, soluongPNK, trangthaiPNK, loaikienhangPNK, khochuakienhangPNK, dckhochuaPNK,
+            editPXK(malohang, tenKienHangPNK, soluongPNK,khoiluongPNK, trangthaiPNK, loaikienhangPNK, khochuakienhangPNK, dckhochuaPNK,
                 diachinguoiguiPNK, tennguoinhanPNK, sdtnguoinhanPNK, diachinguoinhanPNK, dongiaPNK, data);
         }
     }
 
+    const [isOpen, setIsOpen] = useState(false);
+
+    const togglePopup = () => {
+        setIsOpen(!isOpen);
+    }
+
+
     return (
         <>
-            <Button type="submit" size="sm" color="success" onClick={() => setUpdate(!update)}>Edit</Button>
-            <CModal
-                show={update}
-                onClose={() => setUpdate(!update)}
-                color="primary"
-                size="lg"
-            >
-                <CModalHeader closeButton>
-                    <CModalTitle>Chỉnh sửa thông tin phiếu xuất kho</CModalTitle>
-                </CModalHeader>
-                <CModalBody>
-                    {isLoading ? <FullPageLoader /> :
-                        <Form action="" className="form-horizontal">
-                            <FormGroup row>
-                                <Col md="3">
-                                    <Label htmlFor="hf-password">Tên kiện hàng</Label>
-                                </Col>
-                                <Col xs="12" md="9">
-                                    <Input
-                                        type="text"
-                                        id="tenkienhang"
-                                        name="tenkienhang"
-                                        defaultValue={tenkienhang}
-                                        onChange={(e) => setTenKienHangPNK(e.target.value)}
-                                        readOnly={true}
-                                    />
-                                </Col>
-                            </FormGroup>
+            <Button type="submit" size="sm" color="success" onClick={togglePopup}>Edit</Button>
 
-                            <FormGroup row>
-                                <Col md="3">
-                                    <Label htmlFor="hf-password">Số lượng</Label>
-                                </Col>
-                                <Col xs="12" md="9">
-                                    <Input
-                                        type="text"
-                                        id="soluong"
-                                        name="soluong"
-                                        defaultValue={soluongkienhang}
-                                        onChange={(e) => setSoLuongPNK(e.target.value)}
-                                    />
-                                </Col>
-                            </FormGroup>
+            {isOpen && <Popup
+                content={<>
+                    <b>Chỉnh sửa thông tin phiếu nhập kho</b>
+                    <Form action="" className="form-horizontal">
+                        <FormGroup row>
+                            <Col md="3">
+                                <Label htmlFor="hf-password">Tên kiện hàng</Label>
+                            </Col>
+                            <Col xs="12" md="9">
+                                <Input
+                                    type="text"
+                                    id="tenkienhang"
+                                    name="tenkienhang"
+                                    defaultValue={tenkienhang}
+                                    onChange={(e) => setTenKienHangPNK(e.target.value)}
+                                    readOnly={true}
+                                />
+                            </Col>
+                        </FormGroup>
 
-                            <FormGroup row>
-                                <Col md="3">
-                                    <Label htmlFor="hf-password">Đơn giá</Label>
-                                </Col>
-                                <Col xs="12" md="9">
-                                    {/* <CurrencyFormat
+                        <FormGroup row>
+                            <Col md="3">
+                                <Label htmlFor="hf-password">Số lượng</Label>
+                            </Col>
+                            <Col xs="12" md="9">
+                                <Input
+                                    type="text"
+                                    id="soluong"
+                                    name="soluong"
+                                    defaultValue={soluongkienhang}
+                                    onChange={(e) => setSoLuongPNK(e.target.value)}
+                                />
+                            </Col>
+                        </FormGroup>
+
+                        <FormGroup row>
+                            <Col md="3">
+                                <Label htmlFor="hf-password">Khối lượng</Label>
+                            </Col>
+                            <Col xs="12" md="9">
+                                <Input
+                                    type="text"
+                                    id="khoiluong"
+                                    name="khoiluong"
+                                    defaultValue={khoiluongkienhang}
+                                    onChange={(e) => setKhoiLuongPNK(e.target.value)}
+                                    readOnly={true}
+                                />
+                            </Col>
+                        </FormGroup>
+
+                        <FormGroup row>
+                            <Col md="3">
+                                <Label htmlFor="hf-password">Đơn giá</Label>
+                            </Col>
+                            <Col xs="12" md="9">
+                                {/* <CurrencyFormat
                                         value={dongiaPNK}
                                         thousandSeparator={true} prefix={'VND '}
                                         onValueChange={(e) => setDongiaPNK(e.value)}
                                         readOnly={true}
                                     /> */}
 
-                                    <Input
-                                        type="text"
-                                        id="dongia"
-                                        name="dongia"
-                                        defaultValue={dongiaPNK}
-                                        readOnly={true}
-                                    />
-                                </Col>
-                            </FormGroup>
+                                <Input
+                                    type="text"
+                                    id="dongia"
+                                    name="dongia"
+                                    defaultValue={dongiaPNK}
+                                    readOnly={true}
+                                />
+                            </Col>
+                        </FormGroup>
 
-                            <FormGroup row>
-                                <Col md="3">
-                                    <Label htmlFor="hf-password">Trạng thái</Label>
-                                </Col>
-                                <Col xs="12" md="9">
-                                    <Input
-                                        type="text"
-                                        id="trangthai"
-                                        name="trangthai"
-                                        defaultValue={trangthai}
-                                        onChange={(e) => setTrangthaiPNK(e.target.value)}
-                                    />
-                                </Col>
-                            </FormGroup>
+                        <FormGroup row>
+                            <Col md="3">
+                                <Label htmlFor="hf-password">Trạng thái</Label>
+                            </Col>
+                            <Col xs="12" md="9">
+                                <Input
+                                    type="text"
+                                    id="trangthai"
+                                    name="trangthai"
+                                    defaultValue={trangthai}
+                                    onChange={(e) => setTrangthaiPNK(e.target.value)}
+                                />
+                            </Col>
+                        </FormGroup>
 
-                            <FormGroup row>
-                                <Col md="3">
-                                    <Label htmlFor="hf-password">Loại kiện hàng</Label>
-                                </Col>
-                                <Col xs="12" md="9">
-                                    {/* <Select
+                        <FormGroup row>
+                            <Col md="3">
+                                <Label htmlFor="hf-password">Loại kiện hàng</Label>
+                            </Col>
+                            <Col xs="12" md="9">
+                                {/* <Select
                                         defaultValue={optionsloaikienhang.filter(option => (option.label) === loaikienhang)}
                                         onChange={handleOnchangeLoaiKienHang}
                                         options={optionsloaikienhang}
                                     /> */}
-                                    <Input
-                                        type="text"
-                                        id="loaikienhang"
-                                        name="loaikienhang"
-                                        defaultValue={loaikienhang}
-                                        readOnly={true}
-                                    />
-                                </Col>
-                            </FormGroup>
+                                <Input
+                                    type="text"
+                                    id="loaikienhang"
+                                    name="loaikienhang"
+                                    defaultValue={loaikienhang}
+                                    readOnly={true}
+                                />
+                            </Col>
+                        </FormGroup>
 
-                            <FormGroup row>
-                                <Col md="3">
-                                    <Label htmlFor="hf-password">Kho chứa</Label>
-                                </Col>
-                                <Col xs="12" md="9">
-                                    <Input
-                                        type="text"
-                                        id="khochua"
-                                        name="khochua"
-                                        defaultValue={khochuakienhang}
-                                        readOnly={true}
-                                    />
-                                </Col>
-                            </FormGroup>
+                        <FormGroup row>
+                            <Col md="3">
+                                <Label htmlFor="hf-password">Kho chứa</Label>
+                            </Col>
+                            <Col xs="12" md="9">
+                                <Input
+                                    type="text"
+                                    id="khochua"
+                                    name="khochua"
+                                    defaultValue={khochuakienhang}
+                                    readOnly={true}
+                                />
+                            </Col>
+                        </FormGroup>
 
-                            <FormGroup row>
-                                <Col md="3">
-                                    <Label htmlFor="hf-password">Địa chỉ kho chứa</Label>
-                                </Col>
-                                <Col xs="12" md="9">
-                                    <Input
-                                        type="text"
-                                        id="khochua"
-                                        name="khochua"
-                                        value={dckhochuaPNK}
-                                        readOnly={true}
-                                        onChange={() => console.log('')}
-                                    />
-                                </Col>
-                            </FormGroup>
+                        <FormGroup row>
+                            <Col md="3">
+                                <Label htmlFor="hf-password">Địa chỉ kho chứa</Label>
+                            </Col>
+                            <Col xs="12" md="9">
+                                <Input
+                                    type="text"
+                                    id="khochua"
+                                    name="khochua"
+                                    value={dckhochuaPNK}
+                                    readOnly={true}
+                                    onChange={() => console.log('')}
+                                />
+                            </Col>
+                        </FormGroup>
 
-                            <FormGroup row>
-                                <Col md="3">
-                                    <Label htmlFor="hf-password">Người nhận</Label>
-                                </Col>
-                                <Col xs="12" md="9">
-                                    <Input
-                                        type="text"
-                                        id="tennguoinhan"
-                                        name="tennguoinhan"
-                                        defaultValue={tennguoinhan}
-                                        onChange={(e) => setTennguoinhanPNK(e.target.value)}
+                        <FormGroup row>
+                            <Col md="3">
+                                <Label htmlFor="hf-password">Người nhận</Label>
+                            </Col>
+                            <Col xs="12" md="9">
+                                <Input
+                                    type="text"
+                                    id="tennguoinhan"
+                                    name="tennguoinhan"
+                                    defaultValue={tennguoinhan}
+                                    onChange={(e) => setTennguoinhanPNK(e.target.value)}
 
-                                    />
-                                </Col>
-                            </FormGroup>
+                                />
+                            </Col>
+                        </FormGroup>
 
-                            <FormGroup row>
-                                <Col md="3">
+                        <FormGroup row>
+                            <Col md="3">
 
-                                </Col>
-                                <Col xs="12" md="9">
-                                    <Input
-                                        type="text"
-                                        id="sdtnguoinhan"
-                                        name="sdtnguoinhan"
-                                        defaultValue={sdtnguoinhan}
-                                        onChange={(e) => setSdtnguoinhanPNK(e.target.value)}
+                            </Col>
+                            <Col xs="12" md="9">
+                                <Input
+                                    type="text"
+                                    id="sdtnguoinhan"
+                                    name="sdtnguoinhan"
+                                    defaultValue={sdtnguoinhan}
+                                    onChange={(e) => setSdtnguoinhanPNK(e.target.value)}
 
-                                    />
-                                </Col>
-                            </FormGroup>
+                                />
+                            </Col>
+                        </FormGroup>
 
-                            <FormGroup row>
-                                <Col md="3">
+                        <FormGroup row>
+                            <Col md="3">
 
-                                </Col>
-                                <Col xs="12" md="9">
-                                    <Input
-                                        type="text"
-                                        id="diachinguoinhan"
-                                        name="diachinguoinhan"
-                                        defaultValue={diachinguoinhan}
-                                        onChange={(e) => setDiachinguoinhanPNK(e.target.value)}
-                                    />
-                                </Col>
-                            </FormGroup>
+                            </Col>
+                            <Col xs="12" md="9">
+                                <Input
+                                    type="text"
+                                    id="diachinguoinhan"
+                                    name="diachinguoinhan"
+                                    defaultValue={diachinguoinhan}
+                                    onChange={(e) => setDiachinguoinhanPNK(e.target.value)}
+                                />
+                            </Col>
+                        </FormGroup>
 
-                            <FormGroup row>
-                                <Col md="3">
-                                    <Label htmlFor="hf-password">Người gửi</Label>
-                                </Col>
-                                <Col xs="12" md="9">
-                                    <Input
-                                        type="text"
-                                        id="tennguoigui"
-                                        name="tennguoigui"
-                                        defaultValue={tennguoigui}
-                                        //onChange={(e) => setTennguoiguiPNK(e.target.value)}
-                                        readOnly={true}
-                                    />
-                                </Col>
-                            </FormGroup>
+                        <FormGroup row>
+                            <Col md="3">
+                                <Label htmlFor="hf-password">Người gửi</Label>
+                            </Col>
+                            <Col xs="12" md="9">
+                                <Input
+                                    type="text"
+                                    id="tennguoigui"
+                                    name="tennguoigui"
+                                    defaultValue={tennguoigui}
+                                    //onChange={(e) => setTennguoiguiPNK(e.target.value)}
+                                    readOnly={true}
+                                />
+                            </Col>
+                        </FormGroup>
 
-                            <FormGroup row>
-                                <Col md="3">
+                        <FormGroup row>
+                            <Col md="3">
 
-                                </Col>
-                                <Col xs="12" md="9">
-                                    <Input
-                                        type="text"
-                                        id="sdtnguoigui"
-                                        name="sdtnguoigui"
-                                        defaultValue={sdtnguoigui}
-                                        //onChange={(e) => setSdtnguoiguiPNK(e.target.value)}
-                                        readOnly={true}
-                                    />
-                                </Col>
-                            </FormGroup>
+                            </Col>
+                            <Col xs="12" md="9">
+                                <Input
+                                    type="text"
+                                    id="sdtnguoigui"
+                                    name="sdtnguoigui"
+                                    defaultValue={sdtnguoigui}
+                                    //onChange={(e) => setSdtnguoiguiPNK(e.target.value)}
+                                    readOnly={true}
+                                />
+                            </Col>
+                        </FormGroup>
 
-                            <FormGroup row>
-                                <Col md="3">
+                        <FormGroup row>
+                            <Col md="3">
 
-                                </Col>
-                                <Col xs="12" md="9">
-                                    <Input
-                                        type="text"
-                                        id="diachinguoigui"
-                                        name="diachinguoigui"
-                                        defaultValue={diachinguoigui}
-                                        onChange={(e) => setDiachinguoiguiPNK(e.target.value)}
-                                    />
-                                </Col>
-                            </FormGroup>
+                            </Col>
+                            <Col xs="12" md="9">
+                                <Input
+                                    type="text"
+                                    id="diachinguoigui"
+                                    name="diachinguoigui"
+                                    defaultValue={diachinguoigui}
+                                    onChange={(e) => setDiachinguoiguiPNK(e.target.value)}
+                                />
+                            </Col>
+                        </FormGroup>
+                        <CButton color="primary" onClick={handleSubmitUpdate}>
+                            Save
+                        </CButton>
+                        <CButton color="secondary" onClick={togglePopup}>
+                            Close
+                        </CButton>
+                    </Form >
+                </>}
+                handleClose={togglePopup}
+            />
+            }
 
-                        </Form >
-                    }
 
-                </CModalBody>
-                <CModalFooter>
-                    <CButton color="primary" onClick={handleSubmitUpdate}>
-                        Save
-                    </CButton>
-                    <CButton color="secondary" onClick={() => setUpdate(!update)}>
-                        Close
-                    </CButton>
-                </CModalFooter>
-            </CModal>
         </>
 
     );

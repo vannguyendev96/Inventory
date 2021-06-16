@@ -21,12 +21,17 @@ function PhieuXuatKho() {
   const [lydoxuatkho, setLydoxuatkho] = useState('');
   const [sotienthanhtoan, setSotienthanhtoan] = useState('');
   const [phuongthucthanhtoan, setPhuongthucthanhtoan] = useState('');
+
   const [taixevanchuyen, setTaixevanchuyen] = useState('');
+  const [quangduongvanchuyen, setQuangduongvanchuyen] = useState('');
+  const [dongiacuoc, setDongiacuoc] = useState('');
+
   const [soluongtonkho, setSoluongtonkho] = useState(0);
 
   const [tongtien, setTongtien] = useState(0);
 
-  const handleSubmitNewKienHang = (values, dataTenKienHang, dataLoaiKienHang, dataKhoChuaKienHang, dataDonGia, dataAddress, dataTenNguoiGui, dataSDTNguoiGui, resetForm) => {
+  const handleSubmitNewKienHang = (values, dataTenKienHang, dataLoaiKienHang, dataKhoChuaKienHang, dataDonGia, 
+    dataKhoiLuong,dataAddress, dataTenNguoiGui, dataSDTNguoiGui, resetForm) => {
     if (parseFloat(values.soluongkienhang, 10) > soluongtonkho) {
       toast.error(`Tồn kho của kiện hàng ${dataTenKienHang} chỉ còn ${soluongtonkho}`);
     }
@@ -37,6 +42,7 @@ function PhieuXuatKho() {
           nguoitaolohang: localStorage.getItem("username"),
           tenkienhang: dataTenKienHang,
           soluongkienhang: values.soluongkienhang,
+          khoiluongkienhang: dataKhoiLuong,
           trangthai: values.trangthaikienhang,
           loaikienhang: dataLoaiKienHang,
           khochuakienhang: dataKhoChuaKienHang,
@@ -51,6 +57,8 @@ function PhieuXuatKho() {
         }
       ]);
 
+      console.log(values)
+
 
       const arrayItems = [
         ...items,
@@ -58,6 +66,7 @@ function PhieuXuatKho() {
           nguoitaolohang: localStorage.getItem("username"),
           tenkienhang: dataTenKienHang,
           soluongkienhang: values.soluongkienhang,
+          khoiluongkienhang: dataKhoiLuong,
           trangthai: values.trangthaikienhang,
           loaikienhang: dataLoaiKienHang,
           khochuakienhang: dataKhoChuaKienHang,
@@ -75,7 +84,7 @@ function PhieuXuatKho() {
       let total = 0;
       arrayItems.forEach(kienhang => {
         const dongiaConvert = (kienhang.dongia).split(",").join("");
-        total = tongtien + parseFloat(dongiaConvert, 10) * parseFloat(kienhang.soluongkienhang, 10);
+        total = tongtien + parseFloat(dongiaConvert, 10) * parseFloat(kienhang.soluongkienhang, 10) * parseFloat(dataKhoiLuong, 10);
       });
       setTongtien(total);
 
@@ -104,9 +113,15 @@ function PhieuXuatKho() {
     else if (taixevanchuyen === '') {
       toast.error("Vui lòng nhập tài xế vận chuyển");
     }
+    else if (quangduongvanchuyen === '') {
+      toast.error("Vui lòng nhập quản đường vận chuyển");
+    }
+    else if (dongiacuoc === '') {
+      toast.error("Vui lòng nhập đơn giá cước");
+    }
     else {
       const pttt = (phuongthucthanhtoan !== '') ? phuongthucthanhtoan : 'Chuyển khoản';
-      await pxkApi.taophieuxuatkho(items, lydoxuatkho, tongtien, pttt, taixevanchuyen)
+      await pxkApi.taophieuxuatkho(items, lydoxuatkho, tongtien, pttt, taixevanchuyen, dongiacuoc, quangduongvanchuyen)
         .then(response => {
           toast.success(`Tạo thành công phiếu xuất kho mã ${response.malohang}`);
         })
@@ -118,6 +133,14 @@ function PhieuXuatKho() {
 
   function handleOnChangeDataDriver(driver) {
     setTaixevanchuyen(driver)
+  }
+
+  function handleOnChangeDataDongia(value) {
+    setDongiacuoc(value)
+  }
+
+  function handleOnChangeDataQuangduong(value) {
+    setQuangduongvanchuyen(value)
   }
 
   function handleOnChangeSoLuong(soluong) {
@@ -172,7 +195,9 @@ function PhieuXuatKho() {
               Thông tin tài xế
           </CCardHeader>
             <CCardBody>
-              <SelectDriver onChangeDataDriver={handleOnChangeDataDriver} />
+              <SelectDriver onChangeDataDriver={handleOnChangeDataDriver} 
+              onChangeDataDonGia={handleOnChangeDataDongia}
+              onChangeDataQuangDuong={handleOnChangeDataQuangduong}/>
             </CCardBody>
           </CCard>
         </CCol>

@@ -34,6 +34,8 @@ function DanhSachLoHangPXK(props) {
                         <th>STT</th>
                         <th>Mã lô hàng</th>
                         <th>Người tạo lô hàng</th>
+                        <th>Đơn giá cước</th>
+                        <th>Quảng đường</th>
                         <th>Thời gian tạo lô hàng</th>
                         <th>Lý do xuất kho</th>
                         <th>Số tiền thanh toán</th>
@@ -43,7 +45,8 @@ function DanhSachLoHangPXK(props) {
                 <tbody>
                     {
                         dataPNK.map((dataList, index) => {
-                            const { malohang, nguoitaolohang, ngaytaolohang, lydoxuatkho, sotienthanhtoan, phuongthucthanhtoan} = dataList //destructuring
+                            const { malohang, nguoitaolohang, ngaytaolohang, lydoxuatkho, 
+                                dongiacuoc, quangduongdichuyen,sotienthanhtoan, phuongthucthanhtoan} = dataList //destructuring
                             return (
                                 <tr
                                     key={index}
@@ -52,6 +55,8 @@ function DanhSachLoHangPXK(props) {
                                     <td>{index + 1}</td>
                                     <td>{malohang}</td>
                                     <td>{nguoitaolohang}</td>
+                                    <td>{dongiacuoc}</td>
+                                    <td>{quangduongdichuyen}</td>
                                     <td>{new Date(ngaytaolohang).getFullYear() + "-" + (new Date(ngaytaolohang).getMonth() + 1) + "-" + new Date(ngaytaolohang).getDate()}</td>
                                     <td>{lydoxuatkho}</td>
                                     <td>{sotienthanhtoan}</td>
