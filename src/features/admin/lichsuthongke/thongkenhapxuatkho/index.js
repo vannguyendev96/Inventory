@@ -2,39 +2,39 @@ import {
     CCard,
     CCardBody,
     CCardHeader, CCol,
-    CRow
+    CRow,
 } from '@coreui/react';
+import {
+    Table, Button
+} from 'reactstrap';
+
 import {
     CChartPie
 } from '@coreui/react-chartjs';
 import React, { useEffect, useState } from 'react';
 import pxkApi from 'src/api/pxkAPI';
+import warehouseApi from 'src/api/warehouseAPI';
 import FullPageLoader from 'src/views/fullpageloading';
 
 function ChartReport() {
 
-    const [percentPNK, setPercentPNK] = useState(0);
-    const [percentPXK, setPercentPXK] = useState(0);
+    const [dataKhoHang, setDataKhoHang] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    const fetchDataReport = async () => {
-        setIsLoading(true);
+    const fetchDataKhoHang = async () => {
         try {
-            await pxkApi.report()
+            await warehouseApi.getall()
                 .then(response => {
-                    setPercentPNK(response.percentPNK);
-                    setPercentPXK(response.percentPXK);
-                    setIsLoading(false);
+                    setDataKhoHang(response.data);
                 })
                 .catch(error => console.log(error))
         } catch (error) {
-            console.log(error);
-            setIsLoading(false);
+            console.log(error)
         }
     }
 
     useEffect(() => {
-        fetchDataReport();
+        fetchDataKhoHang();
     }, [])
 
     return (
@@ -47,23 +47,36 @@ function ChartReport() {
                                 Thống kê nhập xuất kho
                     </CCardHeader>
                             <CCardBody>
-                                <CChartPie
-                                    datasets={[
+                                <Table responsive hover size="sm">
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Tên thủ kho</th>
+                                            <th>Địa chỉ</th>
+                                            <th>Trạng thái</th>
+                                            <th>Doanh thu (VND)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                         {
-                                            backgroundColor: [
-                                                '#41B883',
-                                                '#E46651'
-                                            ],
-                                            data: [percentPNK, percentPXK]
+                                            dataKhoHang.map((dataList, index) => {
+                                                let i = 1;
+                                                const { _id, tenkhohang, succhua, trangthai, provine, district, phuong, doanhthu } = dataList //destructuring
+                                                return (
+                                                    <tr
+                                                        key={_id}
+                                                    >
+                                                        <td>{index + 1}</td>
+                                                        <td>{tenkhohang}</td>
+                                                        <td>{phuong} {' '} {district} {' '} {provine}</td>
+                                                        <td>{trangthai}</td>
+                                                        <td>{doanhthu}</td>
+                                                    </tr>
+                                                )
+                                            })
                                         }
-                                    ]}
-                                    labels={['Nhập kho', 'Xuất kho']}
-                                    options={{
-                                        tooltips: {
-                                            enabled: true
-                                        }
-                                    }}
-                                />
+                                    </tbody>
+                                </Table>
                             </CCardBody>
                         </CCard>
                     </CCol>
