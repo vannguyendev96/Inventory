@@ -38,7 +38,7 @@ function DanhSachLoHangPNK(props) {
                         <th>Đơn giá cước</th>
                         <th>Quảng đường</th>
                         <th>Thời gian tạo lô hàng</th>
-                        <th>Tổng đơn giá</th>
+                        <th>Tổng thành tiền</th>
                     </tr>
                 </thead>
                 <tbody>

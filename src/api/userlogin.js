@@ -13,7 +13,7 @@ const userApi = {
     const url = '/users/signup';
     let raw = JSON.stringify({
       "email": user.username, "password": user.password, "roll": user.chucvu, "name": user.tenuser,
-      "emailUser": user.email, "sdt": "0" + user.sdt.toString(), "kholamviec": user.kholamviec
+      "emailUser": user.email, "sdt": user.sdt.toString(), "kholamviec": user.kholamviec
     });
     return axiosClient.post(url, raw);
   },
@@ -44,7 +44,7 @@ const userApi = {
     const url = '/users/update-user';
     let raw = JSON.stringify({
       "email": user.username, "roll": user.chucvu, "name": user.tenuser,
-      "emailUser": user.email, "sdt": "0" + user.sdt.toString(), "kholamviec": user.kholamviec
+      "emailUser": user.email, "sdt": user.sdt.toString(), "kholamviec": user.kholamviec
     });
     return axiosClient.post(url,raw);
   },

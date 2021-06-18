@@ -32,6 +32,7 @@ function ListCreatePNK(props) {
                         <th>STT</th>
                         <th>Tên</th>
                         <th>Số lượng</th>
+                        <th>Khối lượng</th>
                         <th>Đơn giá</th>
                         <th>Thành tiền</th>
                         <th>Trạng thái</th>
@@ -47,13 +48,13 @@ function ListCreatePNK(props) {
                 <tbody>
                     {
                         dataKienHang.map((dataList, index) => {
-                            const { tenkienhang, soluongkienhang, trangthai, 
+                            const { tenkienhang, soluongkienhang,khoiluongkienhang, trangthai, 
                                 loaikienhang, khochuakienhang, diachikhochua, 
                                 tennguoinhan, sdtnguoinhan, diachinguoinhan,
                                 tennguoigui, sdtnguoigui, diachinguoigui, dongia } = dataList //destructuring
 
                                 const dongiaConvert = (dongia).split(",").join("");
-                                const thanhtien =new Intl.NumberFormat().format(parseFloat(dongiaConvert, 10)*parseFloat(soluongkienhang, 10));
+                                const thanhtien =new Intl.NumberFormat().format(parseFloat(dongiaConvert, 10)*parseFloat(soluongkienhang, 10)*parseFloat(khoiluongkienhang, 10));
                             return (
                                 <tr
                                     key={index}
@@ -61,6 +62,7 @@ function ListCreatePNK(props) {
                                     <td>{index + 1}</td>
                                     <td>{tenkienhang}</td>
                                     <td>{soluongkienhang}</td>
+                                    <td>{khoiluongkienhang}</td>
                                     <td>{dongia}</td>
                                     <td>{thanhtien}</td>
                                     <td>{trangthai}</td>

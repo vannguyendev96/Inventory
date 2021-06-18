@@ -115,7 +115,7 @@ function QuanLiTaiXe() {
           toast.error("Tài xế đã được tạo trước đó")
         }
         else{
-          toast.error("Tạo thông tin tài xế thất bại")
+          toast.error(error.response.data.message)
         }
       })
   }

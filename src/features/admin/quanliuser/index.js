@@ -59,7 +59,7 @@ function QuanLiUser() {
         toast.success("Tạo tài khoản user thành công");
         fetchDataThuKho();
       })
-      .catch(error => toast.error("Tạo tài khoản không thành công"))
+      .catch(error => toast.error(error.response.data.message))
 
   }
 
