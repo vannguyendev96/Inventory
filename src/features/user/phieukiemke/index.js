@@ -26,9 +26,10 @@ function PhieuKiemKe() {
   const [active, setActive] = useState(0)
 
   const fetchDataTonKho = async () => {
+    const username = localStorage.getItem('username')
     setIsLoading(true);
     try {
-      await pnkApi.getlistkhtk()
+      await pnkApi.getlistkhtk(username)
         .then(response => {
           setIsLoading(false);
           setDataListTonKho(response.data);

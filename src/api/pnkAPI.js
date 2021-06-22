@@ -68,10 +68,12 @@ const pnkApi = {
     return axiosClient.post(url, raw);
   },
 
-  getlistkhtk: () => {
+  getlistkhtk: (emailuser) => {
     const url = '/phieunhapkho/get-khtk';
-
-    return axiosClient.get(url);
+    let raw = JSON.stringify({
+      "emailuser": emailuser
+    });
+    return axiosClient.post(url, raw);
   },
 
   getkhtkbyid: (id) => {

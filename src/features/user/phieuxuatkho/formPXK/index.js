@@ -93,12 +93,14 @@ function CreatePXK(props) {
     }
 
     const getListKienHangTonKho = async () => {
+        const username = localStorage.getItem('username')
         setIsLoading(true);
         let listKHTK = [];
         try {
-            await pnkApi.getlistkhtk()
+            await pnkApi.getlistkhtk(username)
                 .then(response => {
                     const list = response.data;
+                    console.log(list)
                     list.forEach(element => {
                         listKHTK.push({
                             value: element._id,
