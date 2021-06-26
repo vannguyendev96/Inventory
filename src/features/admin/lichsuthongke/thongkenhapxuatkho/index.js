@@ -53,7 +53,8 @@ function ChartReport() {
                                             <th>STT</th>
                                             <th>Tên thủ kho</th>
                                             <th>Địa chỉ</th>
-                                            <th>Trạng thái</th>
+                                            <th>Số lượng kiện hàng nhập</th>
+                                            <th>Số lượng kiện hàng xuất</th>
                                             <th>Doanh thu (VND)</th>
                                         </tr>
                                     </thead>
@@ -61,15 +62,18 @@ function ChartReport() {
                                         {
                                             dataKhoHang.map((dataList, index) => {
                                                 let i = 1;
-                                                const { _id, tenkhohang, succhua, trangthai, provine, district, phuong, doanhthu } = dataList //destructuring
+                                                const { _id, tenkhohang, succhua, trangthai, provine, 
+                                                    district, phuong, doanhthu, tongxuat, tongthu } = dataList //destructuring
                                                 return (
                                                     <tr
                                                         key={_id}
                                                     >
                                                         <td>{index + 1}</td>
                                                         <td>{tenkhohang}</td>
+                                                        
                                                         <td>{phuong} {' '} {district} {' '} {provine}</td>
-                                                        <td>{trangthai}</td>
+                                                        <td>{tongthu}</td>
+                                                        <td>{tongxuat}</td>
                                                         <td>{doanhthu}</td>
                                                     </tr>
                                                 )
