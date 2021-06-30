@@ -70,7 +70,6 @@ function PhieuNhapKhoDanhSach() {
         } catch (error) {
             toast.error("Không thể kết nối đến server");
         }
-       
     }
 
     const handleDeletePNK = async (data) => {

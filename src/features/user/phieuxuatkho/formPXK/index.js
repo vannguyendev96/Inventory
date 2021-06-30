@@ -156,7 +156,8 @@ function CreatePXK(props) {
                 }
                 setDataTenKienHang(response.data[0].tenkienhang);
                 setDataLoaiKienHang(response.data[0].loaikienhang);
-                setDataKhoiLuong(response.data[0].khoiluongkienhang)
+                const kl = (parseFloat(response.data[0].khoiluongkienhang, 10)/parseFloat(response.data[0].soluongkienhang, 10))
+                setDataKhoiLuong(kl)
                 setDataKhoChuaKienHang(response.data[0].khochuakienhang);
                 setDataDonGia(response.data[0].dongia);
                 handOnchangKhoChua(response.data[0].khochuakienhang)

@@ -18,6 +18,12 @@ const warehouseApi = {
         return axiosClient.get(url);
     },
 
+    thongke: () => {
+        const url = '/warehouses/thongkekienhang';
+
+        return axiosClient.get(url);
+    },
+
     updateWarehouse: (warehouse) => {
         const url = '/warehouses/update-warehouse';
         let raw = JSON.stringify({
