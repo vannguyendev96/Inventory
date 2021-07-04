@@ -133,7 +133,7 @@ function PhieuXuatKho() {
     }
     else {
       const pttt = (phuongthucthanhtoan !== '') ? phuongthucthanhtoan : 'Chuyển khoản';
-      await pxkApi.taophieuxuatkho(items, lydoxuatkho, tongtien, pttt, 
+      await pxkApi.taophieuxuatkho(items, lydoxuatkho, tongtien, pttt,
         taixevanchuyen, dongiacuoc, quangduongvanchuyen, fromDate)
         .then(response => {
           toast.success(`Tạo thành công phiếu xuất kho mã ${response.malohang}`);
@@ -220,14 +220,14 @@ function PhieuXuatKho() {
         <CCol sm="12" xl="12">
           <CCard>
             <CCardHeader>
-              Ngay Xuat Kho
+              Ngày Xuất Kho
             </CCardHeader>
             <CCardBody>
               <Form action="" className="form-horizontal">
 
                 <FormGroup row>
                   <Col md="3">
-                    <Label htmlFor="hf-password">Ngay Xuat Kho</Label>
+                    <Label htmlFor="hf-password">Ngày Xuất Kho</Label>
                   </Col>
                   <Col xs="12" md="9">
                     <Input

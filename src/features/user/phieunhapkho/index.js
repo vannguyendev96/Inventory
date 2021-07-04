@@ -209,14 +209,14 @@ function PhieuNhapKho() {
             <CCol sm="12" xl="12">
               <CCard>
                 <CCardHeader>
-                  Ngay Nhap Kho
+                Ngày Nhập Kho
                 </CCardHeader>
                 <CCardBody>
                   <Form action="" className="form-horizontal">
 
                     <FormGroup row>
                       <Col md="3">
-                        <Label htmlFor="hf-password">Ngay Nhap Kho</Label>
+                        <Label htmlFor="hf-password">Ngày Nhập Kho</Label>
                       </Col>
                       <Col xs="12" md="9">
                         <Input
