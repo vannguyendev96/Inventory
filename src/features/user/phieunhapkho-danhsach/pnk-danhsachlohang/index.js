@@ -56,7 +56,7 @@ function DanhSachLoHangPNK(props) {
                                     {/* <td>{taixevanchuyen}</td> */}
                                     <td>{dongiacuoc} {' VND'}</td>
                                     <td>{quangduongdichuyen} {' KM'}</td>
-                                    <td>{new Date(ngaytaolohang).getFullYear() + "-" + (new Date(ngaytaolohang).getMonth() + 1) + "-" + new Date(ngaytaolohang).getDate()}</td>
+                                    <td>{new Date(ngaytaolohang).getFullYear() + "-" + (new Date(ngaytaolohang).getMonth() + 1) + "-" + (new Date(ngaytaolohang).getDate() -1)}</td>
                                     <td>{tongtien} {' VND'}</td>
                                 </tr>
                             )

@@ -2,7 +2,8 @@ import axiosClient from "./axiosClient";
 
 const pnkApi = {
 
-  taophieuxuatkho: (data, lydoxuatkho, sotienthanhtoan, phuongthucthanhtoan, taixevanchuyen, dongiacuoc, quangduongdichuyen) => {
+  taophieuxuatkho: (data, lydoxuatkho, sotienthanhtoan, phuongthucthanhtoan, 
+    taixevanchuyen, dongiacuoc, quangduongdichuyen, ngayxuatkho) => {
     const url = '/phieuxuatkho/create-pxk';
     let raw = JSON.stringify({
       "data": data,
@@ -11,7 +12,8 @@ const pnkApi = {
       "phuongthucthanhtoan": phuongthucthanhtoan,
       "taixevanchuyen": taixevanchuyen,
       "dongiacuoc": dongiacuoc,
-      "quangduongdichuyen": quangduongdichuyen
+      "quangduongdichuyen": quangduongdichuyen,
+      "ngayxuatkho": ngayxuatkho
     });
     return axiosClient.post(url, raw);
   },

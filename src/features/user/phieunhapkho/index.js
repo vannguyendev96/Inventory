@@ -31,6 +31,7 @@ function PhieuNhapKho() {
   const [items, setItems] = useState([]);
   const [dataDriver, setDataDriver] = useState([]);
   const [driver, setDriver] = useState('');
+  const [fromDate, setFromDate] = useState('');
 
   const [quangduongvanchuyen, setQuangduongvanchuyen] = useState('');
   const [dongiacuoc, setDongiacuoc] = useState('');
@@ -39,9 +40,12 @@ function PhieuNhapKho() {
     if (driver === '') {
       toast.error(`Vui lòng chọn tài xế vận chuyển`);
     }
+    else if (fromDate === '') {
+      toast.error("Vui lòng nhập ngay nhap kho");
+    }
     else {
       setIsLoading(true);
-      await pnkApi.taophieunhapkho(items, driver, dongiacuoc, quangduongvanchuyen)
+      await pnkApi.taophieunhapkho(items, driver, dongiacuoc, quangduongvanchuyen, fromDate)
         .then(response => {
           // console.log("a")
           // toast.success(`Tạo thành công phiếu nhập kho mã ${response.malohang}`);
@@ -115,14 +119,19 @@ function PhieuNhapKho() {
         dongia: values.dongia
       }
     ]);
-    console.log(values.dongia)
     toast.success("Đã thêm kiện hàng vào đơn hàng");
     //resetForm({});
+
   }
 
   function handleOnchangeDataDriver(target) {
-    
+
     setDriver(target.value);
+  }
+
+  function getDifferenceInDays(date1, date2) {
+    const diffInMs = Math.abs(date2 - date1);
+    return diffInMs / (1000 * 60 * 60 * 24);
   }
 
   return (
@@ -135,7 +144,7 @@ function PhieuNhapKho() {
               <CCard>
                 <CCardHeader>
                   Thông tin kiện hàng cần nhập kho
-          </CCardHeader>
+                </CCardHeader>
                 <CCardBody>
                   <CreatePNK onSubmit={handleSubmitNewKienHang} />
                 </CCardBody>
@@ -148,7 +157,7 @@ function PhieuNhapKho() {
               <CCard>
                 <CCardHeader>
                   Thông tin tài xế
-          </CCardHeader>
+                </CCardHeader>
                 <CCardBody>
                   <Form action="" className="form-horizontal">
                     <FormGroup row>
@@ -196,14 +205,42 @@ function PhieuNhapKho() {
             </CCol>
           </CRow>
 
+          <CRow>
+            <CCol sm="12" xl="12">
+              <CCard>
+                <CCardHeader>
+                  Ngay Nhap Kho
+                </CCardHeader>
+                <CCardBody>
+                  <Form action="" className="form-horizontal">
 
+                    <FormGroup row>
+                      <Col md="3">
+                        <Label htmlFor="hf-password">Ngay Nhap Kho</Label>
+                      </Col>
+                      <Col xs="12" md="9">
+                        <Input
+                          type="date"
+                          id="fromdate"
+                          name="fromdate"
+                          placeholder="Từ ngày..."
+                          onChange={event => setFromDate(event.target.value)}
+                        />
+                      </Col>
+                    </FormGroup>
+
+                  </Form>
+                </CCardBody>
+              </CCard>
+            </CCol>
+          </CRow>
 
           <CRow>
             <CCol sm="12" xl="12">
               <CCard>
                 <CCardHeader>
                   Danh sách kiện hàng cần nhập kho
-            </CCardHeader>
+                </CCardHeader>
                 <CCardBody>
                   <ListCreatePNK data={items} onSubmit={handleSubmitNewPNK} />
                 </CCardBody>

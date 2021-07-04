@@ -2,13 +2,14 @@ import axiosClient from "./axiosClient";
 
 const pnkApi = {
 
-  taophieunhapkho: (data,driver,dongiacuoc,quangduongdichuyen) => {
+  taophieunhapkho: (data,driver,dongiacuoc,quangduongdichuyen,ngaynhapkho) => {
     const url = '/phieunhapkho/create-pnk';
     let raw = JSON.stringify({
       "data": data,
       "driver": driver,
       "dongiacuoc": dongiacuoc,
-      "quangduongdichuyen": quangduongdichuyen
+      "quangduongdichuyen": quangduongdichuyen,
+      "ngaynhapkho": ngaynhapkho
     });
     return axiosClient.post(url, raw);
   },

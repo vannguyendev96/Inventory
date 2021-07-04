@@ -57,7 +57,7 @@ function DanhSachLoHangPXK(props) {
                                     <td>{nguoitaolohang}</td>
                                     <td>{dongiacuoc}</td>
                                     <td>{quangduongdichuyen}</td>
-                                    <td>{new Date(ngaytaolohang).getFullYear() + "-" + (new Date(ngaytaolohang).getMonth() + 1) + "-" + new Date(ngaytaolohang).getDate()}</td>
+                                    <td>{new Date(ngaytaolohang).getFullYear() + "-" + (new Date(ngaytaolohang).getMonth() + 1) + "-" + (new Date(ngaytaolohang).getDate() -1)}</td>
                                     <td>{lydoxuatkho}</td>
                                     <td>{sotienthanhtoan}</td>
                                     <td>{phuongthucthanhtoan}</td>

@@ -7,6 +7,14 @@ import {
   CRow,
 } from '@coreui/react';
 
+import {
+  Col,
+  Form,
+  FormGroup,
+  Input,
+  Label,
+} from 'reactstrap';
+
 import CreatePXK from './formPXK';
 import PhuongThucThanhToan from './formThanhToan';
 import ListCreatePXK from './listNewPXK';
@@ -25,13 +33,14 @@ function PhieuXuatKho() {
   const [taixevanchuyen, setTaixevanchuyen] = useState('');
   const [quangduongvanchuyen, setQuangduongvanchuyen] = useState('');
   const [dongiacuoc, setDongiacuoc] = useState('');
+  const [fromDate, setFromDate] = useState('');
 
   const [soluongtonkho, setSoluongtonkho] = useState(0);
 
   const [tongtien, setTongtien] = useState(0);
 
-  const handleSubmitNewKienHang = (values, dataTenKienHang, dataLoaiKienHang, dataKhoChuaKienHang, dataDonGia, 
-    dataKhoiLuong,dataAddress, dataTenNguoiGui, dataSDTNguoiGui, resetForm) => {
+  const handleSubmitNewKienHang = (values, dataTenKienHang, dataLoaiKienHang, dataKhoChuaKienHang, dataDonGia,
+    dataKhoiLuong, dataAddress, dataTenNguoiGui, dataSDTNguoiGui, resetForm) => {
     if (parseFloat(values.soluongkienhang, 10) > soluongtonkho) {
       toast.error(`Tồn kho của kiện hàng ${dataTenKienHang} chỉ còn ${soluongtonkho}`);
     }
@@ -119,9 +128,13 @@ function PhieuXuatKho() {
     else if (dongiacuoc === '') {
       toast.error("Vui lòng nhập đơn giá cước");
     }
+    else if (fromDate === '') {
+      toast.error("Vui lòng nhập ngay xuat kho");
+    }
     else {
       const pttt = (phuongthucthanhtoan !== '') ? phuongthucthanhtoan : 'Chuyển khoản';
-      await pxkApi.taophieuxuatkho(items, lydoxuatkho, tongtien, pttt, taixevanchuyen, dongiacuoc, quangduongvanchuyen)
+      await pxkApi.taophieuxuatkho(items, lydoxuatkho, tongtien, pttt, 
+        taixevanchuyen, dongiacuoc, quangduongvanchuyen, fromDate)
         .then(response => {
           toast.success(`Tạo thành công phiếu xuất kho mã ${response.malohang}`);
         })
@@ -154,7 +167,7 @@ function PhieuXuatKho() {
           <CCard>
             <CCardHeader>
               Thông tin kiện hàng cần xuất kho
-          </CCardHeader>
+            </CCardHeader>
             <CCardBody>
               <CreatePXK onSubmit={handleSubmitNewKienHang} onChangeSoLuong={handleOnChangeSoLuong} />
             </CCardBody>
@@ -167,7 +180,7 @@ function PhieuXuatKho() {
           <CCard>
             <CCardHeader>
               Lý do xuất kho
-          </CCardHeader>
+            </CCardHeader>
             <CCardBody>
               <Lydoxuatkho onChangeData={handleOnchangeData} />
             </CCardBody>
@@ -180,7 +193,7 @@ function PhieuXuatKho() {
           <CCard>
             <CCardHeader>
               Thông tin thanh toán
-          </CCardHeader>
+            </CCardHeader>
             <CCardBody>
               <PhuongThucThanhToan valueCurrency={tongtien} onChangeDataSTTT={handleOnchangeDataSTTT} onChangeDataPTTT={handleOnchangeDataPTTT} />
             </CCardBody>
@@ -193,11 +206,41 @@ function PhieuXuatKho() {
           <CCard>
             <CCardHeader>
               Thông tin tài xế
-          </CCardHeader>
+            </CCardHeader>
             <CCardBody>
-              <SelectDriver onChangeDataDriver={handleOnChangeDataDriver} 
-              onChangeDataDonGia={handleOnChangeDataDongia}
-              onChangeDataQuangDuong={handleOnChangeDataQuangduong}/>
+              <SelectDriver onChangeDataDriver={handleOnChangeDataDriver}
+                onChangeDataDonGia={handleOnChangeDataDongia}
+                onChangeDataQuangDuong={handleOnChangeDataQuangduong} />
+            </CCardBody>
+          </CCard>
+        </CCol>
+      </CRow>
+
+      <CRow>
+        <CCol sm="12" xl="12">
+          <CCard>
+            <CCardHeader>
+              Ngay Xuat Kho
+            </CCardHeader>
+            <CCardBody>
+              <Form action="" className="form-horizontal">
+
+                <FormGroup row>
+                  <Col md="3">
+                    <Label htmlFor="hf-password">Ngay Xuat Kho</Label>
+                  </Col>
+                  <Col xs="12" md="9">
+                    <Input
+                      type="date"
+                      id="fromdate"
+                      name="fromdate"
+                      placeholder="Từ ngày..."
+                      onChange={event => setFromDate(event.target.value)}
+                    />
+                  </Col>
+                </FormGroup>
+
+              </Form>
             </CCardBody>
           </CCard>
         </CCol>
@@ -208,7 +251,7 @@ function PhieuXuatKho() {
           <CCard>
             <CCardHeader>
               Danh sách kiện hàng cần xuất kho
-        </CCardHeader>
+            </CCardHeader>
             <CCardBody>
               <ListCreatePXK data={items} onSubmit={handleSubmitNewPXK} />
             </CCardBody>
