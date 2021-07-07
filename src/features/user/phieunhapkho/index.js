@@ -102,7 +102,7 @@ function PhieuNhapKho() {
     await pnkApi.checkCreate(values.tenkienhang)
       .then(response => {
         if (dataSDTNguoiNhan === values.sdtnguoigui) {
-          toast.error("So dien thoai nguoi gui va nguoi nhan phai khac nhau");
+          toast.error("Số điện thoại người nhận và người gửi phải khác nhau");
         }
         else {
           setItems([
