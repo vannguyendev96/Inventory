@@ -44,6 +44,10 @@ function PhieuXuatKho() {
     if (parseFloat(values.soluongkienhang, 10) > soluongtonkho) {
       toast.error(`Tồn kho của kiện hàng ${dataTenKienHang} chỉ còn ${soluongtonkho}`);
     }
+    else if(values.sdtnguoinhan === dataSDTNguoiGui)
+    {
+      toast.error("So dien thoai nguoi gui va nguoi nhan phai khac nhau");
+    }
     else {
       setItems([
         ...items,
@@ -65,9 +69,6 @@ function PhieuXuatKho() {
           dongia: dataDonGia
         }
       ]);
-
-      console.log(values)
-
 
       const arrayItems = [
         ...items,

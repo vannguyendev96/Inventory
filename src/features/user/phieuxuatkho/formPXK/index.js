@@ -154,6 +154,7 @@ function CreatePXK(props) {
                 if (onChangeSoLuong) {
                     onChangeSoLuong(response.data[0].soluongkienhang)
                 }
+                
                 setDataTenKienHang(response.data[0].tenkienhang);
                 setDataLoaiKienHang(response.data[0].loaikienhang);
                 const kl = (parseFloat(response.data[0].khoiluongkienhang, 10)/parseFloat(response.data[0].soluongkienhang, 10))

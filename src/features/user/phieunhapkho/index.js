@@ -98,30 +98,40 @@ function PhieuNhapKho() {
     }
   }, []);
 
-  const handleSubmitNewKienHang = (values, dataAddress, dataTenNguoiNhan, dataSDTNguoiNhan, resetForm) => {
-    setItems([
-      ...items,
-      {
-        nguoitaolohang: localStorage.getItem("username"),
-        tenkienhang: values.tenkienhang,
-        soluongkienhang: values.soluongkienhang,
-        khoiluongkienhang: values.khoiluongkienhang,
-        trangthai: values.trangthaikienhang,
-        loaikienhang: values.loaikienhang,
-        khochuakienhang: values.khochuahang,
-        diachikhochua: dataAddress,
-        tennguoinhan: dataTenNguoiNhan,
-        sdtnguoinhan: dataSDTNguoiNhan,
-        diachinguoinhan: values.diachinguoinhan,
-        tennguoigui: values.tennguoigui,
-        sdtnguoigui: values.sdtnguoigui,
-        diachinguoigui: values.diachinguoigui,
-        dongia: values.dongia
-      }
-    ]);
-    toast.success("Đã thêm kiện hàng vào đơn hàng");
+  const handleSubmitNewKienHang = async (values, dataAddress, dataTenNguoiNhan, dataSDTNguoiNhan, resetForm) => {
+    await pnkApi.checkCreate(values.tenkienhang)
+      .then(response => {
+        if (dataSDTNguoiNhan === values.sdtnguoigui) {
+          toast.error("So dien thoai nguoi gui va nguoi nhan phai khac nhau");
+        }
+        else {
+          setItems([
+            ...items,
+            {
+              nguoitaolohang: localStorage.getItem("username"),
+              tenkienhang: values.tenkienhang,
+              soluongkienhang: values.soluongkienhang,
+              khoiluongkienhang: values.khoiluongkienhang,
+              trangthai: values.trangthaikienhang,
+              loaikienhang: values.loaikienhang,
+              khochuakienhang: values.khochuahang,
+              diachikhochua: dataAddress,
+              tennguoinhan: dataTenNguoiNhan,
+              sdtnguoinhan: dataSDTNguoiNhan,
+              diachinguoinhan: values.diachinguoinhan,
+              tennguoigui: values.tennguoigui,
+              sdtnguoigui: values.sdtnguoigui,
+              diachinguoigui: values.diachinguoigui,
+              dongia: values.dongia
+            }
+          ]);
+          toast.success("Đã thêm kiện hàng vào đơn hàng");
+        }
+      })
+      .catch(error => {
+        toast.error(error.response.data.message);
+      })
     //resetForm({});
-
   }
 
   function handleOnchangeDataDriver(target) {
@@ -136,121 +146,119 @@ function PhieuNhapKho() {
 
   return (
     <div>
-      {loading ? <FullPageLoader /> :
-        <>
+      <>
 
-          <CRow>
-            <CCol sm="12" xl="12">
-              <CCard>
-                <CCardHeader>
-                  Thông tin kiện hàng cần nhập kho
-                </CCardHeader>
-                <CCardBody>
-                  <CreatePNK onSubmit={handleSubmitNewKienHang} />
-                </CCardBody>
-              </CCard>
-            </CCol>
-          </CRow>
+        <CRow>
+          <CCol sm="12" xl="12">
+            <CCard>
+              <CCardHeader>
+                Thông tin kiện hàng cần nhập kho
+              </CCardHeader>
+              <CCardBody>
+                <CreatePNK onSubmit={handleSubmitNewKienHang} />
+              </CCardBody>
+            </CCard>
+          </CCol>
+        </CRow>
 
-          <CRow>
-            <CCol sm="12" xl="12">
-              <CCard>
-                <CCardHeader>
-                  Thông tin tài xế
-                </CCardHeader>
-                <CCardBody>
-                  <Form action="" className="form-horizontal">
-                    <FormGroup row>
-                      <Col md="3">
-                        <Label htmlFor="hf-password">Tài xế vận chuyển</Label>
-                      </Col>
-                      <Col xs="12" md="9">
-                        <Select
-                          options={dataDriver}
-                          onChange={handleOnchangeDataDriver}
-                          classNamePrefix="select"
-                        />
-                      </Col>
-                    </FormGroup>
+        <CRow>
+          <CCol sm="12" xl="12">
+            <CCard>
+              <CCardHeader>
+                Thông tin tài xế
+              </CCardHeader>
+              <CCardBody>
+                <Form action="" className="form-horizontal">
+                  <FormGroup row>
+                    <Col md="3">
+                      <Label htmlFor="hf-password">Tài xế vận chuyển</Label>
+                    </Col>
+                    <Col xs="12" md="9">
+                      <Select
+                        options={dataDriver}
+                        onChange={handleOnchangeDataDriver}
+                        classNamePrefix="select"
+                      />
+                    </Col>
+                  </FormGroup>
 
-                    <FormGroup row>
-                      <Col md="3">
-                        <Label htmlFor="hf-password">Quảng đường vận chuyển(KM)</Label>
-                      </Col>
-                      <Col xs="12" md="9">
-                        <Input
-                          type="number"
-                          id="qdvc"
-                          name="qdvc"
-                          placeholder="Quảng đường vận chuyển(KM)..."
-                          onChange={(e) => setQuangduongvanchuyen(e.target.value)} //setQuangduongvanchuyen
-                        />
-                      </Col>
-                    </FormGroup>
+                  <FormGroup row>
+                    <Col md="3">
+                      <Label htmlFor="hf-password">Quảng đường vận chuyển(KM)</Label>
+                    </Col>
+                    <Col xs="12" md="9">
+                      <Input
+                        type="number"
+                        id="qdvc"
+                        name="qdvc"
+                        placeholder="Quảng đường vận chuyển(KM)..."
+                        onChange={(e) => setQuangduongvanchuyen(e.target.value)} //setQuangduongvanchuyen
+                      />
+                    </Col>
+                  </FormGroup>
 
-                    <FormGroup row>
-                      <Col md="3">
-                        <Label htmlFor="hf-password">Đơn giá cước</Label>
-                      </Col>
-                      <Col xs="12" md="9">
-                        <CurrencyFormat
-                          thousandSeparator={true} prefix={'VND '}
-                          onValueChange={(values) => setDongiacuoc(values.value)}
-                        />
-                      </Col>
-                    </FormGroup>
-                  </Form>
-                </CCardBody>
-              </CCard>
-            </CCol>
-          </CRow>
+                  <FormGroup row>
+                    <Col md="3">
+                      <Label htmlFor="hf-password">Đơn giá cước</Label>
+                    </Col>
+                    <Col xs="12" md="9">
+                      <CurrencyFormat
+                        thousandSeparator={true} prefix={'VND '}
+                        onValueChange={(values) => setDongiacuoc(values.value)}
+                      />
+                    </Col>
+                  </FormGroup>
+                </Form>
+              </CCardBody>
+            </CCard>
+          </CCol>
+        </CRow>
 
-          <CRow>
-            <CCol sm="12" xl="12">
-              <CCard>
-                <CCardHeader>
+        <CRow>
+          <CCol sm="12" xl="12">
+            <CCard>
+              <CCardHeader>
                 Ngày Nhập Kho
-                </CCardHeader>
-                <CCardBody>
-                  <Form action="" className="form-horizontal">
+              </CCardHeader>
+              <CCardBody>
+                <Form action="" className="form-horizontal">
 
-                    <FormGroup row>
-                      <Col md="3">
-                        <Label htmlFor="hf-password">Ngày Nhập Kho</Label>
-                      </Col>
-                      <Col xs="12" md="9">
-                        <Input
-                          type="date"
-                          id="fromdate"
-                          name="fromdate"
-                          placeholder="Từ ngày..."
-                          onChange={event => setFromDate(event.target.value)}
-                        />
-                      </Col>
-                    </FormGroup>
+                  <FormGroup row>
+                    <Col md="3">
+                      <Label htmlFor="hf-password">Ngày Nhập Kho</Label>
+                    </Col>
+                    <Col xs="12" md="9">
+                      <Input
+                        type="date"
+                        id="fromdate"
+                        name="fromdate"
+                        placeholder="Từ ngày..."
+                        onChange={event => setFromDate(event.target.value)}
+                      />
+                    </Col>
+                  </FormGroup>
 
-                  </Form>
-                </CCardBody>
-              </CCard>
-            </CCol>
-          </CRow>
+                </Form>
+              </CCardBody>
+            </CCard>
+          </CCol>
+        </CRow>
 
-          <CRow>
-            <CCol sm="12" xl="12">
-              <CCard>
-                <CCardHeader>
-                  Danh sách kiện hàng cần nhập kho
-                </CCardHeader>
-                <CCardBody>
-                  <ListCreatePNK data={items} onSubmit={handleSubmitNewPNK} />
-                </CCardBody>
-              </CCard>
-            </CCol>
-          </CRow>
+        <CRow>
+          <CCol sm="12" xl="12">
+            <CCard>
+              <CCardHeader>
+                Danh sách kiện hàng cần nhập kho
+              </CCardHeader>
+              <CCardBody>
+                <ListCreatePNK data={items} onSubmit={handleSubmitNewPNK} />
+              </CCardBody>
+            </CCard>
+          </CCol>
+        </CRow>
 
-          <ToastContainer />
-        </>
-      }
+        <ToastContainer />
+      </>
     </div>
 
   );

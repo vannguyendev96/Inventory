@@ -22,6 +22,14 @@ const pnkApi = {
     return axiosClient.post(url, raw);
   },
 
+  checkCreate: (tenkienhang) => {
+    const url = '/phieunhapkho/check-create';
+    let raw = JSON.stringify({
+      "tenkienhang": tenkienhang
+    });
+    return axiosClient.post(url, raw);
+  },
+
   getbymalohang: (malohang) => {
     const url = '/phieunhapkho/getbymalohang-pnkdetail';
     let raw = JSON.stringify({
