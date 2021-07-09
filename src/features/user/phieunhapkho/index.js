@@ -99,39 +99,53 @@ function PhieuNhapKho() {
   }, []);
 
   const handleSubmitNewKienHang = async (values, dataAddress, dataTenNguoiNhan, dataSDTNguoiNhan, resetForm) => {
-    await pnkApi.checkCreate(values.tenkienhang)
-      .then(response => {
-        if (dataSDTNguoiNhan === values.sdtnguoigui) {
-          toast.error("Số điện thoại người nhận và người gửi phải khác nhau");
-        }
-        else {
-          setItems([
-            ...items,
-            {
-              nguoitaolohang: localStorage.getItem("username"),
-              tenkienhang: values.tenkienhang,
-              soluongkienhang: values.soluongkienhang,
-              khoiluongkienhang: values.khoiluongkienhang,
-              trangthai: values.trangthaikienhang,
-              loaikienhang: values.loaikienhang,
-              khochuakienhang: values.khochuahang,
-              diachikhochua: dataAddress,
-              tennguoinhan: dataTenNguoiNhan,
-              sdtnguoinhan: dataSDTNguoiNhan,
-              diachinguoinhan: values.diachinguoinhan,
-              tennguoigui: values.tennguoigui,
-              sdtnguoigui: values.sdtnguoigui,
-              diachinguoigui: values.diachinguoigui,
-              dongia: values.dongia
-            }
-          ]);
-          toast.success("Đã thêm kiện hàng vào đơn hàng");
-        }
-      })
-      .catch(error => {
-        toast.error(error.response.data.message);
-      })
-    //resetForm({});
+    let check = false;
+
+    items.map(m => {
+      if (m.tenkienhang === values.tenkienhang) {
+        check = true
+      }
+    })
+    if (check) {
+      toast.error(`Kiện hàng ${values.tenkienhang} đã tồn tại`);
+    }
+    else {
+      await pnkApi.checkCreate(values.tenkienhang)
+        .then(response => {
+          if (dataSDTNguoiNhan === values.sdtnguoigui) {
+            toast.error("Số điện thoại người nhận và người gửi phải khác nhau");
+          }
+          else {
+
+            setItems([
+              ...items,
+              {
+                nguoitaolohang: localStorage.getItem("username"),
+                tenkienhang: values.tenkienhang,
+                soluongkienhang: values.soluongkienhang,
+                khoiluongkienhang: values.khoiluongkienhang,
+                trangthai: values.trangthaikienhang,
+                loaikienhang: values.loaikienhang,
+                khochuakienhang: values.khochuahang,
+                diachikhochua: dataAddress,
+                tennguoinhan: dataTenNguoiNhan,
+                sdtnguoinhan: dataSDTNguoiNhan,
+                diachinguoinhan: values.diachinguoinhan,
+                tennguoigui: values.tennguoigui,
+                sdtnguoigui: values.sdtnguoigui,
+                diachinguoigui: values.diachinguoigui,
+                dongia: values.dongia
+              }
+            ]);
+            toast.success("Đã thêm kiện hàng vào đơn hàng");
+          }
+        })
+        .catch(error => {
+          toast.error(error.response.data.message);
+        })
+      //resetForm({});
+    }
+
   }
 
   function handleOnchangeDataDriver(target) {
