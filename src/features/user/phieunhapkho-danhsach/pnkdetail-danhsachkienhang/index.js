@@ -108,7 +108,7 @@ function DanhSachKienHang(props) {
                                     <td>{loaikienhang}</td>
                                     <td>{khochuakienhang}</td>
                                     {/* <td>{diachikhochua}</td> */}
-                                    <td>{`Tên: ${tennguoinhan}, SDT: ${sdtnguoinhan}, Địa chỉ: ${diachinguoinhan}`}</td>
+                                    <td>{`Tên: ${tennguoinhan}, SDT: ${sdtnguoinhan}`}</td>
                                     <td>{`Tên: ${tennguoigui}, SDT: ${sdtnguoigui}, Địa chỉ: ${diachinguoigui}`}</td>
                                     <td>
                                         <ChinhsuaPNK

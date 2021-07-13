@@ -183,7 +183,7 @@ function CreatePXK(props) {
         //tennguoigui: Yup.string().required('Vui lòng nhập tên người gửi'),
         //sdtnguoigui: Yup.string().required('Vui lòng nhập sdt người gửi'),
         //dongia: Yup.string().required('Vui lòng nhập đơn giá'),
-        diachinguoigui: Yup.string().required('Vui lòng nhập địa chỉ người gửi'),
+        //diachinguoigui: Yup.string().required('Vui lòng nhập địa chỉ người gửi'),
         sdtnguoinhan: Yup.string().matches(phoneRegExp, 'Số điện thoại của bạn không đúng định dạng').required('Vui lòng nhập số điện thoại'),
     })
 
@@ -328,12 +328,12 @@ function CreatePXK(props) {
                                     isreadonly={true}
                                     valueData={dataSDTNguoiGui}
                                 />
-                                <FastField
+                                {/* <FastField
                                     name="diachinguoigui"
                                     component={InputField}
 
                                     placeholder="Địa chỉ người gửi..."
-                                />
+                                /> */}
 
                                 {/* <Field
                                     name="dongia"

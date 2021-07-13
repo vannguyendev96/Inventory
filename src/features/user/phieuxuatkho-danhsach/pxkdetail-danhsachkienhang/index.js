@@ -96,7 +96,7 @@ function DanhSachKienHangPXK(props) {
                                     <td>{khochuakienhang}</td>
                                     <td>{diachikhochua}</td>
                                     <td>{`Tên: ${tennguoinhan}, SDT: ${sdtnguoinhan}, Địa chỉ: ${diachinguoinhan}`}</td>
-                                    <td>{`Tên: ${tennguoigui}, SDT: ${sdtnguoigui}, Địa chỉ: ${diachinguoigui}`}</td>
+                                    <td>{`Tên: ${tennguoigui}, SDT: ${sdtnguoigui}`}</td>
                                     <td>
                                         <ChinhsuaPXK
                                             malohang={malohang}
