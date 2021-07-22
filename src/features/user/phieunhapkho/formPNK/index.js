@@ -124,7 +124,7 @@ function CreatePNK(props) {
         //taixevanchuyen: Yup.string().required('Vui lòng chọn tài xế vận chuyển'),
         //sdtnguoinhan: Yup.string().required('Vui lòng nhập sdt người nhận'),
         dongia: Yup.string().required('Vui lòng nhập Đơn giá'),
-        diachinguoinhan: Yup.string().required('Vui lòng nhập địa chỉ người nhận'),
+        //diachinguoinhan: Yup.string().required('Vui lòng nhập địa chỉ người nhận'),
         tennguoigui: Yup.string().matches(nameRegExp, 'Tên ko bao gồm chữ số').required('Vui lòng nhập tên người gửi'),
         sdtnguoigui: Yup.string().matches(phoneRegExp, 'Số điện thoại của bạn không đúng định dạng').required('Vui lòng nhập số điện thoại'),
         diachinguoigui: Yup.string().required('Vui lòng nhập địa chỉ người gửi'),
@@ -220,6 +220,12 @@ function CreatePNK(props) {
                                     valueData={dataSDTNguoiNhan}
                                     isreadonly={true}
                                 />
+                                {/* <FastField
+                                    name="diachinguoinhan"
+                                    component={InputField}
+
+                                    placeholder="Địa chỉ người nhận..."
+                                /> */}
 
                                 <FastField
                                     name="tennguoigui"
