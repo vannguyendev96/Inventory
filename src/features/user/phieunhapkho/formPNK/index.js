@@ -252,7 +252,7 @@ function CreatePNK(props) {
                                     component={CurrencyFormatField}
 
                                     label="Đơn giá"
-                                    
+
                                 />
 
                                 <CardFooter>

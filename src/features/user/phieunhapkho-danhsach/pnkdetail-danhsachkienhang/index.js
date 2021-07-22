@@ -143,7 +143,7 @@ function DanhSachKienHang(props) {
                                                 <CModalTitle>Xóa kiện hàng</CModalTitle>
                                             </CModalHeader>
                                             <CModalBody>
-                                                Bạn có chắc muốn xóa thông tin thủ kho này ?
+                                                Bạn có chắc muốn xóa thông tin kiện hàng này ?
                                                     
                                                 </CModalBody>
                                                 <CModalFooter>

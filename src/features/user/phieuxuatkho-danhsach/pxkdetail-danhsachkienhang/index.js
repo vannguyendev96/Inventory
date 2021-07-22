@@ -127,10 +127,10 @@ function DanhSachKienHangPXK(props) {
                                             color="danger"
                                         >
                                             <CModalHeader closeButton>
-                                                <CModalTitle>Xóa thủ kho</CModalTitle>
+                                                <CModalTitle>Xóa kiện hàng</CModalTitle>
                                             </CModalHeader>
                                             <CModalBody>
-                                                Bạn có chắc muốn xóa thông tin thủ kho này ?
+                                                Bạn có chắc muốn xóa kiện hàng này ?
                                                 </CModalBody>
                                             <CModalFooter>
                                                 <CButton color="danger" onClick={handleDeleteKienHang}>

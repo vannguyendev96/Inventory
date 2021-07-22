@@ -108,7 +108,7 @@ function DanhsachKhoHang(props) {
                                             color="primary"
                                         >
                                             <CModalHeader closeButton>
-                                                <CModalTitle>Chi tiết thủ kho</CModalTitle>
+                                                <CModalTitle>Chi tiết kho hàng</CModalTitle>
                                             </CModalHeader>
                                             <CModalBody>
                                                 <ChitietKhoHang tenkhohang={tenkhohangDetail} succhuatoida={succhuaDetail} trangthai={trangthaiDetail}
@@ -134,10 +134,10 @@ function DanhsachKhoHang(props) {
                                             color="danger"
                                         >
                                             <CModalHeader closeButton>
-                                                <CModalTitle>Xóa thủ kho</CModalTitle>
+                                                <CModalTitle>Xóa kho hàng</CModalTitle>
                                             </CModalHeader>
                                             <CModalBody>
-                                                Bạn có chắc muốn xóa thông tin thủ kho này ?
+                                                Bạn có chắc muốn xóa thông tin kho hàng này ?
                                                 </CModalBody>
                                             <CModalFooter>
                                                 <CButton color="danger" onClick={handleDeleteThuKho}>
