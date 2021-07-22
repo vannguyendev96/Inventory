@@ -220,12 +220,6 @@ function CreatePNK(props) {
                                     valueData={dataSDTNguoiNhan}
                                     isreadonly={true}
                                 />
-                                <FastField
-                                    name="diachinguoinhan"
-                                    component={InputField}
-
-                                    placeholder="Địa chỉ người nhận..."
-                                />
 
                                 <FastField
                                     name="tennguoigui"
@@ -252,7 +246,7 @@ function CreatePNK(props) {
                                     component={CurrencyFormatField}
 
                                     label="Đơn giá"
-                                    
+
                                 />
 
                                 <CardFooter>

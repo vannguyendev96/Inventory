@@ -328,12 +328,6 @@ function CreatePXK(props) {
                                     isreadonly={true}
                                     valueData={dataSDTNguoiGui}
                                 />
-                                <FastField
-                                    name="diachinguoigui"
-                                    component={InputField}
-
-                                    placeholder="Địa chỉ người gửi..."
-                                />
 
                                 {/* <Field
                                     name="dongia"

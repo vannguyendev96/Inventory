@@ -174,7 +174,7 @@ function ChinhsuaPXK(props) {
 
             {isOpen && <Popup
                 content={<>
-                    <b>Chỉnh sửa thông tin phiếu nhập kho</b>
+                    <b>Chỉnh sửa thông tin phiếu xuất kho</b>
                     <Form action="" className="form-horizontal">
                         <FormGroup row>
                             <Col md="3">
