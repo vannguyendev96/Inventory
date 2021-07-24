@@ -12,7 +12,11 @@ import {
   CTabs,
   CCardHeader,
 } from '@coreui/react'
-
+import {
+  Button,
+  Col,
+  FormGroup
+} from 'reactstrap';
 import SearchReportNhapKho from './formSearch';
 import pnkApi from 'src/api/pnkAPI';
 import DanhSachLoHangPNKAdmin from './formDanhsach/pnkHeader';
@@ -115,7 +119,14 @@ function ReportNhapKho() {
         <CCol xs="12" md="12" className="mb-4">
           <CCard>
             <CCardHeader>
-              Danh sách nhập kho
+              <FormGroup row>
+                <Col xs="12" md="2">
+                  Danh sách nhập kho
+                </Col>
+                <Col xs="12" md="2">
+                  <Button block outline active color="primary" aria-pressed="true" onClick={() => fetchDataPNK()}>Reset</Button>
+                </Col>
+              </FormGroup>
             </CCardHeader>
             <CCardBody>
               <CTabs activeTab={active} onActiveTabChange={idx => setActive(idx)}>
