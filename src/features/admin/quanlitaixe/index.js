@@ -16,6 +16,7 @@ import FullPageLoader from 'src/views/fullpageloading';
 import { addressData } from '../../../constant/tinh-thanh-viet-nam';
 import * as Yup from 'yup';
 import driverApi from 'src/api/driverAPI';
+import warehouseApi from 'src/api/warehouseAPI';
 import { toast, ToastContainer } from 'react-toastify';
 import DanhsachTaixe from './danhsachtaixe';
 
@@ -54,6 +55,7 @@ function QuanLiTaiXe() {
     tentx: Yup.string().matches(nameRegExp,'Tên tài xế không đúng định dạng').required('Vui lòng nhập tên tài xế'),
     cmnd: Yup.string().required('Vui lòng nhập chứng minh nhân dân'),
     trangthai: Yup.string().required('Vui lòng nhập trạng thái'),
+    kholamviec: Yup.string().required('Vui lòng nhập Kho làm việc'),
     namsinh: Yup.string().required('Vui lòng nhập năm sinh'),
     sdt: Yup.string().matches(phoneRegExp, 'Số điện thoại của bạn không đúng định dạng').required('Vui lòng nhập số điện thoại'), // them cai phoneRegExp vao may cho can validate sdt
   })
@@ -69,6 +71,7 @@ function QuanLiTaiXe() {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedProvine, setSelectedProvine] = useState('');
   const [dataDriver, setDataDriver] = useState([]);
+  const [dataWareHouse, setDataWareHouse] = useState([]);
 
   function onchangeDataProvice(value) {
 
@@ -120,6 +123,32 @@ function QuanLiTaiXe() {
       })
   }
 
+  const getListWarehouse = async () => {
+    setIsLoading(true);
+    let listWarehouse = [];
+    try {
+      await warehouseApi.getall()
+        .then(response => {
+          const list = response.data;
+          list.forEach(element => {
+            listWarehouse.push({
+              value: element.tenkhohang,
+              label: element.tenkhohang
+            })
+          });
+          setDataWareHouse(listWarehouse);
+          setIsLoading(false);
+        })
+        .catch(error => {
+          console.log(error);
+          setIsLoading(false);
+        })
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  }
+
   const fetchDataDriver = async () => {
     try {
       await driverApi.getall()
@@ -134,6 +163,7 @@ function QuanLiTaiXe() {
 
   useEffect(() => {
     fetchDataDriver();
+    getListWarehouse();
   }, [])
 
   const handleUpdateDriver = async (cmnd,tenTX,sdtTX,trangthaiTX,namsinhTX,provineTX,districtTX,phuongTX) => {
@@ -217,6 +247,15 @@ function QuanLiTaiXe() {
 
                         label="Số điện thoại"
                         placeholder="Số điện thoại..."
+                      />
+
+                      <FastField
+                        name="kholamviec"
+                        component={SelectField}
+
+                        label="Kho làm việc"
+                        placeholder="Kho làm việc..."
+                        options={dataWareHouse}
                       />
 
                       <FastField
