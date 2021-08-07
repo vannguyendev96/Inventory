@@ -10,7 +10,7 @@ import {
     Table,
     FormFeedback
 } from 'reactstrap';
-
+import Select from "react-select";
 import {
     CButton,
     CModal,
@@ -24,19 +24,21 @@ import { ErrorMessage } from 'formik';
 DanhSachTonKho.propTypes = {
     data: PropTypes.array,
     onSubmit: PropTypes.func,
-    handleRowClick: PropTypes.func
+    handleRowClick: PropTypes.func,
+    onChangeSttKiemKe: PropTypes.func
 };
 
 DanhSachTonKho.defaultProps = {
     data: null,
     onSubmit: null,
-    handleRowClick: null
+    handleRowClick: null,
+    onChangeSttKiemKe: null
 }
 
 
 function DanhSachTonKho(props) {
 
-    const { data, onSubmit, handleRowClick } = props;
+    const { data, onSubmit, handleRowClick, onChangeSttKiemKe } = props;
     const dataPNK = data !== null ? data : [];
 
     const [deleteTK, setDeleteTK] = useState(false);
@@ -71,6 +73,13 @@ function DanhSachTonKho(props) {
         setTrangThaiKienHang('')
     }
 
+    function handleTrangThaiKiemKe(target){
+        if(onChangeSttKiemKe){
+            const dataValue = target.value !== '' ? target.value : 'Sắp chuyển';
+            onChangeSttKiemKe(dataValue);
+        }
+    }
+
     const handleOnchangeSL = (target) => {
         const value = target.value;
         setSoLuongKiemKe(value)
@@ -83,6 +92,11 @@ function DanhSachTonKho(props) {
         //     setErrorSL('')
         // }
     }
+
+    const optionstrangthaikiemke = [
+        {value:'Sắp chuyển', label:'Sắp chuyển'},
+        {value:'Chưa chuyển', label:'Chưa chuyển'}
+    ]
 
     function pnkHeaderClick(tenkienhang, dongia, loaikienhang, khochuakienhang) {
         if (handleRowClick) {
@@ -183,12 +197,18 @@ function DanhSachTonKho(props) {
                                                             <Label htmlFor="hf-password">Trạng thái kiện hàng</Label>
                                                         </Col>
                                                         <Col xs="12" md="9">
-                                                            <Input
+                                                            {/* <Input
                                                                 type="text"
                                                                 id="trangthai"
                                                                 name="trangthai"
                                                                 value={trangthaikienhang}
                                                                 onChange={(e) => setTrangThaiKienHang(e.target.value)}
+                                                            /> */}
+                                                            <Select
+                                                                defaultValue={optionstrangthaikiemke.filter(option => option.label==='Sắp chuyển')}
+                                                                options={optionstrangthaikiemke}
+                                                                onChange={handleTrangThaiKiemKe}
+                                                                classNamePrefix="select"
                                                             />
                                                         </Col>
                                                     </FormGroup>

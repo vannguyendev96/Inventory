@@ -59,7 +59,7 @@ function ChartReport() {
                         <CCol sm="12" xl="12">
                             <CCard>
                                 <CCardHeader>
-                                    Thống kê nhập xuất kho
+                                    Thống kê nhập xuất của các kho
                                 </CCardHeader>
                                 <CCardBody>
                                     <Table responsive hover size="sm">
@@ -108,7 +108,7 @@ function ChartReport() {
                         <CCol sm="12" xl="12">
                             <CCard>
                                 <CCardHeader>
-                                    Thống kê kiện hàng nhập xuất kho
+                                    Thống kê kiện hàng nhập xuất
                                 </CCardHeader>
                                 <CCardBody>
                                     <Table responsive hover size="sm">

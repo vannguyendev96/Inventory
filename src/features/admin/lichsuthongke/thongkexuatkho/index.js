@@ -12,7 +12,11 @@ import {
   CTabs,
   CCardHeader,
 } from '@coreui/react'
-
+import {
+  Button,
+  Col,
+  FormGroup
+} from 'reactstrap';
 import SearchReport from './formSearch';
 import DanhSachLoHangPXKAdmin from './fromDanhsach/pxkHearder';
 import DanhSachKienHangXuatKhoAdmin from './fromDanhsach/pxkDetail';
@@ -102,7 +106,7 @@ function Report() {
             </CCardHeader>
             <CCardBody>
               <SearchReport handleSearch={searchDate} handleOnChangeMaLoHang={searchMaLoHang}
-                handleOnChangeTenNguoitao={searchNguoitao} handleOnChangeKhoHang={searchKhohang}/>
+                handleOnChangeTenNguoitao={searchNguoitao} handleOnChangeKhoHang={searchKhohang} />
             </CCardBody>
           </CCard>
         </CCol>
@@ -113,7 +117,14 @@ function Report() {
         <CCol xs="12" md="12" className="mb-4">
           <CCard>
             <CCardHeader>
-              Danh sách xuất kho
+              <FormGroup row>
+                <Col xs="12" md="2">
+                  Danh sách xuất kho
+                </Col>
+                <Col xs="12" md="2">
+                  <Button block outline active color="primary" aria-pressed="true" onClick={() => fetchDataPXK()}>Reset</Button>
+                </Col>
+              </FormGroup>
             </CCardHeader>
             <CCardBody>
               <CTabs activeTab={active} onActiveTabChange={idx => setActive(idx)}>
@@ -134,10 +145,10 @@ function Report() {
                 </CNav>
                 <CTabContent>
                   <CTabPane>
-                    <DanhSachLoHangPXKAdmin data={dataListPXK} handleRowClick={handleRowClick}/>
+                    <DanhSachLoHangPXKAdmin data={dataListPXK} handleRowClick={handleRowClick} />
                   </CTabPane>
                   <CTabPane>
-                    <DanhSachKienHangXuatKhoAdmin data={dataPXKDetail}/>
+                    <DanhSachKienHangXuatKhoAdmin data={dataPXKDetail} />
                   </CTabPane>
 
                 </CTabContent>

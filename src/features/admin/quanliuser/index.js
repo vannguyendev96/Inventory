@@ -132,7 +132,7 @@ function QuanLiUser() {
     }
     await userApi.updateeuser(user)
       .then(response => {
-        toast.success("Chỉnh sữa tài khoản thành công");
+        toast.success("Chỉnh sửa tài khoản thành công");
         fetchDataThuKho();
       })
       .catch(error => {
