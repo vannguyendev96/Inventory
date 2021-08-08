@@ -88,6 +88,7 @@ function DanhsachTaixe(props) {
                         <th>SĐT</th>
                         <th>Trạng thái</th>
                         <th>Năm sinh</th>
+                        <th>Kho làm việc</th>
                         <th>Xem thông tin chi tiết tài xế</th>
                         <th>Cập nhật thông tin tài xế</th>
                         <th>Xóa tài xế</th>
@@ -97,7 +98,7 @@ function DanhsachTaixe(props) {
                     {
                         dataDriver.map((dataList, index) => {
                             let i = 1;
-                            const { _id, tentx, trangthai, sdt, namsinh, provine, district, phuong, cmnd } = dataList //destructuring
+                            const { _id, tentx, trangthai, sdt, namsinh, provine, district, phuong, cmnd, kholamviec } = dataList //destructuring
                             return (
                                 <tr
                                     key={_id}
@@ -107,6 +108,7 @@ function DanhsachTaixe(props) {
                                     <td>{sdt}</td>
                                     <td>{trangthai}</td>
                                     <td>{(new Date(namsinh)).toISOString().substr(0, 10)}</td>
+                                    <td>{kholamviec}</td>
                                     <td>
                                         <Button type="submit" size="sm" color="primary" onClick={() => openPopUpDetailTX(tentx, trangthai, sdt, namsinh, provine, district, phuong,cmnd)} >See</Button>
                                         <CModal

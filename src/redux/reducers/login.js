@@ -2,6 +2,7 @@ const initialState = {
     isLogin: false,
     token: null,
     roll: '',
+    kholamviec: '',
     error: null
 }
 
@@ -13,6 +14,7 @@ const loginReducer = (state = initialState, action) => {
                 isLogin: true,
                 token: action.payload.token,
                 roll: action.payload.roll,
+                kholamviec: action.payload.kholamviec,
                 error: null,
             };
         case 'LOGIN_ERROR': {
@@ -20,6 +22,7 @@ const loginReducer = (state = initialState, action) => {
                 loading: false,
                 token: 'error',
                 roll: '',
+                kholamviec: '',
                 error: action.payload,
             };
         }

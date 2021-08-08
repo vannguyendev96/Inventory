@@ -10,6 +10,7 @@ import {
 } from 'reactstrap';
 import driverApi from "src/api/driverAPI";
 import CurrencyFormat from 'react-currency-format';
+import { useSelector } from 'react-redux';
 
 SelectDriver.propTypes = {
     onChangeDataDriver: PropTypes.func,
@@ -29,7 +30,7 @@ function SelectDriver(props) {
     const { onChangeDataDriver,onChangeDataDonGia,onChangeDataQuangDuong } = props;
 
     const [dataDriver, setDataDriver] = useState([]);
-    
+    const kholamviec = useSelector(state => state.login.kholamviec);
 
     function handleOnchangeDataDriver(target) {
         if (onChangeDataDriver) {
@@ -53,7 +54,7 @@ function SelectDriver(props) {
     const getListDriver = async () => {
         let listDriver = [];
         try {
-            await driverApi.getall()
+            await driverApi.getall(kholamviec)
                 .then(response => {
                     const list = response.data;
                     list.forEach(element => {

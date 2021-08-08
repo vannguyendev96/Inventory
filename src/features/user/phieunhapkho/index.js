@@ -23,6 +23,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import pnkApi from 'src/api/pnkAPI';
 import Select from "react-select";
 import driverApi from "src/api/driverAPI";
+import { useSelector } from 'react-redux';
 
 
 function PhieuNhapKho() {
@@ -35,6 +36,9 @@ function PhieuNhapKho() {
 
   const [quangduongvanchuyen, setQuangduongvanchuyen] = useState('');
   const [dongiacuoc, setDongiacuoc] = useState('');
+
+  const kholamviec = useSelector(state => state.login.kholamviec);
+
 
   const handleSubmitNewPNK = async () => {
     if (driver === '') {
@@ -69,7 +73,7 @@ function PhieuNhapKho() {
     setIsLoading(true);
     let listDriver = [];
     try {
-      await driverApi.getall()
+      await driverApi.getall(kholamviec)
         .then(response => {
           const list = response.data;
           list.forEach(element => {

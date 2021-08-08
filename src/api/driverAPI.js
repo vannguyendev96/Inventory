@@ -8,15 +8,18 @@ const driverApi = {
         let raw = JSON.stringify({
             "cmnd": driver.cmnd, "tentx": driver.tentx, "trangthai": driver.trangthai, "sdt": driver.sdt,
             "namsinh": driver.namsinh, "provine": driver.provine,
-            "district": driver.district, "phuong": driver.phuong
+            "district": driver.district, "phuong": driver.phuong, "kholamviec": driver.kholamviec
         });
 
         return axiosClient.post(url, raw);
     },
 
-    getall: () => {
-        const url = '/drivers/getlist-driver';
-        return axiosClient.get(url);
+    getall: (kholamviec) => {
+        const url = '/drivers/getlist-driver-byid';
+        let raw = JSON.stringify({
+            "kholamviec": kholamviec
+        });
+        return axiosClient.post(url, raw);
     },
 
     deleteDriver: (cmnd) => {

@@ -42,7 +42,8 @@ function QuanLiTaiXe() {
     trangthai: '',
     sdt: '',
     namsinh: '',
-    phuong: null
+    phuong: null,
+    kholamviec: ''
   };
 
   const phoneRegExp = /((09|03|07|08|05)+([0-9]{8})\b)/g //validate sdt
@@ -52,7 +53,7 @@ function QuanLiTaiXe() {
     provine: Yup.string().required('Vui lòng chọn tên tỉnh, thành phố').nullable(),
     district: Yup.string().required('Vui lòng chọn tên quận, huyện').nullable(),
     phuong: Yup.string().required('Vui lòng chọn tên phường, xã').nullable(),
-    tentx: Yup.string().matches(nameRegExp,'Tên tài xế không đúng định dạng').required('Vui lòng nhập tên tài xế'),
+    tentx: Yup.string().matches(nameRegExp, 'Tên tài xế không đúng định dạng').required('Vui lòng nhập tên tài xế'),
     cmnd: Yup.string().required('Vui lòng nhập chứng minh nhân dân'),
     trangthai: Yup.string().required('Vui lòng nhập trạng thái'),
     kholamviec: Yup.string().required('Vui lòng nhập Kho làm việc'),
@@ -101,23 +102,23 @@ function QuanLiTaiXe() {
     setWards(wardsList);
   }
 
-  const handleSubmitForm = async (values,resetForm) => {
+  const handleSubmitForm = async (values, resetForm) => {
     await driverApi.createInfoDriver(values)
       .then(response => {
-        if(response.message === "create info driver success"){
+        if (response.message === "create info driver success") {
           toast.success("Tạo thông tin tài xế thành công");
           fetchDataDriver();
           resetForm({})
         }
-        else{
+        else {
           toast.success("Tạo thông tin tài xế thất bại");
         }
       })
       .catch(error => {
-        if(error.response.status === 403){
+        if (error.response.status === 403) {
           toast.error("Tài xế đã được tạo trước đó")
         }
-        else{
+        else {
           toast.error(error.response.data.message)
         }
       })
@@ -166,7 +167,7 @@ function QuanLiTaiXe() {
     getListWarehouse();
   }, [])
 
-  const handleUpdateDriver = async (cmnd,tenTX,sdtTX,trangthaiTX,namsinhTX,provineTX,districtTX,phuongTX) => {
+  const handleUpdateDriver = async (cmnd, tenTX, sdtTX, trangthaiTX, namsinhTX, provineTX, districtTX, phuongTX) => {
     const driver = {
       cmnd: cmnd,
       tentx: tenTX,
@@ -204,7 +205,7 @@ function QuanLiTaiXe() {
       enableReinitialize
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={(values, { resetForm }) => handleSubmitForm(values,resetForm)}
+      onSubmit={(values, { resetForm }) => handleSubmitForm(values, resetForm)}
     >
       {formikProps => {
         return (
@@ -311,7 +312,7 @@ function QuanLiTaiXe() {
                     Danh sách tài xế
                   </CCardHeader>
                   <CCardBody>
-                    <DanhsachTaixe data={dataDriver} deleteDriver={handleDeleteTX} updateDriver={handleUpdateDriver}/>
+                    <DanhsachTaixe data={dataDriver} deleteDriver={handleDeleteTX} updateDriver={handleUpdateDriver} />
                   </CCardBody>
                 </CCard>
               </CCol>
